@@ -1,1065 +1,1030 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Services | SG MAKEOVERS</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../supabase-config.js"></script>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-:root{
-    --pink:#df358b;
-    --purple:#8d4de8;
-    --dark:#241b27;
-    --text:#382d39;
-    --muted:#938693;
-    --border:#eadfea;
-    --soft:#fff8fc;
-    --green:#22a06b;
-    --red:#c9324c;
-}
-
-body{
-    font-family:"DM Sans",sans-serif;
-    background:#fffafe;
-    color:var(--text);
-}
-
-button,
-input,
-textarea{
-    font-family:inherit;
-}
-
-a{
-    text-decoration:none;
-    color:inherit;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-    width:260px;
-    min-height:100vh;
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    z-index:100;
-    padding:25px 20px;
-    background:linear-gradient(180deg,#281c2b,#211923);
-    color:white;
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:0 10px;
-    margin-bottom:38px;
-}
-
-.logo-icon{
-    width:43px;
-    height:43px;
-    border-radius:12px;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,#df358b,#914de8);
-}
-
-.logo-text strong{
-    display:block;
-    font-family:"Playfair Display",serif;
-    font-size:17px;
-}
-
-.logo-text span{
-    display:block;
-    margin-top:2px;
-    font-size:7px;
-    letter-spacing:2px;
-    color:#d8cbd8;
-}
-
-.menu-title{
-    padding:0 14px;
-    margin-bottom:10px;
-    color:#8e7d91;
-    font-size:9px;
-    letter-spacing:2px;
-    font-weight:700;
-}
-
-.nav{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-}
-
-.nav a{
-    min-height:46px;
-    padding:0 14px;
-    border-radius:13px;
-    display:flex;
-    align-items:center;
-    gap:13px;
-    color:#c8bac9;
-    font-size:13px;
-    font-weight:600;
-}
-
-.nav a i{
-    width:17px;
-    text-align:center;
-}
-
-.nav a:hover,
-.nav a.active{
-    color:white;
-    background:linear-gradient(
-        90deg,
-        rgba(223,53,139,.32),
-        rgba(141,77,232,.20)
-    );
-}
-
-.nav a.active{
-    border-left:3px solid #ef65a8;
-}
-
-.admin-box{
-    position:absolute;
-    left:20px;
-    right:20px;
-    bottom:22px;
-    padding:12px;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:15px;
-    background:rgba(255,255,255,.05);
-}
-
-.admin-info{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.admin-avatar{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,#df358b,#914de8);
-    font-weight:700;
-}
-
-.admin-info strong{
-    display:block;
-    font-size:12px;
-}
-
-.admin-info span{
-    display:block;
-    margin-top:3px;
-    font-size:9px;
-    color:#9d8e9e;
-}
-
-.logout-btn{
-    margin-top:12px;
-    width:100%;
-    border:0;
-    background:transparent;
-    color:#b7a8b8;
-    padding:7px 0;
-    cursor:pointer;
-    text-align:left;
-    font-size:11px;
-}
-
-/* MAIN */
-
-.main{
-    width:calc(100% - 260px);
-    margin-left:260px;
-    min-height:100vh;
-}
-
-.topbar{
-    height:78px;
-    background:white;
-    border-bottom:1px solid #f0e8f0;
-    padding:0 34px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.page-heading h1{
-    font-family:"Playfair Display",serif;
-    font-size:28px;
-}
-
-.page-heading p{
-    margin-top:3px;
-    color:var(--muted);
-    font-size:10px;
-}
-
-.top-actions{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.website-btn,
-.notification-btn{
-    border:1px solid var(--border);
-    background:white;
-    color:#5e4d60;
-    cursor:pointer;
-}
-
-.website-btn{
-    height:38px;
-    padding:0 15px;
-    border-radius:11px;
-    font-size:11px;
-    font-weight:600;
-}
-
-.notification-btn{
-    width:40px;
-    height:40px;
-    border-radius:12px;
-}
-
-.content{
-    padding:32px 34px 45px;
-}
-
-/* STATS */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-    margin-bottom:25px;
-}
-
-.stat-card{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:19px;
-    padding:22px;
-}
-
-.stat-top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-}
-
-.stat-number{
-    font-size:29px;
-    font-weight:700;
-}
-
-.stat-label{
-    margin-top:4px;
-    font-size:11px;
-    color:var(--muted);
-}
-
-.stat-icon{
-    width:40px;
-    height:40px;
-    border-radius:12px;
-    display:grid;
-    place-items:center;
-    color:var(--pink);
-    background:#fff0f7;
-}
-
-.stat-icon.purple{
-    color:var(--purple);
-    background:#f2edff;
-}
-
-.stat-icon.green{
-    color:var(--green);
-    background:#eaf8f1;
-}
-
-/* TOOLBAR */
-
-.toolbar{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:18px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.search-box{
-    flex:1;
-    max-width:450px;
-    position:relative;
-}
-
-.search-box i{
-    position:absolute;
-    left:15px;
-    top:50%;
-    transform:translateY(-50%);
-    color:#aa9baa;
-}
-
-.search-box input{
-    width:100%;
-    height:45px;
-    border:1px solid var(--border);
-    border-radius:13px;
-    outline:none;
-    padding:0 15px 0 43px;
-}
-
-.search-box input:focus{
-    border-color:var(--pink);
-    box-shadow:0 0 0 4px rgba(223,53,139,.07);
-}
-
-.add-btn{
-    height:45px;
-    padding:0 18px;
-    border:0;
-    border-radius:13px;
-    color:white;
-    background:linear-gradient(
-        135deg,
-        var(--pink),
-        var(--purple)
-    );
-    cursor:pointer;
-    font-size:11px;
-    font-weight:700;
-    box-shadow:0 8px 18px rgba(223,53,139,.18);
-}
-
-.add-btn:hover{
-    transform:translateY(-1px);
-}
-
-/* SERVICES */
-
-.services-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-}
-
-.service-card{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:20px;
-    overflow:hidden;
-    transition:.2s;
-}
-
-.service-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 14px 35px rgba(72,37,65,.08);
-}
-
-.service-image{
-    height:165px;
-    background:#f8edf5;
-    position:relative;
-    overflow:hidden;
-}
-
-.service-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.service-placeholder{
-    width:100%;
-    height:100%;
-    display:grid;
-    place-items:center;
-    color:#d2b8cb;
-    font-size:38px;
-}
-
-.service-status{
-    position:absolute;
-    top:12px;
-    right:12px;
-    padding:6px 10px;
-    border-radius:20px;
-    font-size:8px;
-    font-weight:700;
-    background:white;
-}
-
-.service-status.active{
-    color:#18794e;
-}
-
-.service-status.inactive{
-    color:#c9324c;
-}
-
-.service-body{
-    padding:18px;
-}
-
-.service-name{
-    font-family:"Playfair Display",serif;
-    font-size:20px;
-    font-weight:600;
-}
-
-.service-description{
-    min-height:38px;
-    margin-top:7px;
-    color:#938693;
-    font-size:10px;
-    line-height:1.6;
-}
-
-.service-meta{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-top:17px;
-    padding-top:14px;
-    border-top:1px solid #f2eaf1;
-}
-
-.duration{
-    color:#776978;
-    font-size:10px;
-}
-
-.duration i{
-    color:var(--pink);
-    margin-right:5px;
-}
-
-.price{
-    font-size:18px;
-    font-weight:700;
-    color:var(--pink);
-}
-
-.service-actions{
-    display:flex;
-    gap:8px;
-    margin-top:15px;
-}
-
-.action-btn{
-    flex:1;
-    height:36px;
-    border-radius:10px;
-    border:1px solid var(--border);
-    background:white;
-    cursor:pointer;
-    font-size:9px;
-    font-weight:600;
-}
-
-.action-btn.edit{
-    color:var(--purple);
-}
-
-.action-btn.toggle{
-    color:#18794e;
-}
-
-.action-btn.delete{
-    color:var(--red);
-}
-
-.action-btn:hover{
-    background:#fff8fc;
-}
-
-/* EMPTY */
-
-.empty{
-    grid-column:1/-1;
-    padding:70px 20px;
-    background:white;
-    border:1px solid var(--border);
-    border-radius:20px;
-    text-align:center;
-    color:#998b98;
-}
-
-.empty i{
-    font-size:35px;
-    color:#d8c6d4;
-    margin-bottom:14px;
-}
-
-.empty p{
-    font-size:12px;
-}
-
-.loading{
-    grid-column:1/-1;
-    padding:70px 20px;
-    background:white;
-    border:1px solid var(--border);
-    border-radius:20px;
-    text-align:center;
-    color:#998b98;
-}
-
-.loading i{
-    color:var(--pink);
-    font-size:25px;
-    margin-bottom:12px;
-}
-
-/* MODAL */
-
-.modal-overlay{
-    position:fixed;
-    inset:0;
-    z-index:500;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(28,18,30,.55);
-    backdrop-filter:blur(5px);
-}
-
-.modal-overlay.show{
-    display:flex;
-}
-
-.modal{
-    width:100%;
-    max-width:550px;
-    max-height:90vh;
-    overflow:auto;
-    background:white;
-    border-radius:22px;
-    box-shadow:0 25px 70px rgba(0,0,0,.22);
-}
-
-.modal-header{
-    padding:22px 24px;
-    border-bottom:1px solid #f0e8f0;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.modal-header h2{
-    font-family:"Playfair Display",serif;
-    font-size:22px;
-}
-
-.close-btn{
-    width:35px;
-    height:35px;
-    border:1px solid var(--border);
-    border-radius:10px;
-    background:white;
-    cursor:pointer;
-    color:#766577;
-}
-
-.modal-body{
-    padding:24px;
-}
-
-.form-group{
-    margin-bottom:17px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:7px;
-    font-size:10px;
-    font-weight:700;
-    color:#5e4e60;
-}
-
-.form-group input,
-.form-group textarea{
-    width:100%;
-    border:1px solid var(--border);
-    border-radius:11px;
-    outline:none;
-    padding:12px 13px;
-    color:var(--text);
-    font-size:11px;
-}
-
-.form-group textarea{
-    min-height:90px;
-    resize:vertical;
-}
-
-.form-group input:focus,
-.form-group textarea:focus{
-    border-color:var(--pink);
-    box-shadow:0 0 0 4px rgba(223,53,139,.06);
-}
-
-.form-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-}
-
-.checkbox-row{
-    display:flex;
-    align-items:center;
-    gap:9px;
-    margin-top:5px;
-}
-
-.checkbox-row input{
-    width:16px;
-    height:16px;
-    accent-color:var(--pink);
-}
-
-.checkbox-row label{
-    margin:0;
-    font-size:10px;
-    font-weight:600;
-}
-
-.modal-footer{
-    padding:18px 24px;
-    border-top:1px solid #f0e8f0;
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-}
-
-.cancel-btn,
-.save-btn{
-    height:40px;
-    padding:0 18px;
-    border-radius:11px;
-    cursor:pointer;
-    font-size:10px;
-    font-weight:700;
-}
-
-.cancel-btn{
-    border:1px solid var(--border);
-    background:white;
-    color:#6c5d6d;
-}
-
-.save-btn{
-    border:0;
-    color:white;
-    background:linear-gradient(
-        135deg,
-        var(--pink),
-        var(--purple)
-    );
-}
-
-.mobile-menu{
-    display:none;
-    width:40px;
-    height:40px;
-    border:1px solid var(--border);
-    border-radius:11px;
-    background:white;
-}
-
-/* TOAST */
-
-.toast{
-    position:fixed;
-    right:25px;
-    bottom:25px;
-    z-index:1000;
-    min-width:270px;
-    padding:15px 18px;
-    border-radius:13px;
-    color:white;
-    background:#281c2b;
-    box-shadow:0 15px 35px rgba(0,0,0,.2);
-    font-size:11px;
-    transform:translateY(120px);
-    opacity:0;
-    transition:.3s;
-}
-
-.toast.show{
-    transform:translateY(0);
-    opacity:1;
-}
-
-.toast.success{
-    border-left:4px solid #32bd7c;
-}
-
-.toast.error{
-    border-left:4px solid #e5576e;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:1050px){
-
-    .services-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .stats{
-        grid-template-columns:repeat(3,1fr);
-    }
-}
-
-@media(max-width:800px){
-
-    .sidebar{
-        transform:translateX(-100%);
-        transition:.25s;
-    }
-
-    .sidebar.open{
-        transform:translateX(0);
-    }
-
-    .main{
-        width:100%;
-        margin-left:0;
-    }
-
-    .mobile-menu{
-        display:block;
-    }
-
-    .topbar{
-        padding:0 18px;
-        gap:12px;
-    }
-
-    .page-heading{
-        flex:1;
-    }
-
-    .website-btn{
-        display:none;
-    }
-
-    .content{
-        padding:22px 16px 35px;
-    }
-
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    .toolbar{
-        flex-direction:column;
-        align-items:stretch;
-    }
-
-    .search-box{
-        max-width:none;
-    }
-
-    .services-grid{
-        grid-template-columns:1fr;
-    }
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Our Services | SG MAKEOVERS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #df1683;
+            --pink-dark: #bd126e;
+            --purple: #8e3bc7;
+            --purple-dark: #54205f;
+            --cream: #fff9fc;
+            --cream-2: #fff4f9;
+            --text: #24172a;
+            --muted: #8b738d;
+            --border: #ecdce8;
+            --white: #ffffff;
+            --green: #149c68;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 82px;
+            background: rgba(255, 250, 252, 0.96);
+            border-bottom: 1px solid rgba(236, 220, 232, 0.8);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+        }
+
+        .nav-inner {
+            width: min(1180px, calc(100% - 40px));
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 47px;
+            height: 47px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #e82b96, #8d39ca);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 21px;
+            box-shadow: 0 10px 25px rgba(213, 26, 135, 0.22);
+        }
+
+        .brand-text strong {
+            display: block;
+            font-family: "Playfair Display", serif;
+            font-size: 18px;
+            letter-spacing: .3px;
+        }
+
+        .brand-text span {
+            display: block;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: #513b53;
+            transition: .25s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--pink);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .login-link {
+            font-size: 14px;
+            color: #513b53;
+            padding: 10px 14px;
+        }
+
+        .book-nav {
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: white !important;
+            padding: 12px 19px;
+            border-radius: 30px;
+            font-weight: 700 !important;
+            box-shadow: 0 10px 24px rgba(197, 25, 129, .18);
+        }
+
+        .book-nav:hover {
+            transform: translateY(-2px);
+            color: white !important;
+        }
+
+        .menu-btn {
+            display: none;
+            width: 43px;
+            height: 43px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--purple-dark);
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            position: relative;
+            padding: 78px 20px 75px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 90% 20%, rgba(215, 77, 170, .12), transparent 28%),
+                radial-gradient(circle at 8% 70%, rgba(142, 59, 199, .08), transparent 25%),
+                var(--cream);
+        }
+
+        .hero-inner {
+            width: min(1180px, 100%);
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            color: var(--pink);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 17px;
+        }
+
+        .hero h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(42px, 5vw, 68px);
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            max-width: 680px;
+        }
+
+        .hero h1 em {
+            color: var(--pink);
+            font-weight: 500;
+        }
+
+        .hero p {
+            margin-top: 22px;
+            max-width: 590px;
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .breadcrumbs {
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .breadcrumbs a {
+            color: var(--pink);
+            font-weight: 600;
+        }
+
+        .hero-card {
+            min-height: 390px;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+            background:
+                linear-gradient(135deg, rgba(70, 23, 75, .08), rgba(221, 30, 135, .12)),
+                #f4dce9;
+            box-shadow: 0 25px 60px rgba(91, 31, 79, .13);
+        }
+
+        .hero-card img {
+            width: 100%;
+            height: 100%;
+            min-height: 390px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                transparent 55%,
+                rgba(32, 16, 35, .42)
+            );
+        }
+
+        .hero-badge {
+            position: absolute;
+            z-index: 2;
+            bottom: 24px;
+            left: 24px;
+            background: rgba(255, 255, 255, .93);
+            backdrop-filter: blur(10px);
+            padding: 14px 18px;
+            border-radius: 17px;
+            box-shadow: 0 12px 30px rgba(0,0,0,.1);
+        }
+
+        .hero-badge strong {
+            display: block;
+            font-family: "Playfair Display", serif;
+            font-size: 19px;
+        }
+
+        .hero-badge span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* ================= SERVICES SECTION ================= */
+
+        .services-section {
+            padding: 78px 20px 100px;
+            background: #fff;
+        }
+
+        .section-inner {
+            width: min(1180px, 100%);
+            margin: auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 40px;
+        }
+
+        .section-heading .small-title {
+            color: var(--pink);
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        .section-heading h2 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(32px, 4vw, 47px);
+            line-height: 1.15;
+        }
+
+        .section-heading h2 em {
+            color: var(--purple);
+            font-weight: 500;
+        }
+
+        .section-heading p {
+            margin-top: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ================= TOOLBAR ================= */
+
+        .toolbar {
+            background: #fffafe;
+            border: 1px solid var(--border);
+            padding: 13px;
+            border-radius: 22px;
+            display: flex;
+            gap: 13px;
+            align-items: center;
+            margin-bottom: 35px;
+            box-shadow: 0 12px 30px rgba(72, 31, 68, .045);
+        }
+
+        .search-box {
+            flex: 1;
+            height: 49px;
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 17px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a78ca7;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 0 18px 0 45px;
+            outline: none;
+            background: white;
+            color: var(--text);
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .search-box input:focus {
+            border-color: #cf73b2;
+            box-shadow: 0 0 0 4px rgba(220, 33, 135, .07);
+        }
+
+        .category-list {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            border: 1px solid var(--border);
+            background: white;
+            color: #674e69;
+            border-radius: 14px;
+            height: 49px;
+            padding: 0 17px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .category-btn:hover {
+            border-color: #d65baa;
+            color: var(--pink);
+        }
+
+        .category-btn.active {
+            color: white;
+            border-color: transparent;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            box-shadow: 0 8px 20px rgba(202, 30, 132, .18);
+        }
+
+        /* ================= GRID ================= */
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .service-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            transition: .3s ease;
+            box-shadow: 0 12px 35px rgba(70, 26, 66, .055);
+        }
+
+        .service-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 25px 55px rgba(82, 25, 74, .13);
+            border-color: #e3b9d5;
+        }
+
+        .service-image {
+            height: 225px;
+            background: linear-gradient(135deg, #f7dbe9, #efe1f5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: .45s;
+        }
+
+        .service-card:hover .service-image img {
+            transform: scale(1.05);
+        }
+
+        .service-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 2;
+            background: rgba(255,255,255,.94);
+            color: var(--purple);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            padding: 8px 11px;
+            border-radius: 30px;
+        }
+
+        .service-heart {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 39px;
+            height: 39px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,.94);
+            color: var(--pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            font-size: 15px;
+        }
+
+        .service-body {
+            padding: 22px 21px 21px;
+        }
+
+        .service-body h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 23px;
+            margin-bottom: 8px;
+        }
+
+        .service-description {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.65;
+            min-height: 43px;
+        }
+
+        .service-meta {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid #f0e4ed;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .duration {
+            color: #7b667b;
+            font-size: 12px;
+            display: flex;
+            gap: 7px;
+            align-items: center;
+        }
+
+        .duration i {
+            color: var(--pink);
+        }
+
+        .price {
+            color: var(--pink);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .service-actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 9px;
+            margin-top: 17px;
+        }
+
+        .book-btn {
+            border: none;
+            height: 46px;
+            border-radius: 13px;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            box-shadow: 0 10px 20px rgba(205, 27, 132, .17);
+            transition: .25s;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(205, 27, 132, .24);
+        }
+
+        .book-btn i {
+            margin-left: 6px;
+        }
+
+        /* ================= LOADING ================= */
+
+        .loading-box,
+        .empty-box,
+        .error-box {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 75px 20px;
+            border: 1px dashed var(--border);
+            border-radius: 25px;
+            background: #fffafd;
+        }
+
+        .loader {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 3px solid #f2dce9;
+            border-top-color: var(--pink);
+            animation: spin .8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .empty-icon,
+        .error-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fdeaf4;
+            color: var(--pink);
+            font-size: 21px;
+        }
+
+        .loading-box h3,
+        .empty-box h3,
+        .error-box h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .loading-box p,
+        .empty-box p,
+        .error-box p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .retry-btn {
+            margin-top: 17px;
+            border: none;
+            background: var(--pink);
+            color: white;
+            padding: 11px 19px;
+            border-radius: 11px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* ================= CTA ================= */
+
+        .cta {
+            padding: 0 20px 90px;
+            background: white;
+        }
+
+        .cta-inner {
+            width: min(1180px, 100%);
+            margin: auto;
+            border-radius: 30px;
+            padding: 55px 60px;
+            color: white;
+            background:
+                radial-gradient(circle at 85% 20%, rgba(255,255,255,.16), transparent 25%),
+                linear-gradient(135deg, #4b1c56, #8d2d8d 55%, #db2187);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            overflow: hidden;
+        }
+
+        .cta h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .cta p {
+            color: rgba(255,255,255,.78);
+            font-size: 14px;
+        }
+
+        .cta-btn {
+            flex-shrink: 0;
+            background: white;
+            color: var(--purple-dark);
+            padding: 15px 23px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #211426;
+            color: white;
+            padding: 55px 20px 25px;
+        }
+
+        .footer-inner {
+            width: min(1180px, 100%);
+            margin: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 45px;
+            padding-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+        }
+
+        .footer-brand p {
+            margin-top: 12px;
+            color: #bcaabd;
+            line-height: 1.7;
+            font-size: 13px;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            font-size: 13px;
+            margin-bottom: 17px;
+        }
+
+        .footer-col a,
+        .footer-col span {
+            display: block;
+            color: #bcaabd;
+            font-size: 12px;
+            margin-bottom: 11px;
+        }
+
+        .footer-col a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,.1);
+            padding-top: 20px;
+            color: #927e92;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        /* ================= TOAST ================= */
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            z-index: 2000;
+            background: #28182c;
+            color: white;
+            padding: 14px 18px;
+            border-radius: 13px;
+            font-size: 13px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.2);
+            transform: translateY(100px);
+            opacity: 0;
+            pointer-events: none;
+            transition: .3s;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-card {
+                max-width: 620px;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .navbar {
+                height: 72px;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+            }
+
+            .menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .nav-inner.mobile-open .nav-links {
+                display: flex;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: rgba(255,250,252,.98);
+                border-bottom: 1px solid var(--border);
+                padding: 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+                box-shadow: 0 15px 30px rgba(70,20,60,.08);
+            }
+
+            .nav-inner.mobile-open .nav-actions {
+                display: flex;
+                position: absolute;
+                top: 275px;
+                left: 20px;
+                right: 20px;
+                padding-bottom: 20px;
+            }
+
+            .hero {
+                padding-top: 55px;
+            }
+
+            .hero-card {
+                min-height: 300px;
+            }
+
+            .hero-card img {
+                min-height: 300px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .category-list {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 3px;
+            }
+
+            .category-btn {
+                flex-shrink: 0;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-inner {
+                padding: 40px 25px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cta h2 {
+                font-size: 30px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-text strong {
+                font-size: 16px;
+            }
+
+            .brand-logo {
+                width: 42px;
+                height: 42px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .service-image {
+                height: 210px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<aside class="sidebar" id="sidebar">
+<!-- ================= NAVBAR ================= -->
 
-    <div class="logo">
+<header class="navbar">
+    <div class="nav-inner" id="navInner">
 
-        <div class="logo-icon">
-            <i class="fa-solid fa-spa"></i>
-        </div>
-
-        <div class="logo-text">
-            <strong>SG MAKEOVERS</strong>
-            <span>ONLINE BEAUTY SERVICES</span>
-        </div>
-
-    </div>
-
-    <div class="menu-title">
-        MAIN MENU
-    </div>
-
-    <nav class="nav">
-
-        <a href="dashboard.html">
-            <i class="fa-solid fa-house"></i>
-            Dashboard
-        </a>
-
-        <a href="customers.html">
-            <i class="fa-solid fa-users"></i>
-            Customers
-        </a>
-
-        <a href="services.html" class="active">
-            <i class="fa-solid fa-scissors"></i>
-            Services
-        </a>
-
-        <a href="staff.html">
-            <i class="fa-solid fa-user-tie"></i>
-            Staff
-        </a>
-
-        <a href="appointments.html">
-            <i class="fa-regular fa-calendar-check"></i>
-            Appointments
-        </a>
-
-        <a href="payments.html">
-            <i class="fa-solid fa-wallet"></i>
-            Payments
-        </a>
-
-        <a href="reports.html">
-            <i class="fa-solid fa-chart-column"></i>
-            Reports
-        </a>
-
-    </nav>
-
-    <div class="admin-box">
-
-        <div class="admin-info">
-
-            <div class="admin-avatar">
-                A
+        <a href="index.html" class="brand">
+            <div class="brand-logo">
+                <i class="fa-solid fa-spa"></i>
             </div>
 
-            <div>
-                <strong id="adminName">
-                    Administrator
-                </strong>
-
-                <span id="adminEmail">
-                    admin@sgmakeovers.com
-                </span>
+            <div class="brand-text">
+                <strong>SG MAKEOVERS</strong>
+                <span>ONLINE BEAUTY SERVICES</span>
             </div>
+        </a>
 
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="services.html" class="active">Services</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="login.html" class="login-link">Login</a>
+            <a href="book-appointment.html" class="book-nav">
+                Book Now <i class="fa-solid fa-arrow-right"></i>
+            </a>
         </div>
 
-        <button class="logout-btn" id="logoutBtn">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            &nbsp; Logout
+        <button class="menu-btn" id="menuBtn">
+            <i class="fa-solid fa-bars"></i>
         </button>
 
     </div>
-
-</aside>
-
-
-<main class="main">
-
-<header class="topbar">
-
-    <button class="mobile-menu" id="mobileMenu">
-        <i class="fa-solid fa-bars"></i>
-    </button>
-
-    <div class="page-heading">
-
-        <h1>
-            Services
-        </h1>
-
-        <p>
-            Manage your beauty services and pricing.
-        </p>
-
-    </div>
-
-    <div class="top-actions">
-
-        <button
-            class="website-btn"
-            onclick="window.location.href='../index.html'"
-        >
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            View Website
-        </button>
-
-        <button class="notification-btn">
-            <i class="fa-regular fa-bell"></i>
-        </button>
-
-    </div>
-
 </header>
 
 
-<section class="content">
+<!-- ================= HERO ================= -->
 
-    <div class="stats">
+<section class="hero">
 
-        <div class="stat-card">
+    <div class="hero-inner">
 
-            <div class="stat-top">
+        <div>
+            <div class="eyebrow">SG MAKEOVERS</div>
 
-                <div>
-                    <div
-                        class="stat-number"
-                        id="totalServices"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-label">
-                        Total Services
-                    </div>
-                </div>
-
-                <div class="stat-icon">
-                    <i class="fa-solid fa-scissors"></i>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-top">
-
-                <div>
-                    <div
-                        class="stat-number"
-                        id="activeServices"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-label">
-                        Active Services
-                    </div>
-                </div>
-
-                <div class="stat-icon green">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-top">
-
-                <div>
-                    <div
-                        class="stat-number"
-                        id="averagePrice"
-                    >
-                        ₹0
-                    </div>
-
-                    <div class="stat-label">
-                        Average Price
-                    </div>
-                </div>
-
-                <div class="stat-icon purple">
-                    <i class="fa-solid fa-indian-rupee-sign"></i>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="toolbar">
-
-        <div class="search-box">
-
-            <i class="fa-solid fa-magnifying-glass"></i>
-
-            <input
-                type="search"
-                id="searchInput"
-                placeholder="Search services..."
-            >
-
-        </div>
-
-        <button
-            class="add-btn"
-            id="addServiceBtn"
-        >
-            <i class="fa-solid fa-plus"></i>
-            &nbsp; Add Service
-        </button>
-
-    </div>
-
-
-    <div
-        class="services-grid"
-        id="servicesGrid"
-    >
-
-        <div class="loading">
-
-            <i class="fa-solid fa-spinner fa-spin"></i>
+            <h1>
+                Beauty services
+                <em>made for you.</em>
+            </h1>
 
             <p>
-                Loading services...
+                Discover professional beauty and self-care services
+                designed to help you feel confident, refreshed and beautiful.
+                Choose your favourite service and book your appointment in a few clicks.
             </p>
+
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span>Services</span>
+            </div>
+        </div>
+
+        <div class="hero-card">
+            <img
+                src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1000&q=85"
+                alt="Beauty salon">
+
+            <div class="hero-badge">
+                <strong>Feel beautiful.</strong>
+                <span>Your beauty, our expertise.</span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SERVICES ================= -->
+
+<section class="services-section">
+
+    <div class="section-inner">
+
+        <div class="section-heading">
+
+            <div class="small-title">OUR COLLECTION</div>
+
+            <h2>
+                Find your perfect
+                <em>beauty ritual.</em>
+            </h2>
+
+            <p>
+                From glowing facials to beautiful hair and polished nails,
+                choose a service that feels right for you.
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH + CATEGORY -->
+
+        <div class="toolbar">
+
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search services..."
+                    autocomplete="off">
+            </div>
+
+            <div class="category-list" id="categoryList">
+                <button
+                    class="category-btn active"
+                    data-category="all">
+                    All Services
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- SERVICES GRID -->
+
+        <div class="services-grid" id="servicesGrid">
+
+            <div class="loading-box">
+                <div class="loader"></div>
+                <h3>Loading services...</h3>
+                <p>Getting our latest beauty services for you.</p>
+            </div>
 
         </div>
 
@@ -1067,1188 +1032,635 @@ a{
 
 </section>
 
-</main>
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+    <div class="cta-inner">
+
+        <div>
+            <h2>Ready for your beauty moment?</h2>
+
+            <p>
+                Choose your favourite service and book your appointment today.
+            </p>
+        </div>
+
+        <a href="book-appointment.html" class="cta-btn">
+            Book Appointment
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+    </div>
+
+</section>
 
 
-<!-- MODAL -->
+<!-- ================= FOOTER ================= -->
 
-<div
-    class="modal-overlay"
-    id="modalOverlay"
->
+<footer>
 
-    <div class="modal">
+    <div class="footer-inner">
 
-        <div class="modal-header">
+        <div class="footer-grid">
 
-            <h2 id="modalTitle">
-                Add Service
-            </h2>
+            <div class="footer-brand">
 
-            <button
-                class="close-btn"
-                id="closeModalBtn"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+                <h3>SG MAKEOVERS</h3>
+
+                <p>
+                    Premium online beauty services designed around
+                    your comfort, confidence and beauty.
+                </p>
+
+            </div>
+
+
+            <div class="footer-col">
+
+                <h4>QUICK LINKS</h4>
+
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="login.html">Login</a>
+                <a href="book-appointment.html">Book Appointment</a>
+
+            </div>
+
+
+            <div class="footer-col">
+
+                <h4>SERVICES</h4>
+
+                <a href="services.html">Hair Styling</a>
+                <a href="services.html">Makeup</a>
+                <a href="services.html">Facials</a>
+                <a href="services.html">Nails</a>
+
+            </div>
+
+
+            <div class="footer-col">
+
+                <h4>CONTACT</h4>
+
+                <span>
+                    <i class="fa-solid fa-phone"></i>
+                    &nbsp;9004262111
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-envelope"></i>
+                    &nbsp;your-email@example.com
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-location-dot"></i>
+                    &nbsp;Mumbai, India
+                </span>
+
+            </div>
 
         </div>
 
 
-        <form id="serviceForm">
+        <div class="footer-bottom">
 
-            <div class="modal-body">
+            <span>
+                © 2026 SG MAKEOVERS. All rights reserved.
+            </span>
 
-                <div class="form-group">
+            <span>
+                ONLINE BEAUTY SERVICES
+            </span>
 
-                    <label>
-                        Service Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="serviceName"
-                        placeholder="e.g. Hair Styling"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Description
-                    </label>
-
-                    <textarea
-                        id="serviceDescription"
-                        placeholder="Describe the service..."
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-row">
-
-                    <div class="form-group">
-
-                        <label>
-                            Duration (minutes)
-                        </label>
-
-                        <input
-                            type="number"
-                            id="serviceDuration"
-                            min="1"
-                            placeholder="60"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            Price (₹)
-                        </label>
-
-                        <input
-                            type="number"
-                            id="servicePrice"
-                            min="0"
-                            step="0.01"
-                            placeholder="799"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Image URL
-                    </label>
-
-                    <input
-                        type="url"
-                        id="serviceImage"
-                        placeholder="https://..."
-                    >
-
-                </div>
-
-
-                <div class="checkbox-row">
-
-                    <input
-                        type="checkbox"
-                        id="serviceActive"
-                        checked
-                    >
-
-                    <label for="serviceActive">
-                        Service is active
-                    </label>
-
-                </div>
-
-            </div>
-
-
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="cancel-btn"
-                    id="cancelModalBtn"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="save-btn"
-                    id="saveServiceBtn"
-                >
-                    Save Service
-                </button>
-
-            </div>
-
-        </form>
+        </div>
 
     </div>
 
-</div>
+</footer>
 
 
-<div
-    class="toast"
-    id="toast"
-></div>
+<!-- ================= TOAST ================= -->
+
+<div class="toast" id="toast"></div>
 
 
 <script>
 
-/* ================= VARIABLES ================= */
+    /* =========================================
+       MOBILE MENU
+    ========================================= */
 
-let services = [];
-let editingServiceId = null;
+    const navInner = document.getElementById("navInner");
+    const menuBtn = document.getElementById("menuBtn");
 
-const servicesGrid =
-    document.getElementById("servicesGrid");
+    menuBtn.addEventListener("click", () => {
 
-const modalOverlay =
-    document.getElementById("modalOverlay");
+        navInner.classList.toggle("mobile-open");
 
-const serviceForm =
-    document.getElementById("serviceForm");
+        const icon = menuBtn.querySelector("i");
 
-const modalTitle =
-    document.getElementById("modalTitle");
-
-const searchInput =
-    document.getElementById("searchInput");
-
-
-/* ================= HELPERS ================= */
-
-function escapeHTML(value){
-
-    if(
-        value === null ||
-        value === undefined
-    ){
-        return "";
-    }
-
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
-
-
-function formatPrice(price){
-
-    return Number(price || 0)
-        .toLocaleString("en-IN",{
-            maximumFractionDigits:2
-        });
-}
-
-
-function showToast(message,type="success"){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent =
-        message;
-
-    toast.className =
-        `toast show ${type}`;
-
-    setTimeout(() => {
-
-        toast.className =
-            "toast";
-
-    },3000);
-}
-
-
-/* ================= AUTH ================= */
-
-async function checkAdmin(){
-
-    const {
-        data:{
-            user
-        }
-    } =
-        await supabaseClient.auth.getUser();
-
-    if(!user){
-
-        window.location.href =
-            "admin-login.html";
-
-        return null;
-    }
-
-
-    const {
-        data:isAdmin,
-        error
-    } =
-        await supabaseClient.rpc("is_admin");
-
-
-    if(
-        error ||
-        isAdmin !== true
-    ){
-
-        await supabaseClient.auth.signOut();
-
-        window.location.href =
-            "admin-login.html";
-
-        return null;
-    }
-
-
-    return user;
-}
-
-
-/* ================= ADMIN INFO ================= */
-
-async function loadAdminInfo(user){
-
-    document.getElementById("adminEmail")
-        .textContent =
-        user.email ||
-        "admin@sgmakeovers.com";
-
-
-    try{
-
-        const {
-            data:admin
-        } =
-            await supabaseClient
-                .from("admins")
-                .select("full_name")
-                .eq("user_id",user.id)
-                .maybeSingle();
-
-
-        if(admin?.full_name){
-
-            document.getElementById("adminName")
-                .textContent =
-                admin.full_name;
-
+        if (navInner.classList.contains("mobile-open")) {
+            icon.className = "fa-solid fa-xmark";
+        } else {
+            icon.className = "fa-solid fa-bars";
         }
 
-    }catch(error){
+    });
 
-        console.warn(
-            "Admin info unavailable:",
-            error
-        );
 
+    /* =========================================
+       DOM ELEMENTS
+    ========================================= */
+
+    const servicesGrid = document.getElementById("servicesGrid");
+    const searchInput = document.getElementById("searchInput");
+    const categoryList = document.getElementById("categoryList");
+    const toast = document.getElementById("toast");
+
+    let allServices = [];
+    let selectedCategory = "all";
+
+
+    /* =========================================
+       TOAST
+    ========================================= */
+
+    function showToast(message) {
+
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 2800);
     }
-}
 
 
-/* ================= LOAD SERVICES ================= */
+    /* =========================================
+       ESCAPE HTML
+    ========================================= */
 
-async function loadServices(){
+    function escapeHTML(value) {
 
-    servicesGrid.innerHTML = `
-        <div class="loading">
-            <i class="fa-solid fa-spinner fa-spin"></i>
-            <p>Loading services...</p>
-        </div>
-    `;
+        if (value === null || value === undefined) {
+            return "";
+        }
 
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("services")
-            .select("*")
-            .order("created_at",{
-                ascending:false
-            });
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 
 
-    if(error){
+    /* =========================================
+       IMAGE FALLBACK
+    ========================================= */
 
-        console.error(
-            "Services error:",
-            error
-        );
+    function getFallbackImage(service) {
+
+        const category = String(service.category || "").toLowerCase();
+        const name = String(service.name || "").toLowerCase();
+
+        if (
+            category.includes("hair") ||
+            name.includes("hair")
+        ) {
+            return "https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=85";
+        }
+
+        if (
+            category.includes("makeup") ||
+            name.includes("makeup") ||
+            name.includes("bridal")
+        ) {
+            return "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=85";
+        }
+
+        if (
+            category.includes("nail") ||
+            name.includes("nail")
+        ) {
+            return "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=85";
+        }
+
+        if (
+            category.includes("facial") ||
+            category.includes("skin") ||
+            name.includes("facial")
+        ) {
+            return "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=85";
+        }
+
+        return "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=85";
+    }
+
+
+    /* =========================================
+       FORMAT CATEGORY
+    ========================================= */
+
+    function formatCategory(category) {
+
+        if (!category) {
+            return "Beauty Care";
+        }
+
+        return String(category)
+            .replace(/[_-]/g, " ")
+            .replace(/\b\w/g, letter => letter.toUpperCase());
+    }
+
+
+    /* =========================================
+       FORMAT PRICE
+    ========================================= */
+
+    function formatPrice(price) {
+
+        const amount = Number(price || 0);
+
+        return "₹" + amount.toLocaleString("en-IN");
+    }
+
+
+    /* =========================================
+       FORMAT DURATION
+    ========================================= */
+
+    function formatDuration(minutes) {
+
+        const value = Number(minutes || 0);
+
+        if (!value) {
+            return "Flexible";
+        }
+
+        if (value < 60) {
+            return `${value} min`;
+        }
+
+        const hours = Math.floor(value / 60);
+        const mins = value % 60;
+
+        if (mins === 0) {
+            return `${hours} hr${hours > 1 ? "s" : ""}`;
+        }
+
+        return `${hours} hr ${mins} min`;
+    }
+
+
+    /* =========================================
+       LOAD SERVICES
+    ========================================= */
+
+    async function loadServices() {
 
         servicesGrid.innerHTML = `
-            <div class="empty">
-
-                <i class="fa-solid fa-triangle-exclamation"></i>
-
-                <p>
-                    Unable to load services.
-                </p>
-
+            <div class="loading-box">
+                <div class="loader"></div>
+                <h3>Loading services...</h3>
+                <p>Getting our latest beauty services for you.</p>
             </div>
         `;
 
-        return;
-    }
+        try {
+
+            if (
+                typeof supabaseClient === "undefined" ||
+                !supabaseClient
+            ) {
+                throw new Error("Supabase configuration is missing.");
+            }
 
 
-    services =
-        data || [];
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("services")
+                .select("*")
+                .eq("is_active", true);
 
 
-    updateStats();
+            if (error) {
 
-    renderServices(services);
-}
+                console.error("Supabase services error:", error);
 
-
-/* ================= STATS ================= */
-
-function updateStats(){
-
-    const total =
-        services.length;
-
-    const active =
-        services.filter(
-            service =>
-                service.is_active !== false
-        ).length;
+                throw error;
+            }
 
 
-    const prices =
-        services
-            .map(
-                service =>
-                    Number(service.price || 0)
-            )
-            .filter(
-                price =>
-                    price > 0
-            );
+            allServices = data || [];
 
+            buildCategories();
 
-    const average =
-        prices.length
-            ? prices.reduce(
-                (sum,price) =>
-                    sum + price,
-                0
-              ) / prices.length
-            : 0;
+            renderServices();
 
+        } catch (error) {
 
-    document.getElementById(
-        "totalServices"
-    ).textContent =
-        total;
+            console.error(error);
 
+            servicesGrid.innerHTML = `
+                <div class="error-box">
 
-    document.getElementById(
-        "activeServices"
-    ).textContent =
-        active;
-
-
-    document.getElementById(
-        "averagePrice"
-    ).textContent =
-        "₹" +
-        Math.round(average)
-            .toLocaleString("en-IN");
-}
-
-
-/* ================= RENDER ================= */
-
-function renderServices(list){
-
-    if(!list.length){
-
-        servicesGrid.innerHTML = `
-            <div class="empty">
-
-                <i class="fa-solid fa-scissors"></i>
-
-                <p>
-                    No services found.
-                </p>
-
-            </div>
-        `;
-
-        return;
-    }
-
-
-    servicesGrid.innerHTML =
-        list.map(service => {
-
-            const active =
-                service.is_active !== false;
-
-
-            const image =
-                service.image_url;
-
-
-            const imageHTML =
-                image
-                ? `
-                    <img
-                        src="${escapeHTML(image)}"
-                        alt="${escapeHTML(service.name)}"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
-                    >
-
-                    <div
-                        class="service-placeholder"
-                        style="display:none;"
-                    >
-                        <i class="fa-solid fa-spa"></i>
-                    </div>
-                  `
-                : `
-                    <div class="service-placeholder">
-                        <i class="fa-solid fa-spa"></i>
-                    </div>
-                  `;
-
-
-            return `
-                <div class="service-card">
-
-                    <div class="service-image">
-
-                        ${imageHTML}
-
-                        <span
-                            class="service-status ${
-                                active
-                                ? "active"
-                                : "inactive"
-                            }"
-                        >
-                            ${
-                                active
-                                ? "Active"
-                                : "Inactive"
-                            }
-                        </span>
-
+                    <div class="error-icon">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
 
+                    <h3>Unable to load services</h3>
 
-                    <div class="service-body">
+                    <p>
+                        ${escapeHTML(
+                            error?.message ||
+                            "Something went wrong while loading services."
+                        )}
+                    </p>
 
-                        <div class="service-name">
-                            ${escapeHTML(
-                                service.name
-                            )}
-                        </div>
-
-
-                        <div class="service-description">
-
-                            ${
-                                escapeHTML(
-                                    service.description ||
-                                    "Professional beauty service by SG MAKEOVERS."
-                                )
-                            }
-
-                        </div>
-
-
-                        <div class="service-meta">
-
-                            <div class="duration">
-
-                                <i class="fa-regular fa-clock"></i>
-
-                                ${
-                                    service.duration_minutes ||
-                                    0
-                                } min
-
-                            </div>
-
-
-                            <div class="price">
-
-                                ₹${
-                                    formatPrice(
-                                        service.price
-                                    )
-                                }
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="service-actions">
-
-                            <button
-                                class="action-btn edit"
-                                onclick="editService('${service.id}')"
-                            >
-                                <i class="fa-solid fa-pen"></i>
-                                Edit
-                            </button>
-
-
-                            <button
-                                class="action-btn toggle"
-                                onclick="toggleService('${service.id}')"
-                            >
-                                <i class="fa-solid ${
-                                    active
-                                    ? "fa-eye-slash"
-                                    : "fa-eye"
-                                }"></i>
-
-                                ${
-                                    active
-                                    ? "Hide"
-                                    : "Activate"
-                                }
-                            </button>
-
-
-                            <button
-                                class="action-btn delete"
-                                onclick="deleteService('${service.id}')"
-                            >
-                                <i class="fa-solid fa-trash"></i>
-                                Delete
-                            </button>
-
-                        </div>
-
-                    </div>
+                    <button class="retry-btn" onclick="loadServices()">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        Try Again
+                    </button>
 
                 </div>
             `;
+        }
+    }
 
-        }).join("");
-}
+
+    /* =========================================
+       BUILD CATEGORY BUTTONS
+    ========================================= */
+
+    function buildCategories() {
+
+        const categories = [
+            ...new Set(
+                allServices
+                    .map(service => service.category)
+                    .filter(Boolean)
+            )
+        ];
+
+        categoryList.innerHTML = `
+            <button
+                class="category-btn active"
+                data-category="all">
+                All Services
+            </button>
+        `;
+
+        categories.forEach(category => {
+
+            const button = document.createElement("button");
+
+            button.className = "category-btn";
+
+            button.dataset.category = category;
+
+            button.textContent = formatCategory(category);
+
+            categoryList.appendChild(button);
+        });
 
 
-/* ================= SEARCH ================= */
+        categoryList
+            .querySelectorAll(".category-btn")
+            .forEach(button => {
 
-searchInput.addEventListener(
-    "input",
-    function(){
+                button.addEventListener("click", () => {
 
-        const query =
-            this.value
+                    categoryList
+                        .querySelectorAll(".category-btn")
+                        .forEach(btn =>
+                            btn.classList.remove("active")
+                        );
+
+                    button.classList.add("active");
+
+                    selectedCategory =
+                        button.dataset.category;
+
+                    renderServices();
+                });
+
+            });
+    }
+
+
+    /* =========================================
+       FILTER SERVICES
+    ========================================= */
+
+    function getFilteredServices() {
+
+        const search =
+            searchInput.value
                 .trim()
                 .toLowerCase();
 
 
-        if(!query){
+        return allServices.filter(service => {
 
-            renderServices(services);
+            const name =
+                String(service.name || "").toLowerCase();
+
+            const description =
+                String(service.description || "").toLowerCase();
+
+            const category =
+                String(service.category || "").toLowerCase();
+
+
+            const matchesSearch =
+                !search ||
+                name.includes(search) ||
+                description.includes(search) ||
+                category.includes(search);
+
+
+            const matchesCategory =
+                selectedCategory === "all" ||
+                String(service.category || "").toLowerCase() ===
+                String(selectedCategory).toLowerCase();
+
+
+            return matchesSearch && matchesCategory;
+        });
+    }
+
+
+    /* =========================================
+       RENDER SERVICES
+    ========================================= */
+
+    function renderServices() {
+
+        const services = getFilteredServices();
+
+
+        if (!services.length) {
+
+            servicesGrid.innerHTML = `
+                <div class="empty-box">
+
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-spa"></i>
+                    </div>
+
+                    <h3>No services found</h3>
+
+                    <p>
+                        Try another search or choose a different category.
+                    </p>
+
+                </div>
+            `;
 
             return;
         }
 
 
-        const filtered =
-            services.filter(service => {
-
-                const name =
-                    String(
-                        service.name || ""
-                    ).toLowerCase();
-
-
-                const description =
-                    String(
-                        service.description || ""
-                    ).toLowerCase();
-
-
-                return (
-                    name.includes(query) ||
-                    description.includes(query)
-                );
-
-            });
-
-
-        renderServices(filtered);
-
+        servicesGrid.innerHTML = services
+            .map(service => createServiceCard(service))
+            .join("");
     }
-);
 
 
-/* ================= MODAL ================= */
+    /* =========================================
+       SERVICE CARD
+    ========================================= */
 
-function openAddModal(){
+    function createServiceCard(service) {
 
-    editingServiceId =
-        null;
-
-    modalTitle.textContent =
-        "Add Service";
-
-    serviceForm.reset();
-
-    document.getElementById(
-        "serviceActive"
-    ).checked = true;
-
-    modalOverlay.classList.add(
-        "show"
-    );
-}
-
-
-function closeModal(){
-
-    modalOverlay.classList.remove(
-        "show"
-    );
-
-    editingServiceId =
-        null;
-
-    serviceForm.reset();
-}
-
-
-document
-    .getElementById("addServiceBtn")
-    .addEventListener(
-        "click",
-        openAddModal
-    );
-
-
-document
-    .getElementById("closeModalBtn")
-    .addEventListener(
-        "click",
-        closeModal
-    );
-
-
-document
-    .getElementById("cancelModalBtn")
-    .addEventListener(
-        "click",
-        closeModal
-    );
-
-
-modalOverlay.addEventListener(
-    "click",
-    function(event){
-
-        if(
-            event.target ===
-            modalOverlay
-        ){
-            closeModal();
-        }
-
-    }
-);
-
-
-/* ================= EDIT ================= */
-
-window.editService =
-    function(id){
-
-        const service =
-            services.find(
-                item =>
-                    String(item.id) ===
-                    String(id)
-            );
-
-
-        if(!service){
-            return;
-        }
-
-
-        editingServiceId =
-            service.id;
-
-
-        modalTitle.textContent =
-            "Edit Service";
-
-
-        document.getElementById(
-            "serviceName"
-        ).value =
-            service.name || "";
-
-
-        document.getElementById(
-            "serviceDescription"
-        ).value =
-            service.description || "";
-
-
-        document.getElementById(
-            "serviceDuration"
-        ).value =
-            service.duration_minutes || "";
-
-
-        document.getElementById(
-            "servicePrice"
-        ).value =
-            service.price || "";
-
-
-        document.getElementById(
-            "serviceImage"
-        ).value =
-            service.image_url || "";
-
-
-        document.getElementById(
-            "serviceActive"
-        ).checked =
-            service.is_active !== false;
-
-
-        modalOverlay.classList.add(
-            "show"
-        );
-
-    };
-
-
-/* ================= SAVE ================= */
-
-serviceForm.addEventListener(
-    "submit",
-    async function(event){
-
-        event.preventDefault();
-
-
-        const saveButton =
-            document.getElementById(
-                "saveServiceBtn"
-            );
-
+        const id = service.id;
 
         const name =
-            document.getElementById(
-                "serviceName"
-            ).value.trim();
-
+            escapeHTML(service.name || "Beauty Service");
 
         const description =
-            document.getElementById(
-                "serviceDescription"
-            ).value.trim();
+            escapeHTML(
+                service.description ||
+                "Professional beauty service tailored for you."
+            );
 
+        const category =
+            escapeHTML(
+                formatCategory(service.category)
+            );
 
         const duration =
-            Number(
-                document.getElementById(
-                    "serviceDuration"
-                ).value
-            );
-
+            formatDuration(service.duration_minutes);
 
         const price =
-            Number(
-                document.getElementById(
-                    "servicePrice"
-                ).value
-            );
-
+            formatPrice(service.price);
 
         const image =
-            document.getElementById(
-                "serviceImage"
-            ).value.trim();
+            service.image_url ||
+            getFallbackImage(service);
 
 
-        const isActive =
-            document.getElementById(
-                "serviceActive"
-            ).checked;
+        return `
+            <article class="service-card">
 
+                <div class="service-image">
 
-        if(!name){
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt="${name}"
+                        loading="lazy"
+                        onerror="this.onerror=null;this.src='${getFallbackImage(service)}';">
 
-            showToast(
-                "Please enter service name.",
-                "error"
-            );
+                    <span class="service-category">
+                        ${category}
+                    </span>
 
-            return;
-        }
+                    <div class="service-heart">
+                        <i class="fa-regular fa-heart"></i>
+                    </div>
 
+                </div>
 
-        if(!duration || duration <= 0){
 
-            showToast(
-                "Please enter a valid duration.",
-                "error"
-            );
+                <div class="service-body">
 
-            return;
-        }
+                    <h3>${name}</h3>
 
+                    <p class="service-description">
+                        ${description}
+                    </p>
 
-        if(price < 0){
 
-            showToast(
-                "Please enter a valid price.",
-                "error"
-            );
+                    <div class="service-meta">
 
-            return;
-        }
+                        <div class="duration">
+                            <i class="fa-regular fa-clock"></i>
+                            ${duration}
+                        </div>
 
+                        <div class="price">
+                            ${price}
+                        </div>
 
-        saveButton.disabled =
-            true;
+                    </div>
 
-        saveButton.textContent =
-            "Saving...";
 
+                    <div class="service-actions">
 
-        const payload = {
+                        <button
+                            class="book-btn"
+                            onclick="bookService('${id}')">
 
-            name:name,
+                            Book Now
+                            <i class="fa-solid fa-arrow-right"></i>
 
-            description:
-                description || null,
+                        </button>
 
-            duration_minutes:
-                duration,
+                    </div>
 
-            price:
-                price,
+                </div>
 
-            image_url:
-                image || null,
-
-            is_active:
-                isActive
-
-        };
-
-
-        let error;
-
-
-        if(editingServiceId){
-
-            const result =
-                await supabaseClient
-                    .from("services")
-                    .update(payload)
-                    .eq(
-                        "id",
-                        editingServiceId
-                    );
-
-            error =
-                result.error;
-
-        }else{
-
-            const result =
-                await supabaseClient
-                    .from("services")
-                    .insert(payload);
-
-            error =
-                result.error;
-
-        }
-
-
-        saveButton.disabled =
-            false;
-
-        saveButton.textContent =
-            "Save Service";
-
-
-        if(error){
-
-            console.error(
-                "Save service error:",
-                error
-            );
-
-            showToast(
-                error.message ||
-                "Unable to save service.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        showToast(
-            editingServiceId
-                ? "Service updated successfully."
-                : "Service added successfully."
-        );
-
-
-        closeModal();
-
-        await loadServices();
-
-    }
-);
-
-
-/* ================= TOGGLE ================= */
-
-window.toggleService =
-    async function(id){
-
-        const service =
-            services.find(
-                item =>
-                    String(item.id) ===
-                    String(id)
-            );
-
-
-        if(!service){
-            return;
-        }
-
-
-        const newStatus =
-            service.is_active === false;
-
-
-        const {
-            error
-        } =
-            await supabaseClient
-                .from("services")
-                .update({
-                    is_active:newStatus
-                })
-                .eq(
-                    "id",
-                    id
-                );
-
-
-        if(error){
-
-            console.error(error);
-
-            showToast(
-                "Unable to update service.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        showToast(
-            newStatus
-                ? "Service activated."
-                : "Service hidden."
-        );
-
-
-        await loadServices();
-
-    };
-
-
-/* ================= DELETE ================= */
-
-window.deleteService =
-    async function(id){
-
-        const service =
-            services.find(
-                item =>
-                    String(item.id) ===
-                    String(id)
-            );
-
-
-        if(!service){
-            return;
-        }
-
-
-        const confirmed =
-            confirm(
-                `Delete "${service.name}" permanently?`
-            );
-
-
-        if(!confirmed){
-            return;
-        }
-
-
-        const {
-            error
-        } =
-            await supabaseClient
-                .from("services")
-                .delete()
-                .eq(
-                    "id",
-                    id
-                );
-
-
-        if(error){
-
-            console.error(
-                "Delete service error:",
-                error
-            );
-
-
-            showToast(
-                "Unable to delete service. It may already be used in appointments.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        showToast(
-            "Service deleted successfully."
-        );
-
-
-        await loadServices();
-
-    };
-
-
-/* ================= LOGOUT ================= */
-
-document
-    .getElementById("logoutBtn")
-    .addEventListener(
-        "click",
-        async function(){
-
-            await supabaseClient.auth.signOut();
-
-            localStorage.removeItem(
-                "sgMakeoversAdminLoggedIn"
-            );
-
-            localStorage.removeItem(
-                "sgMakeoversAdminEmail"
-            );
-
-            localStorage.removeItem(
-                "sgMakeoversAdminUserId"
-            );
-
-            window.location.href =
-                "admin-login.html";
-
-        }
-    );
-
-
-/* ================= MOBILE ================= */
-
-document
-    .getElementById("mobileMenu")
-    .addEventListener(
-        "click",
-        function(){
-
-            document
-                .getElementById("sidebar")
-                .classList.toggle("open");
-
-        }
-    );
-
-
-/* ================= START ================= */
-
-(async function(){
-
-    const user =
-        await checkAdmin();
-
-    if(!user){
-        return;
+            </article>
+        `;
     }
 
-    await loadAdminInfo(user);
 
-    await loadServices();
+    /* =========================================
+       BOOK SERVICE
+    ========================================= */
 
-})();
+    function bookService(serviceId) {
+
+        if (!serviceId) {
+            showToast("Service could not be selected.");
+            return;
+        }
+
+        window.location.href =
+            `book-appointment.html?service=${encodeURIComponent(serviceId)}`;
+    }
+
+
+    /* =========================================
+       SEARCH
+    ========================================= */
+
+    searchInput.addEventListener("input", () => {
+        renderServices();
+    });
+
+
+    /* =========================================
+       START
+    ========================================= */
+
+    loadServices();
 
 </script>
 
