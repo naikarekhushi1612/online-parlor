@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | SG MAKEOVERS</title>
+
+    <meta
+        name="description"
+        content="Manage your SG MAKEOVERS customer profile."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+
+        :root {
+            --pink: #d94f87;
+            --pink-dark: #b9366d;
+            --purple: #7546a8;
+            --purple-dark: #57347f;
+            --cream: #fffaf7;
+            --text: #30242c;
+            --muted: #7d6e77;
+            --white: #ffffff;
+            --border: rgba(80,48,65,.10);
+            --shadow: 0 18px 55px rgba(73,38,60,.10);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--text);
+            font-family: "DM Sans", sans-serif;
+            background:
+                radial-gradient(
+                    circle at 8% 0%,
+                    rgba(217,79,135,.08),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 92% 12%,
+                    rgba(117,70,168,.08),
+                    transparent 28%
+                ),
+                var(--cream);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1160px, calc(100% - 36px));
+            margin: auto;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,250,247,.93);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            box-shadow: 0 9px 25px rgba(117,70,168,.20);
+        }
+
+        .brand-text strong {
+            display: block;
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+        }
+
+        .brand-text span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #65545e;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .25s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--pink-dark);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-mini {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: white;
+            font-weight: 800;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            border: 2px solid white;
+        }
+
+        .logout-btn {
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: white;
+            color: #67545e;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mobile-menu {
+            display: none;
+            border: 0;
+            background: transparent;
+            font-size: 22px;
+        }
+
+        /* ================= PAGE ================= */
+
+        .page {
+            padding: 42px 0 70px;
+        }
+
+        .page-header {
+            position: relative;
+            overflow: hidden;
+            padding: 40px 42px;
+            border-radius: 30px;
+            color: white;
+            background:
+                radial-gradient(
+                    circle at 90% 15%,
+                    rgba(255,255,255,.16),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #c9427b,
+                    #7744a5
+                );
+            box-shadow:
+                0 24px 65px rgba(117,70,168,.18);
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .page-header h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(32px,4vw,45px);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: rgba(255,255,255,.84);
+            font-size: 13px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        /* ================= LAYOUT ================= */
+
+        .profile-grid {
+            margin-top: 24px;
+            display: grid;
+            grid-template-columns:
+                310px
+                minmax(0,1fr);
+            gap: 22px;
+            align-items: start;
+        }
+
+        .card {
+            background: rgba(255,255,255,.90);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        /* ================= PROFILE CARD ================= */
+
+        .profile-card {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            margin: 4px auto 15px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: white;
+            font-family: "Playfair Display", serif;
+            font-size: 34px;
+            font-weight: 700;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            border: 5px solid white;
+            box-shadow:
+                0 14px 35px rgba(117,70,168,.20);
+        }
+
+        .profile-card h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 25px;
+        }
+
+        .profile-card .email {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 4px;
+            word-break: break-word;
+        }
+
+        .member-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 13px;
+            padding: 7px 11px;
+            border-radius: 20px;
+            color: var(--purple-dark);
+            background: #f1ebff;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+        }
+
+        .profile-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 22px 0;
+        }
+
+        .quick-info {
+            display: grid;
+            gap: 11px;
+            text-align: left;
+        }
+
+        .quick-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px;
+            border-radius: 13px;
+            background: #fff9fb;
+        }
+
+        .quick-icon {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 34px;
+            border-radius: 10px;
+            color: var(--pink-dark);
+            background: #fff0f6;
+            font-size: 12px;
+        }
+
+        .quick-item span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .quick-item strong {
+            display: block;
+            margin-top: 2px;
+            font-size: 11px;
+            word-break: break-word;
+        }
+
+        /* ================= FORM CARD ================= */
+
+        .form-card {
+            padding: 26px;
+        }
+
+        .form-header {
+            margin-bottom: 23px;
+        }
+
+        .form-header h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 25px;
+        }
+
+        .form-header p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 4px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2,minmax(0,1fr));
+            gap: 17px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            color: #55434d;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--pink-dark);
+            font-size: 12px;
+            pointer-events: none;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            outline: none;
+            border-radius: 13px;
+            background: #fffdfd;
+            color: var(--text);
+            font-size: 12px;
+            transition: .25s;
+        }
+
+        .field input {
+            height: 45px;
+            padding: 0 14px 0 39px;
+        }
+
+        .field textarea {
+            min-height: 105px;
+            padding: 13px 14px;
+            resize: vertical;
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            border-color: rgba(217,79,135,.45);
+            box-shadow:
+                0 0 0 4px rgba(217,79,135,.07);
+        }
+
+        .field input[readonly] {
+            background: #f9f5f7;
+            color: #887780;
+        }
+
+        .field-help {
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        .save-row {
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .save-note {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .save-note i {
+            color: #2f7653;
+            margin-right: 4px;
+        }
+
+        .btn {
+            min-height: 43px;
+            padding: 10px 17px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: white;
+            color: #5d4c55;
+            font-size: 11px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+
+        .btn-primary {
+            color: white;
+            border-color: transparent;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            box-shadow:
+                0 9px 23px rgba(117,70,168,.16);
+        }
+
+        .btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        /* ================= SECURITY ================= */
+
+        .security-card {
+            margin-top: 18px;
+            padding: 19px;
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff0f6,
+                    #f3edff
+                );
+        }
+
+        .security-card h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 18px;
+        }
+
+        .security-card p {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+            margin: 5px 0 12px;
+        }
+
+        .security-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--purple-dark);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            min-height: 430px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+        }
+
+        .loading-icon {
+            width: 65px;
+            height: 65px;
+            display: grid;
+            place-items: center;
+            margin: auto auto 14px;
+            border-radius: 20px;
+            color: var(--pink-dark);
+            background: #fff0f6;
+            font-size: 23px;
+        }
+
+        .loading h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 23px;
+        }
+
+        .loading p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        /* ================= TOAST ================= */
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 6000;
+            max-width: 360px;
+            padding: 14px 17px;
+            border-radius: 14px;
+            color: white;
+            background: #30242c;
+            font-size: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.18);
+            opacity: 0;
+            transform: translateY(100px);
+            pointer-events: none;
+            transition: .3s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #2f7653;
+        }
+
+        .toast.error {
+            background: #a83d57;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:1000px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                text-align: center;
+            }
+
+            .quick-info {
+                grid-template-columns:
+                    repeat(2,minmax(0,1fr));
+            }
+        }
+
+        @media(max-width:700px) {
+
+            .container {
+                width: calc(100% - 24px);
+            }
+
+            .page {
+                padding-top: 25px;
+            }
+
+            .page-header {
+                padding: 29px 22px;
+                border-radius: 24px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .quick-info {
+                grid-template-columns: 1fr;
+            }
+
+            .save-row {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .save-row .btn {
+                width: 100%;
+            }
+
+            .logout-btn {
+                display: none;
+            }
+        }
+
+        @media(max-width:450px) {
+
+            .brand-text span {
+                display: none;
+            }
+
+            .brand-text strong {
+                font-size: 17px;
+            }
+
+            .brand-mark {
+                width: 39px;
+                height: 39px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
+
+    <header class="navbar">
+
+        <div class="container nav-inner">
+
+            <a href="index.html" class="brand">
+
+                <div class="brand-mark">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+
+                <div class="brand-text">
+                    <strong>SG MAKEOVERS</strong>
+                    <span>ONLINE BEAUTY SERVICES</span>
+                </div>
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="services.html">
+                    Services
+                </a>
+
+                <a href="customer-dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="my-appointments.html">
+                    Appointments
+                </a>
+
+                <a href="bills.html">
+                    Bills
+                </a>
+
+                <a
+                    href="profile.html"
+                    class="active"
+                >
+                    Profile
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <a
+                    href="profile.html"
+                    class="profile-mini"
+                    id="navAvatar"
+                >
+                    U
+                </a>
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    id="logoutBtn"
+                >
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </button>
+
+                <button
+                    type="button"
+                    class="mobile-menu"
+                    id="mobileMenu"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main class="page">
+
+        <div class="container">
+
+
+            <section class="page-header">
+
+                <div class="eyebrow">
+                    <i class="fa-regular fa-user"></i>
+                    MY ACCOUNT
+                </div>
+
+                <h1>
+                    My Profile
+                </h1>
+
+                <p>
+                    Keep your personal details updated so
+                    your SG MAKEOVERS appointments stay
+                    accurate and easy to manage.
+                </p>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 PROFILE AREA
+                 ================================================= -->
+
+            <section
+                class="profile-grid"
+                id="profileGrid"
+            >
+
+                <!-- Loading state -->
+
+                <div
+                    class="card"
+                    style="grid-column:1/-1;"
+                >
+
+                    <div class="loading">
+
+                        <div>
+
+                            <div class="loading-icon">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </div>
+
+                            <h3>
+                                Loading profile
+                            </h3>
+
+                            <p>
+                                Please wait while we load your account.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         TOAST
+         ===================================================== -->
+
+    <div
+        class="toast"
+        id="toast"
+    ></div>
+
+
+
+    <!-- =====================================================
+         SUPABASE
+         ===================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="supabase-config.js"></script>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script>
+
+        let currentUser = null;
+        let profileData = null;
+
+
+        /* =====================================================
+           HELPERS
+           ===================================================== */
+
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+
+        function showToast(
+            message,
+            type = "success"
+        ) {
+
+            const toast =
+                $("toast");
+
+            toast.textContent =
+                message;
+
+            toast.className =
+                "toast " +
+                type +
+                " show";
+
+            setTimeout(
+                () => {
+                    toast.classList.remove(
+                        "show"
+                    );
+                },
+                3200
+            );
+
+        }
+
+
+        function getInitials(name) {
+
+            if (!name) {
+                return "U";
+            }
+
+            const parts =
+                name
+                    .trim()
+                    .split(/\s+/);
+
+            let initials =
+                parts[0]
+                    ?.charAt(0)
+                    .toUpperCase() ||
+                "U";
+
+            if (parts.length > 1) {
+
+                initials +=
+                    parts[
+                        parts.length - 1
+                    ]
+                        .charAt(0)
+                        .toUpperCase();
+
+            }
+
+            return initials;
+
+        }
+
+
+        function escapeHTML(value) {
+
+            return String(
+                value ?? ""
+            )
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =====================================================
+           AUTH
+           ===================================================== */
+
+        async function getCurrentUser() {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .auth
+                    .getUser();
+
+            if (error) {
+
+                console.error(
+                    "Auth error:",
+                    error
+                );
+
+                return null;
+
+            }
+
+            return data.user || null;
+
+        }
+
+
+        /* =====================================================
+           LOAD PROFILE
+           ===================================================== */
+
+        async function loadProfile() {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("profiles")
+                    .select("*")
+                    .eq(
+                        "id",
+                        currentUser.id
+                    )
+                    .maybeSingle();
+
+
+            if (error) {
+
+                console.error(
+                    "Profile error:",
+                    error
+                );
+
+                showToast(
+                    "Unable to load your profile.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            profileData =
+                data || {};
+
+
+            renderProfile();
+
+        }
+
+
+        /* =====================================================
+           RENDER PROFILE
+           ===================================================== */
+
+        function renderProfile() {
+
+            const metadata =
+                currentUser.user_metadata ||
+                {};
+
+
+            const fullName =
+                profileData.full_name ||
+                metadata.full_name ||
+                "";
+
+
+            const phone =
+                profileData.phone ||
+                metadata.phone ||
+                "";
+
+
+            const email =
+                currentUser.email ||
+                "";
+
+
+            const initials =
+                getInitials(
+                    fullName ||
+                    email
+                );
+
+
+            $("navAvatar")
+                .textContent =
+                initials;
+
+
+            $("profileGrid").innerHTML = `
+
+                <!-- =========================================
+                     PROFILE SUMMARY
+                     ========================================= -->
+
+                <aside class="card profile-card">
+
+                    <div class="avatar">
+                        ${escapeHTML(initials)}
+                    </div>
+
+                    <h2>
+                        ${
+                            escapeHTML(
+                                fullName ||
+                                "SG MAKEOVERS Customer"
+                            )
+                        }
+                    </h2>
+
+                    <div class="email">
+                        ${
+                            escapeHTML(
+                                email
+                            )
+                        }
+                    </div>
+
+                    <div class="member-badge">
+                        <i class="fa-solid fa-crown"></i>
+                        Beauty Member
+                    </div>
+
+
+                    <div class="profile-divider"></div>
+
+
+                    <div class="quick-info">
+
+
+                        <div class="quick-item">
+
+                            <div class="quick-icon">
+                                <i class="fa-regular fa-envelope"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Email
+                                </span>
+
+                                <strong>
+                                    ${
+                                        escapeHTML(
+                                            email ||
+                                            "Not available"
+                                        )
+                                    }
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="quick-item">
+
+                            <div class="quick-icon">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Phone
+                                </span>
+
+                                <strong>
+                                    ${
+                                        escapeHTML(
+                                            phone ||
+                                            "Not added"
+                                        )
+                                    }
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="quick-item">
+
+                            <div class="quick-icon">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Account
+                                </span>
+
+                                <strong>
+                                    Verified Account
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="security-card">
+
+                        <h3>
+                            Account Security
+                        </h3>
+
+                        <p>
+                            Your login email is managed securely
+                            through Supabase Authentication.
+                        </p>
+
+                        <a
+                            href="login.html"
+                            class="security-link"
+                        >
+                            <i class="fa-solid fa-key"></i>
+                            Password & Login
+                        </a>
+
+                    </div>
+
+                </aside>
+
+
+
+                <!-- =========================================
+                     EDIT FORM
+                     ========================================= -->
+
+                <div class="card form-card">
+
+                    <div class="form-header">
+
+                        <h2>
+                            Personal Information
+                        </h2>
+
+                        <p>
+                            Update your details below.
+                            Your changes will be saved
+                            directly to your SG MAKEOVERS account.
+                        </p>
+
+                    </div>
+
+
+                    <form id="profileForm">
+
+                        <div class="form-grid">
+
+
+                            <div class="field">
+
+                                <label for="fullName">
+                                    Full Name
+                                </label>
+
+                                <div class="input-wrap">
+
+                                    <i class="fa-regular fa-user"></i>
+
+                                    <input
+                                        type="text"
+                                        id="fullName"
+                                        name="fullName"
+                                        placeholder="Enter your full name"
+                                        value="${
+                                            escapeHTML(
+                                                fullName
+                                            )
+                                        }"
+                                        maxlength="100"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="field">
+
+                                <label for="phone">
+                                    Phone Number
+                                </label>
+
+                                <div class="input-wrap">
+
+                                    <i class="fa-solid fa-phone"></i>
+
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        placeholder="Enter your phone number"
+                                        value="${
+                                            escapeHTML(
+                                                phone
+                                            )
+                                        }"
+                                        maxlength="15"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="field full">
+
+                                <label for="email">
+                                    Email Address
+                                </label>
+
+                                <div class="input-wrap">
+
+                                    <i class="fa-regular fa-envelope"></i>
+
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        value="${
+                                            escapeHTML(
+                                                email
+                                            )
+                                        }"
+                                        readonly
+                                    >
+
+                                </div>
+
+                                <div class="field-help">
+                                    Your authentication email is managed
+                                    securely through your account.
+                                </div>
+
+                            </div>
+
+
+                            <div class="field full">
+
+                                <label for="address">
+                                    Address
+                                </label>
+
+                                <textarea
+                                    id="address"
+                                    name="address"
+                                    placeholder="Enter your address"
+                                    maxlength="500"
+                                >${
+                                    escapeHTML(
+                                        profileData.address ||
+                                        ""
+                                    )
+                                }</textarea>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="save-row">
+
+                            <div class="save-note">
+
+                                <i class="fa-solid fa-circle-check"></i>
+
+                                Your information is stored securely.
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                id="saveBtn"
+                            >
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            `;
+
+
+            $("profileForm")
+                .addEventListener(
+                    "submit",
+                    saveProfile
+                );
+
+        }
+
+
+        /* =====================================================
+           SAVE PROFILE
+           ===================================================== */
+
+        async function saveProfile(event) {
+
+            event.preventDefault();
+
+
+            const saveButton =
+                $("saveBtn");
+
+
+            const fullName =
+                $("fullName")
+                    .value
+                    .trim();
+
+
+            const phone =
+                $("phone")
+                    .value
+                    .trim();
+
+
+            const address =
+                $("address")
+                    .value
+                    .trim();
+
+
+            if (!fullName) {
+
+                showToast(
+                    "Please enter your full name.",
+                    "error"
+                );
+
+                $("fullName")
+                    .focus();
+
+                return;
+
+            }
+
+
+            if (
+                phone &&
+                !/^[0-9+\-\s()]{7,15}$/.test(
+                    phone
+                )
+            ) {
+
+                showToast(
+                    "Please enter a valid phone number.",
+                    "error"
+                );
+
+                $("phone")
+                    .focus();
+
+                return;
+
+            }
+
+
+            saveButton.disabled =
+                true;
+
+
+            saveButton.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Saving...
+            `;
+
+
+            const payload = {
+                id: currentUser.id,
+                full_name: fullName,
+                phone: phone || null,
+                address: address || null,
+                updated_at: new Date().toISOString()
+            };
+
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("profiles")
+                    .upsert(
+                        payload,
+                        {
+                            onConflict: "id"
+                        }
+                    )
+                    .select()
+                    .single();
+
+
+            saveButton.disabled =
+                false;
+
+
+            saveButton.innerHTML = `
+                <i class="fa-solid fa-floppy-disk"></i>
+                Save Changes
+            `;
+
+
+            if (error) {
+
+                console.error(
+                    "Save profile error:",
+                    error
+                );
+
+                showToast(
+                    "Unable to save your profile.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            profileData =
+                data || payload;
+
+
+            /*
+             * Also keep the Auth user metadata
+             * in sync with the profile.
+             */
+            const {
+                error: authError
+            } =
+                await supabaseClient
+                    .auth
+                    .updateUser({
+                        data: {
+                            full_name:
+                                fullName,
+                            phone:
+                                phone || null
+                        }
+                    });
+
+
+            if (authError) {
+
+                console.warn(
+                    "Auth metadata update warning:",
+                    authError
+                );
+
+            }
+
+
+            renderProfile();
+
+
+            showToast(
+                "Profile updated successfully.",
+                "success"
+            );
+
+        }
+
+
+        /* =====================================================
+           LOGOUT
+           ===================================================== */
+
+        async function logout() {
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+
+            if (error) {
+
+                console.error(
+                    error
+                );
+
+                showToast(
+                    "Logout failed. Please try again.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        /* =====================================================
+           MOBILE MENU
+           ===================================================== */
+
+        function setupMobileMenu() {
+
+            $("mobileMenu")
+                .addEventListener(
+                    "click",
+                    function () {
+
+                        const nav =
+                            document.querySelector(
+                                ".nav-links"
+                            );
+
+
+                        const visible =
+                            nav.style.display ===
+                            "flex";
+
+
+                        nav.style.display =
+                            visible
+                                ? ""
+                                : "flex";
+
+
+                        if (!visible) {
+
+                            nav.style.position =
+                                "absolute";
+
+                            nav.style.top =
+                                "78px";
+
+                            nav.style.left =
+                                "12px";
+
+                            nav.style.right =
+                                "12px";
+
+                            nav.style.padding =
+                                "18px";
+
+                            nav.style.flexDirection =
+                                "column";
+
+                            nav.style.alignItems =
+                                "flex-start";
+
+                            nav.style.borderRadius =
+                                "18px";
+
+                            nav.style.background =
+                                "rgba(255,250,247,.98)";
+
+                            nav.style.boxShadow =
+                                "0 20px 50px rgba(60,30,50,.12)";
+
+                        }
+
+                    }
+                );
+
+        }
+
+
+        /* =====================================================
+           AUTH LISTENER
+           ===================================================== */
+
+        function setupAuthListener() {
+
+            supabaseClient
+                .auth
+                .onAuthStateChange(
+                    function(event) {
+
+                        if (
+                            event ===
+                            "SIGNED_OUT"
+                        ) {
+
+                            window.location.href =
+                                "login.html";
+
+                        }
+
+                    }
+                );
+
+        }
+
+
+        /* =====================================================
+           INITIALIZE
+           ===================================================== */
+
+        async function initialize() {
+
+            try {
+
+                currentUser =
+                    await getCurrentUser();
+
+
+                if (!currentUser) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                await loadProfile();
+
+                setupMobileMenu();
+
+                setupAuthListener();
+
+            }
+            catch(error) {
+
+                console.error(
+                    "Initialization error:",
+                    error
+                );
+
+                $("profileGrid").innerHTML = `
+
+                    <div
+                        class="card"
+                        style="grid-column:1/-1;"
+                    >
+
+                        <div class="loading">
+
+                            <div>
+
+                                <div class="loading-icon">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+
+                                <h3>
+                                    Unable to load profile
+                                </h3>
+
+                                <p>
+                                    Please refresh the page and try again.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           EVENTS
+           ===================================================== */
+
+        $("logoutBtn")
+            .addEventListener(
+                "click",
+                logout
+            );
+
+
+        /* =====================================================
+           START
+           ===================================================== */
+
+        if (
+            document.readyState ===
+            "loading"
+        ) {
+
+            document.addEventListener(
+                "DOMContentLoaded",
+                initialize
+            );
+
+        }
+        else {
+
+            initialize();
+
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Appointments | SG MAKEOVERS</title>
+
+    <meta
+        name="description"
+        content="Manage your SG MAKEOVERS beauty appointments."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+
+        :root {
+            --pink: #d94f87;
+            --pink-dark: #b9366d;
+            --purple: #7546a8;
+            --purple-dark: #57347f;
+            --cream: #fffaf7;
+            --text: #30242c;
+            --muted: #7d6e77;
+            --white: #ffffff;
+            --border: rgba(80, 48, 65, 0.10);
+            --shadow: 0 18px 55px rgba(73, 38, 60, 0.10);
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            min-height: 100vh;
+            color: var(--text);
+            font-family: "DM Sans", sans-serif;
+            background:
+                radial-gradient(
+                    circle at 8% 0%,
+                    rgba(217, 79, 135, 0.08),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 92% 12%,
+                    rgba(117, 70, 168, 0.08),
+                    transparent 26%
+                ),
+                var(--cream);
+        }
+
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        .container {
+            width: min(1180px, calc(100% - 36px));
+            margin: auto;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+           ===================================================== */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,250,247,0.92);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .nav-inner {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            border-radius: 15px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            box-shadow:
+                0 9px 25px rgba(117,70,168,.20);
+        }
+
+
+        .brand-text strong {
+            display: block;
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+        }
+
+
+        .brand-text span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 2px;
+        }
+
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+
+        .nav-links a {
+            color: #65545e;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .25s;
+        }
+
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--pink-dark);
+        }
+
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .profile-mini {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: white;
+            font-weight: 800;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            border: 2px solid white;
+        }
+
+
+        .logout-btn {
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: white;
+            color: #67545e;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+
+        .mobile-menu {
+            display: none;
+            border: 0;
+            background: transparent;
+            font-size: 22px;
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+           ===================================================== */
+
+        .page {
+            padding: 45px 0 70px;
+        }
+
+
+        .page-header {
+            position: relative;
+            overflow: hidden;
+            padding: 42px;
+            border-radius: 30px;
+            color: white;
+            background:
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(255,255,255,.17),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #c9427b,
+                    #7744a5
+                );
+            box-shadow:
+                0 24px 65px rgba(117,70,168,.19);
+        }
+
+
+        .page-header h1 {
+            position: relative;
+            z-index: 2;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(32px,4vw,46px);
+            margin-bottom: 9px;
+        }
+
+
+        .page-header p {
+            position: relative;
+            z-index: 2;
+            color: rgba(255,255,255,.84);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 620px;
+        }
+
+
+        .eyebrow {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+
+        /* =====================================================
+           FILTERS
+           ===================================================== */
+
+        .content-grid {
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns:
+                minmax(0, 1.6fr)
+                minmax(280px, .7fr);
+            gap: 22px;
+            align-items: start;
+        }
+
+
+        .main-card,
+        .side-card {
+            background: rgba(255,255,255,.88);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+
+        .filter-bar {
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .filter-btn {
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--muted);
+            padding: 10px 14px;
+            border-radius: 11px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .25s;
+        }
+
+
+        .filter-btn:hover {
+            background: #fff0f6;
+            color: var(--pink-dark);
+        }
+
+
+        .filter-btn.active {
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            box-shadow:
+                0 8px 20px rgba(117,70,168,.18);
+        }
+
+
+        /* =====================================================
+           APPOINTMENTS
+           ===================================================== */
+
+        .appointments-list {
+            padding: 20px;
+            display: grid;
+            gap: 14px;
+        }
+
+
+        .appointment-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #fffdfd,
+                    #fff8fb
+                );
+            transition: .25s;
+        }
+
+
+        .appointment-card:hover {
+            border-color: rgba(217,79,135,.20);
+            transform: translateY(-2px);
+        }
+
+
+        .appointment-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
+            display: grid;
+            place-items: center;
+            color: var(--pink-dark);
+            background: #fff0f6;
+            flex: 0 0 48px;
+        }
+
+
+        .appointment-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .service-label {
+            color: var(--pink-dark);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+
+        .service-name {
+            margin-top: 3px;
+            font-family: "Playfair Display", serif;
+            font-size: 23px;
+        }
+
+
+        .status {
+            padding: 7px 10px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            white-space: nowrap;
+        }
+
+
+        .status-pending {
+            color: #96621b;
+            background: #fff2d6;
+        }
+
+
+        .status-confirmed {
+            color: #2f7c52;
+            background: #e7f8ee;
+        }
+
+
+        .status-completed {
+            color: #68479f;
+            background: #eee8ff;
+        }
+
+
+        .status-cancelled {
+            color: #b13b54;
+            background: #ffe9ee;
+        }
+
+
+        .appointment-info {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0,1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+
+        .info-box {
+            padding: 13px;
+            border-radius: 14px;
+            background: white;
+            border: 1px solid var(--border);
+        }
+
+
+        .info-box span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            margin-bottom: 5px;
+        }
+
+
+        .info-box strong {
+            font-size: 12px;
+        }
+
+
+        .info-box i {
+            color: var(--pink-dark);
+            margin-right: 4px;
+        }
+
+
+        .appointment-footer {
+            margin-top: 17px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+
+        .price {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+
+        .appointment-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+
+        .small-btn {
+            padding: 9px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: white;
+            color: #5c4c55;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        .small-btn.primary {
+            color: white;
+            border-color: transparent;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+        }
+
+
+        .small-btn.danger {
+            color: #ad3b54;
+            background: #fff4f6;
+        }
+
+
+        /* =====================================================
+           EMPTY
+           ===================================================== */
+
+        .empty-state {
+            padding: 55px 25px;
+            text-align: center;
+        }
+
+
+        .empty-icon {
+            width: 68px;
+            height: 68px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 16px;
+            border-radius: 20px;
+            color: var(--pink-dark);
+            background: #fff0f6;
+            font-size: 25px;
+        }
+
+
+        .empty-state h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+            margin-bottom: 7px;
+        }
+
+
+        .empty-state p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+            max-width: 430px;
+            margin: 0 auto 18px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+           ===================================================== */
+
+        .side-card {
+            padding: 22px;
+        }
+
+
+        .side-card h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 21px;
+            margin-bottom: 5px;
+        }
+
+
+        .side-card > p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+
+        .summary-list {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+        }
+
+
+        .summary-item {
+            padding: 14px;
+            border-radius: 15px;
+            background: #fff9fb;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+
+        .summary-item span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+
+        .summary-item strong {
+            font-size: 15px;
+        }
+
+
+        .help-box {
+            margin-top: 20px;
+            padding: 17px;
+            border-radius: 17px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff0f6,
+                    #f3edff
+                );
+        }
+
+
+        .help-box i {
+            color: var(--pink-dark);
+            margin-bottom: 8px;
+        }
+
+
+        .help-box h4 {
+            font-family: "Playfair Display", serif;
+            font-size: 17px;
+        }
+
+
+        .help-box p {
+            color: #75636d;
+            font-size: 10px;
+            line-height: 1.6;
+            margin: 4px 0 12px;
+        }
+
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--purple-dark);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           MODAL
+           ===================================================== */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(38,25,34,.48);
+            backdrop-filter: blur(7px);
+        }
+
+
+        .modal.show {
+            display: flex;
+        }
+
+
+        .modal-box {
+            width: min(430px,100%);
+            padding: 25px;
+            border-radius: 23px;
+            background: white;
+            box-shadow: 0 25px 80px rgba(0,0,0,.20);
+        }
+
+
+        .modal-icon {
+            width: 50px;
+            height: 50px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            color: #ad3b54;
+            background: #fff0f3;
+            margin-bottom: 15px;
+        }
+
+
+        .modal-box h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+        }
+
+
+        .modal-box p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+            margin: 7px 0 20px;
+        }
+
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+
+        /* =====================================================
+           TOAST
+           ===================================================== */
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 6000;
+            max-width: 350px;
+            padding: 14px 17px;
+            border-radius: 14px;
+            color: white;
+            background: #30242c;
+            font-size: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.18);
+            opacity: 0;
+            transform: translateY(100px);
+            pointer-events: none;
+            transition: .3s;
+        }
+
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        .toast.success {
+            background: #2f7653;
+        }
+
+
+        .toast.error {
+            background: #a83d57;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media(max-width:1000px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media(max-width:700px) {
+
+            .container {
+                width: calc(100% - 24px);
+            }
+
+            .page {
+                padding-top: 25px;
+            }
+
+            .page-header {
+                padding: 29px 22px;
+                border-radius: 24px;
+            }
+
+            .appointment-info {
+                grid-template-columns: 1fr;
+            }
+
+            .appointment-top {
+                flex-direction: column;
+            }
+
+            .appointment-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .appointment-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .small-btn {
+                flex: 1;
+                text-align: center;
+            }
+
+            .logout-btn {
+                display: none;
+            }
+
+        }
+
+
+        @media(max-width:450px) {
+
+            .brand-text span {
+                display: none;
+            }
+
+            .brand-text strong {
+                font-size: 17px;
+            }
+
+            .brand-mark {
+                width: 39px;
+                height: 39px;
+            }
+
+            .filter-bar {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+
+            .filter-btn {
+                white-space: nowrap;
+            }
+
+            .appointments-list {
+                padding: 12px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
+
+    <header class="navbar">
+
+        <div class="container nav-inner">
+
+            <a href="index.html" class="brand">
+
+                <div class="brand-mark">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+
+                <div class="brand-text">
+                    <strong>SG MAKEOVERS</strong>
+                    <span>ONLINE BEAUTY SERVICES</span>
+                </div>
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="services.html">
+                    Services
+                </a>
+
+                <a href="customer-dashboard.html">
+                    Dashboard
+                </a>
+
+                <a
+                    href="my-appointments.html"
+                    class="active"
+                >
+                    Appointments
+                </a>
+
+                <a href="bills.html">
+                    Bills
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <a
+                    href="profile.html"
+                    class="profile-mini"
+                    id="navAvatar"
+                >
+                    U
+                </a>
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    id="logoutBtn"
+                >
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </button>
+
+                <button
+                    type="button"
+                    class="mobile-menu"
+                    id="mobileMenu"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main class="page">
+
+        <div class="container">
+
+
+            <!-- =================================================
+                 HEADER
+                 ================================================= -->
+
+            <section class="page-header">
+
+                <div class="eyebrow">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    SG MAKEOVERS
+                </div>
+
+                <h1>
+                    My Appointments
+                </h1>
+
+                <p>
+                    View, manage and keep track of all your
+                    beauty appointments in one place.
+                </p>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 CONTENT
+                 ================================================= -->
+
+            <section class="content-grid">
+
+
+                <!-- =============================================
+                     APPOINTMENT LIST
+                     ============================================= -->
+
+                <div class="main-card">
+
+
+                    <div class="filter-bar">
+
+                        <button
+                            type="button"
+                            class="filter-btn active"
+                            data-filter="all"
+                        >
+                            All
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter-btn"
+                            data-filter="upcoming"
+                        >
+                            Upcoming
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter-btn"
+                            data-filter="completed"
+                        >
+                            Completed
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter-btn"
+                            data-filter="cancelled"
+                        >
+                            Cancelled
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="appointments-list"
+                        id="appointmentsList"
+                    >
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </div>
+
+                            <h3>
+                                Loading appointments
+                            </h3>
+
+                            <p>
+                                Please wait while we load
+                                your appointments.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =============================================
+                     SIDEBAR
+                     ============================================= -->
+
+                <aside class="side-card">
+
+                    <h3>
+                        Appointment Summary
+                    </h3>
+
+                    <p>
+                        A quick overview of your
+                        SG MAKEOVERS bookings.
+                    </p>
+
+
+                    <div class="summary-list">
+
+                        <div class="summary-item">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong id="summaryTotal">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                Upcoming
+                            </span>
+
+                            <strong id="summaryUpcoming">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                Completed
+                            </span>
+
+                            <strong id="summaryCompleted">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                Cancelled
+                            </span>
+
+                            <strong id="summaryCancelled">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="services.html"
+                        class="small-btn primary"
+                        style="
+                            display:flex;
+                            justify-content:center;
+                            margin-top:16px;
+                        "
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Book New Appointment
+                    </a>
+
+
+                    <div class="help-box">
+
+                        <i class="fa-solid fa-headset"></i>
+
+                        <h4>
+                            Need help?
+                        </h4>
+
+                        <p>
+                            Have a question about your
+                            appointment? Contact SG MAKEOVERS
+                            and our team will help you.
+                        </p>
+
+                        <a
+                            href="tel:9004262111"
+                            class="contact-link"
+                        >
+                            <i class="fa-solid fa-phone"></i>
+                            9004262111
+                        </a>
+
+                    </div>
+
+                </aside>
+
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         CANCEL MODAL
+         ===================================================== -->
+
+    <div
+        class="modal"
+        id="cancelModal"
+    >
+
+        <div class="modal-box">
+
+            <div class="modal-icon">
+                <i class="fa-solid fa-calendar-xmark"></i>
+            </div>
+
+            <h3>
+                Cancel appointment?
+            </h3>
+
+            <p>
+                Are you sure you want to cancel this
+                appointment? This action will update
+                the appointment status.
+            </p>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="small-btn"
+                    id="closeModal"
+                >
+                    Keep Appointment
+                </button>
+
+                <button
+                    type="button"
+                    class="small-btn danger"
+                    id="confirmCancel"
+                >
+                    Cancel Appointment
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         TOAST
+         ===================================================== -->
+
+    <div
+        class="toast"
+        id="toast"
+    ></div>
+
+
+
+    <!-- =====================================================
+         SUPABASE
+         ===================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="supabase-config.js"></script>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script>
+
+        let currentUser = null;
+        let appointments = [];
+        let activeFilter = "all";
+        let appointmentToCancel = null;
+
+
+        /* =====================================================
+           HELPERS
+           ===================================================== */
+
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+
+        function formatCurrency(amount) {
+
+            return "₹" +
+                Number(amount || 0)
+                    .toLocaleString("en-IN");
+
+        }
+
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+                return "-";
+            }
+
+            const date =
+                new Date(
+                    dateValue + "T00:00:00"
+                );
+
+            if (Number.isNaN(date.getTime())) {
+                return dateValue;
+            }
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function formatTime(timeValue) {
+
+            if (!timeValue) {
+                return "-";
+            }
+
+            const parts =
+                timeValue.split(":");
+
+            if (parts.length < 2) {
+                return timeValue;
+            }
+
+            let hour =
+                parseInt(parts[0], 10);
+
+            const minute =
+                parts[1];
+
+            const suffix =
+                hour >= 12
+                    ? "PM"
+                    : "AM";
+
+            hour =
+                hour % 12 || 12;
+
+            return `${hour}:${minute} ${suffix}`;
+
+        }
+
+
+        function appointmentDateTime(appointment) {
+
+            if (
+                !appointment ||
+                !appointment.appointment_date
+            ) {
+                return null;
+            }
+
+            return new Date(
+                appointment.appointment_date +
+                "T" +
+                (
+                    appointment.appointment_time ||
+                    "00:00:00"
+                )
+            );
+
+        }
+
+
+        function showToast(
+            message,
+            type = "success"
+        ) {
+
+            const toast = $("toast");
+
+            toast.textContent = message;
+
+            toast.className =
+                "toast " +
+                type +
+                " show";
+
+            setTimeout(
+                function () {
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                3000
+            );
+
+        }
+
+
+        function statusClass(status) {
+
+            switch (
+                String(status || "").toLowerCase()
+            ) {
+
+                case "confirmed":
+                    return "status-confirmed";
+
+                case "completed":
+                    return "status-completed";
+
+                case "cancelled":
+                    return "status-cancelled";
+
+                default:
+                    return "status-pending";
+
+            }
+
+        }
+
+
+        function statusText(status) {
+
+            const value =
+                String(
+                    status || "pending"
+                );
+
+            return value
+                .charAt(0)
+                .toUpperCase() +
+                value.slice(1);
+
+        }
+
+
+        /* =====================================================
+           AUTH
+           ===================================================== */
+
+        async function getCurrentUser() {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .auth
+                    .getUser();
+
+
+            if (error) {
+
+                console.error(
+                    "Auth error:",
+                    error
+                );
+
+                return null;
+
+            }
+
+            return data.user || null;
+
+        }
+
+
+        /* =====================================================
+           LOAD APPOINTMENTS
+           ===================================================== */
+
+        async function loadAppointments() {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("appointments")
+                    .select(`
+                        *,
+                        services (
+                            id,
+                            name,
+                            description,
+                            duration_minutes,
+                            price
+                        )
+                    `)
+                    .eq(
+                        "customer_id",
+                        currentUser.id
+                    )
+                    .order(
+                        "appointment_date",
+                        {
+                            ascending: false
+                        }
+                    )
+                    .order(
+                        "appointment_time",
+                        {
+                            ascending: false
+                        }
+                    );
+
+
+            if (error) {
+
+                console.error(
+                    "Appointments error:",
+                    error
+                );
+
+                showToast(
+                    "Unable to load appointments.",
+                    "error"
+                );
+
+                appointments = [];
+
+                renderAppointments();
+
+                return;
+
+            }
+
+
+            appointments =
+                data || [];
+
+
+            renderSummary();
+
+            renderAppointments();
+
+        }
+
+
+        /* =====================================================
+           FILTER LOGIC
+           ===================================================== */
+
+        function filteredAppointments() {
+
+            const now =
+                new Date();
+
+
+            return appointments.filter(
+                appointment => {
+
+                    const status =
+                        String(
+                            appointment.status ||
+                            "pending"
+                        ).toLowerCase();
+
+
+                    if (
+                        activeFilter ===
+                        "completed"
+                    ) {
+
+                        return (
+                            status ===
+                            "completed"
+                        );
+
+                    }
+
+
+                    if (
+                        activeFilter ===
+                        "cancelled"
+                    ) {
+
+                        return (
+                            status ===
+                            "cancelled"
+                        );
+
+                    }
+
+
+                    if (
+                        activeFilter ===
+                        "upcoming"
+                    ) {
+
+                        const date =
+                            appointmentDateTime(
+                                appointment
+                            );
+
+
+                        return (
+                            status !==
+                            "cancelled" &&
+                            status !==
+                            "completed" &&
+                            date &&
+                            date >= now
+                        );
+
+                    }
+
+
+                    return true;
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           RENDER SUMMARY
+           ===================================================== */
+
+        function renderSummary() {
+
+            const now =
+                new Date();
+
+
+            const total =
+                appointments.length;
+
+
+            const upcoming =
+                appointments.filter(
+                    appointment => {
+
+                        const status =
+                            String(
+                                appointment.status ||
+                                "pending"
+                            ).toLowerCase();
+
+
+                        const date =
+                            appointmentDateTime(
+                                appointment
+                            );
+
+
+                        return (
+                            status !== "cancelled" &&
+                            status !== "completed" &&
+                            date &&
+                            date >= now
+                        );
+
+                    }
+                ).length;
+
+
+            const completed =
+                appointments.filter(
+                    appointment =>
+                        String(
+                            appointment.status || ""
+                        ).toLowerCase() ===
+                        "completed"
+                ).length;
+
+
+            const cancelled =
+                appointments.filter(
+                    appointment =>
+                        String(
+                            appointment.status || ""
+                        ).toLowerCase() ===
+                        "cancelled"
+                ).length;
+
+
+            $("summaryTotal")
+                .textContent = total;
+
+
+            $("summaryUpcoming")
+                .textContent = upcoming;
+
+
+            $("summaryCompleted")
+                .textContent = completed;
+
+
+            $("summaryCancelled")
+                .textContent = cancelled;
+
+        }
+
+
+        /* =====================================================
+           RENDER APPOINTMENTS
+           ===================================================== */
+
+        function renderAppointments() {
+
+            const container =
+                $("appointmentsList");
+
+
+            const list =
+                filteredAppointments();
+
+
+            if (!list.length) {
+
+                let title =
+                    "No appointments found";
+
+
+                let description =
+                    "You don't have any appointments in this category.";
+
+
+                if (
+                    activeFilter ===
+                    "upcoming"
+                ) {
+
+                    title =
+                        "No upcoming appointments";
+
+                    description =
+                        "Book your next beauty session with SG MAKEOVERS.";
+
+                }
+
+
+                if (
+                    activeFilter ===
+                    "completed"
+                ) {
+
+                    title =
+                        "No completed appointments";
+
+                    description =
+                        "Your completed beauty sessions will appear here.";
+
+                }
+
+
+                if (
+                    activeFilter ===
+                    "cancelled"
+                ) {
+
+                    title =
+                        "No cancelled appointments";
+
+                    description =
+                        "Cancelled appointments will appear here.";
+
+                }
+
+
+                container.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+
+                        <h3>
+                            ${title}
+                        </h3>
+
+                        <p>
+                            ${description}
+                        </p>
+
+                        <a
+                            href="services.html"
+                            class="small-btn primary"
+                            style="
+                                display:inline-flex;
+                                align-items:center;
+                                gap:7px;
+                            "
+                        >
+                            <i class="fa-solid fa-sparkles"></i>
+                            Explore Services
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                list
+                    .map(
+                        appointment =>
+                            appointmentHTML(
+                                appointment
+                            )
+                    )
+                    .join("");
+
+        }
+
+
+        /* =====================================================
+           APPOINTMENT HTML
+           ===================================================== */
+
+        function appointmentHTML(
+            appointment
+        ) {
+
+            const service =
+                appointment.services ||
+                {};
+
+
+            const status =
+                String(
+                    appointment.status ||
+                    "pending"
+                ).toLowerCase();
+
+
+            const isActive =
+                status !== "cancelled" &&
+                status !== "completed";
+
+
+            return `
+
+                <article
+                    class="appointment-card"
+                >
+
+                    <div class="appointment-top">
+
+                        <div class="appointment-heading">
+
+                            <div class="service-icon">
+
+                                <i class="fa-solid fa-spa"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="service-label">
+                                    Beauty Service
+                                </div>
+
+                                <div class="service-name">
+                                    ${
+                                        service.name ||
+                                        "Beauty Service"
+                                    }
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <span
+                            class="status ${
+                                statusClass(status)
+                            }"
+                        >
+                            ${
+                                statusText(status)
+                            }
+                        </span>
+
+                    </div>
+
+
+                    <div class="appointment-info">
+
+
+                        <div class="info-box">
+
+                            <span>
+                                <i class="fa-regular fa-calendar"></i>
+                                Date
+                            </span>
+
+                            <strong>
+                                ${
+                                    formatDate(
+                                        appointment
+                                            .appointment_date
+                                    )
+                                }
+                            </strong>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <span>
+                                <i class="fa-regular fa-clock"></i>
+                                Time
+                            </span>
+
+                            <strong>
+                                ${
+                                    formatTime(
+                                        appointment
+                                            .appointment_time
+                                    )
+                                }
+                            </strong>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <span>
+                                <i class="fa-solid fa-hourglass-half"></i>
+                                Duration
+                            </span>
+
+                            <strong>
+                                ${
+                                    service.duration_minutes ||
+                                    0
+                                }
+                                min
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="appointment-footer">
+
+                        <div class="price">
+
+                            ${
+                                formatCurrency(
+                                    service.price
+                                )
+                            }
+
+                        </div>
+
+
+                        <div class="appointment-actions">
+
+                            <a
+                                href="appointment-details.html?id=${
+                                    encodeURIComponent(
+                                        appointment.id
+                                    )
+                                }"
+                                class="small-btn primary"
+                            >
+                                <i class="fa-solid fa-eye"></i>
+                                View Details
+                            </a>
+
+
+                            ${
+                                isActive
+                                    ? `
+                                        <button
+                                            type="button"
+                                            class="small-btn danger"
+                                            onclick="openCancelModal('${appointment.id}')"
+                                        >
+                                            <i class="fa-solid fa-xmark"></i>
+                                            Cancel
+                                        </button>
+                                      `
+                                    : ""
+                            }
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            `;
+
+        }
+
+
+        /* =====================================================
+           CANCEL MODAL
+           ===================================================== */
+
+        function openCancelModal(id) {
+
+            appointmentToCancel =
+                id;
+
+            $("cancelModal")
+                .classList
+                .add("show");
+
+        }
+
+
+        function closeCancelModal() {
+
+            appointmentToCancel =
+                null;
+
+            $("cancelModal")
+                .classList
+                .remove("show");
+
+        }
+
+
+        /* =====================================================
+           CANCEL APPOINTMENT
+           ===================================================== */
+
+        async function cancelAppointment() {
+
+            if (!appointmentToCancel) {
+                return;
+            }
+
+
+            const id =
+                appointmentToCancel;
+
+
+            const button =
+                $("confirmCancel");
+
+
+            button.disabled =
+                true;
+
+
+            button.textContent =
+                "Cancelling...";
+
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("appointments")
+                    .update({
+                        status: "cancelled"
+                    })
+                    .eq(
+                        "id",
+                        id
+                    )
+                    .eq(
+                        "customer_id",
+                        currentUser.id
+                    )
+                    .select()
+                    .single();
+
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                "Cancel Appointment";
+
+
+            if (error) {
+
+                console.error(
+                    "Cancel error:",
+                    error
+                );
+
+                showToast(
+                    "Unable to cancel appointment.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            localStorage.removeItem(
+                "latestAppointment"
+            );
+
+
+            closeCancelModal();
+
+
+            showToast(
+                "Appointment cancelled successfully.",
+                "success"
+            );
+
+
+            await loadAppointments();
+
+        }
+
+
+        /* =====================================================
+           FILTER BUTTONS
+           ===================================================== */
+
+        function setupFilters() {
+
+            const buttons =
+                document.querySelectorAll(
+                    ".filter-btn"
+                );
+
+
+            buttons.forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            buttons.forEach(
+                                item =>
+                                    item.classList
+                                        .remove(
+                                            "active"
+                                        )
+                            );
+
+
+                            this.classList.add(
+                                "active"
+                            );
+
+
+                            activeFilter =
+                                this.dataset.filter ||
+                                "all";
+
+
+                            renderAppointments();
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           LOGOUT
+           ===================================================== */
+
+        async function logout() {
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+
+            if (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+                showToast(
+                    "Logout failed. Please try again.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            localStorage.removeItem(
+                "latestAppointment"
+            );
+
+
+            localStorage.removeItem(
+                "sgMakeoversLastBooking"
+            );
+
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        /* =====================================================
+           MOBILE MENU
+           ===================================================== */
+
+        function setupMobileMenu() {
+
+            const button =
+                $("mobileMenu");
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const nav =
+                        document.querySelector(
+                            ".nav-links"
+                        );
+
+
+                    const visible =
+                        nav.style.display ===
+                        "flex";
+
+
+                    nav.style.display =
+                        visible
+                            ? ""
+                            : "flex";
+
+
+                    if (!visible) {
+
+                        nav.style.position =
+                            "absolute";
+
+                        nav.style.top =
+                            "78px";
+
+                        nav.style.left =
+                            "12px";
+
+                        nav.style.right =
+                            "12px";
+
+                        nav.style.padding =
+                            "18px";
+
+                        nav.style.flexDirection =
+                            "column";
+
+                        nav.style.alignItems =
+                            "flex-start";
+
+                        nav.style.borderRadius =
+                            "18px";
+
+                        nav.style.background =
+                            "rgba(255,250,247,.98)";
+
+                        nav.style.boxShadow =
+                            "0 20px 50px rgba(60,30,50,.12)";
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           PROFILE AVATAR
+           ===================================================== */
+
+        async function loadAvatar() {
+
+            const {
+                data
+            } =
+                await supabaseClient
+                    .from("profiles")
+                    .select(
+                        "full_name"
+                    )
+                    .eq(
+                        "id",
+                        currentUser.id
+                    )
+                    .single();
+
+
+            const name =
+                data?.full_name ||
+                currentUser
+                    ?.user_metadata
+                    ?.full_name ||
+                "User";
+
+
+            const parts =
+                name
+                    .trim()
+                    .split(/\s+/);
+
+
+            let initials =
+                parts[0]
+                    ?.charAt(0)
+                    .toUpperCase() ||
+                "U";
+
+
+            if (parts.length > 1) {
+
+                initials +=
+                    parts[
+                        parts.length - 1
+                    ]
+                        .charAt(0)
+                        .toUpperCase();
+
+            }
+
+
+            $("navAvatar")
+                .textContent =
+                initials;
+
+        }
+
+
+        /* =====================================================
+           AUTH STATE
+           ===================================================== */
+
+        function setupAuthListener() {
+
+            supabaseClient
+                .auth
+                .onAuthStateChange(
+                    function (
+                        event
+                    ) {
+
+                        if (
+                            event ===
+                            "SIGNED_OUT"
+                        ) {
+
+                            window.location.href =
+                                "login.html";
+
+                        }
+
+                    }
+                );
+
+        }
+
+
+        /* =====================================================
+           INITIALIZE
+           ===================================================== */
+
+        async function initialize() {
+
+            try {
+
+                currentUser =
+                    await getCurrentUser();
+
+
+                if (!currentUser) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                await loadAvatar();
+
+                await loadAppointments();
+
+                setupFilters();
+
+                setupMobileMenu();
+
+                setupAuthListener();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Initialization error:",
+                    error
+                );
+
+                showToast(
+                    "Something went wrong. Please refresh the page.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           EVENTS
+           ===================================================== */
+
+        $("logoutBtn")
+            .addEventListener(
+                "click",
+                logout
+            );
+
+
+        $("closeModal")
+            .addEventListener(
+                "click",
+                closeCancelModal
+            );
+
+
+        $("confirmCancel")
+            .addEventListener(
+                "click",
+                cancelAppointment
+            );
+
+
+        $("cancelModal")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target ===
+                        $("cancelModal")
+                    ) {
+
+                        closeCancelModal();
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================================
+           START
+           ===================================================== */
+
+        if (
+            document.readyState ===
+            "loading"
+        ) {
+
+            document.addEventListener(
+                "DOMContentLoaded",
+                initialize
+            );
+
+        }
+        else {
+
+            initialize();
+
+        }
+
+    </script>
+
+</body>
+</html>

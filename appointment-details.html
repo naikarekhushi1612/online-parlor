@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Appointment Details | SG MAKEOVERS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+
+        :root {
+            --pink: #d94f87;
+            --pink-dark: #b9366d;
+            --purple: #7546a8;
+            --purple-dark: #57347f;
+            --cream: #fffaf7;
+            --text: #30242c;
+            --muted: #7d6e77;
+            --white: #ffffff;
+            --border: rgba(80,48,65,.10);
+            --green: #287a55;
+            --orange: #b76a25;
+            --red: #b9445d;
+            --shadow: 0 18px 55px rgba(73,38,60,.10);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "DM Sans", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(
+                    circle at 5% 0%,
+                    rgba(217,79,135,.08),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 95% 15%,
+                    rgba(117,70,168,.08),
+                    transparent 28%
+                ),
+                var(--cream);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1160px, calc(100% - 36px));
+            margin: auto;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+           ===================================================== */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,250,247,.94);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            box-shadow:
+                0 9px 25px rgba(117,70,168,.20);
+        }
+
+        .brand-text strong {
+            display: block;
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+        }
+
+        .brand-text span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #65545e;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .25s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--pink-dark);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-mini {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: white;
+            font-weight: 800;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            border: 2px solid white;
+        }
+
+        .logout-btn {
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: white;
+            color: #67545e;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mobile-menu {
+            display: none;
+            border: 0;
+            background: transparent;
+            font-size: 22px;
+        }
+
+
+        /* =====================================================
+           PAGE
+           ===================================================== */
+
+        .page {
+            padding: 42px 0 70px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .back-link:hover {
+            color: var(--pink-dark);
+        }
+
+
+        /* =====================================================
+           HERO
+           ===================================================== */
+
+        .details-hero {
+            position: relative;
+            overflow: hidden;
+            padding: 38px 40px;
+            border-radius: 30px;
+            color: white;
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(255,255,255,.16),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #c9427b,
+                    #7744a5
+                );
+            box-shadow:
+                0 24px 65px rgba(117,70,168,.18);
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .details-hero h1 {
+            margin-top: 9px;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(31px,4vw,45px);
+        }
+
+        .details-hero p {
+            max-width: 650px;
+            margin-top: 8px;
+            color: rgba(255,255,255,.84);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           STATUS
+           ===================================================== */
+
+        .status-pill {
+            position: absolute;
+            top: 35px;
+            right: 38px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 13px;
+            border-radius: 30px;
+            color: white;
+            background: rgba(255,255,255,.16);
+            border: 1px solid rgba(255,255,255,.24);
+            backdrop-filter: blur(10px);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+
+        /* =====================================================
+           CONTENT GRID
+           ===================================================== */
+
+        .content-grid {
+            margin-top: 23px;
+            display: grid;
+            grid-template-columns:
+                minmax(0,1.45fr)
+                minmax(300px,.75fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        .card {
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: 23px;
+            background: rgba(255,255,255,.94);
+            box-shadow: var(--shadow);
+        }
+
+        .card + .card {
+            margin-top: 18px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-title h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+        }
+
+        .card-title i {
+            color: var(--pink-dark);
+        }
+
+
+        /* =====================================================
+           SERVICE
+           ===================================================== */
+
+        .service-box {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+            padding: 17px;
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff3f7,
+                    #f6f0ff
+                );
+        }
+
+        .service-icon {
+            width: 62px;
+            height: 62px;
+            flex: 0 0 62px;
+            display: grid;
+            place-items: center;
+            border-radius: 18px;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            font-size: 21px;
+        }
+
+        .service-info {
+            min-width: 0;
+        }
+
+        .service-info h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+        }
+
+        .service-info p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .service-price {
+            margin-left: auto;
+            white-space: nowrap;
+            font-family: "Playfair Display", serif;
+            font-size: 23px;
+        }
+
+
+        /* =====================================================
+           DETAIL ROWS
+           ===================================================== */
+
+        .detail-list {
+            display: grid;
+            gap: 0;
+        }
+
+        .detail-row {
+            min-height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail-row:last-child {
+            border-bottom: 0;
+        }
+
+        .detail-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .detail-label i {
+            width: 28px;
+            color: var(--pink-dark);
+            text-align: center;
+        }
+
+        .detail-value {
+            text-align: right;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           CUSTOMER
+           ===================================================== */
+
+        .customer-box {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .customer-avatar {
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: white;
+            font-weight: 800;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+        }
+
+        .customer-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .customer-info span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           NOTES
+           ===================================================== */
+
+        .notes-box {
+            padding: 15px;
+            border-radius: 15px;
+            background: #fff8fb;
+            color: #65535d;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           ACTIONS
+           ===================================================== */
+
+        .actions {
+            display: grid;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 100%;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: white;
+            color: #5b4953;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .action-btn.primary {
+            color: white;
+            border-color: transparent;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            box-shadow:
+                0 10px 25px rgba(117,70,168,.17);
+        }
+
+        .action-btn.danger {
+            color: var(--red);
+            background: #fff4f5;
+            border-color: rgba(185,68,93,.14);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           SUMMARY
+           ===================================================== */
+
+        .summary-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 11px 0;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .summary-line.total {
+            margin-top: 8px;
+            padding-top: 17px;
+            border-top: 1px solid var(--border);
+            color: var(--text);
+            font-weight: 800;
+        }
+
+        .summary-line.total strong {
+            font-family: "Playfair Display", serif;
+            font-size: 23px;
+        }
+
+
+        /* =====================================================
+           LOADING / ERROR
+           ===================================================== */
+
+        .state-card {
+            margin-top: 22px;
+            padding: 65px 25px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: rgba(255,255,255,.94);
+            box-shadow: var(--shadow);
+        }
+
+        .state-icon {
+            width: 65px;
+            height: 65px;
+            margin: auto;
+            display: grid;
+            place-items: center;
+            border-radius: 20px;
+            color: var(--pink-dark);
+            background: #fff0f6;
+            font-size: 23px;
+        }
+
+        .state-card h2 {
+            margin-top: 16px;
+            font-family: "Playfair Display", serif;
+            font-size: 25px;
+        }
+
+        .state-card p {
+            max-width: 470px;
+            margin: 7px auto 18px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .state-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 11px 17px;
+            border-radius: 12px;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           TOAST
+           ===================================================== */
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 5000;
+            max-width: 350px;
+            padding: 14px 17px;
+            border-radius: 14px;
+            color: white;
+            background: #30242c;
+            font-size: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.18);
+            opacity: 0;
+            transform: translateY(100px);
+            pointer-events: none;
+            transition: .3s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #287a55;
+        }
+
+        .toast.error {
+            background: #a83d57;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media(max-width:1000px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media(max-width:700px) {
+
+            .container {
+                width: calc(100% - 24px);
+            }
+
+            .page {
+                padding-top: 25px;
+            }
+
+            .details-hero {
+                padding: 29px 22px;
+                border-radius: 24px;
+            }
+
+            .status-pill {
+                position: static;
+                margin-top: 18px;
+                width: fit-content;
+            }
+
+            .service-box {
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .service-price {
+                width: 100%;
+                margin-left: 0;
+                padding-left: 79px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .logout-btn {
+                display: none;
+            }
+
+        }
+
+
+        @media(max-width:450px) {
+
+            .brand-text span {
+                display: none;
+            }
+
+            .brand-text strong {
+                font-size: 17px;
+            }
+
+            .brand-mark {
+                width: 39px;
+                height: 39px;
+            }
+
+            .detail-row {
+                align-items: flex-start;
+                padding: 13px 0;
+            }
+
+            .detail-value {
+                max-width: 52%;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
+
+    <header class="navbar">
+
+        <div class="container nav-inner">
+
+            <a href="index.html" class="brand">
+
+                <div class="brand-mark">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+
+                <div class="brand-text">
+                    <strong>SG MAKEOVERS</strong>
+                    <span>ONLINE BEAUTY SERVICES</span>
+                </div>
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="services.html">
+                    Services
+                </a>
+
+                <a href="customer-dashboard.html">
+                    Dashboard
+                </a>
+
+                <a
+                    href="my-appointments.html"
+                    class="active"
+                >
+                    Appointments
+                </a>
+
+                <a href="bills.html">
+                    Bills
+                </a>
+
+                <a href="profile.html">
+                    Profile
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <a
+                    href="profile.html"
+                    class="profile-mini"
+                    id="navAvatar"
+                >
+                    U
+                </a>
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    id="logoutBtn"
+                >
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </button>
+
+                <button
+                    type="button"
+                    class="mobile-menu"
+                    id="mobileMenu"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main class="page">
+
+        <div class="container">
+
+            <a
+                href="my-appointments.html"
+                class="back-link"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to My Appointments
+            </a>
+
+
+            <div id="pageContent">
+
+                <section class="state-card">
+
+                    <div class="state-icon">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                    </div>
+
+                    <h2>
+                        Loading appointment
+                    </h2>
+
+                    <p>
+                        Please wait while we fetch your appointment details.
+                    </p>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <div
+        class="toast"
+        id="toast"
+    ></div>
+
+
+
+    <!-- =====================================================
+         SUPABASE
+         ===================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="supabase-config.js"></script>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script>
+
+        let currentUser = null;
+        let appointment = null;
+
+
+        /* =====================================================
+           HELPERS
+           ===================================================== */
+
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+
+        function escapeHTML(value) {
+
+            return String(
+                value ?? ""
+            )
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        function getInitials(name) {
+
+            if (!name) {
+                return "U";
+            }
+
+            const parts =
+                String(name)
+                    .trim()
+                    .split(/\s+/);
+
+
+            let result =
+                parts[0]
+                    ?.charAt(0)
+                    .toUpperCase() || "U";
+
+
+            if (parts.length > 1) {
+
+                result +=
+                    parts[
+                        parts.length - 1
+                    ]
+                        .charAt(0)
+                        .toUpperCase();
+
+            }
+
+
+            return result;
+
+        }
+
+
+        function formatMoney(amount) {
+
+            return "₹" +
+                Number(
+                    amount || 0
+                ).toLocaleString(
+                    "en-IN",
+                    {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2
+                    }
+                );
+
+        }
+
+
+        function formatDate(value) {
+
+            if (!value) {
+                return "Not available";
+            }
+
+            const date =
+                new Date(value);
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+                return value;
+            }
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    weekday: "short",
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function formatTime(value) {
+
+            if (!value) {
+                return "Not available";
+            }
+
+            const parts =
+                String(value).split(":");
+
+            if (parts.length < 2) {
+                return value;
+            }
+
+            let hour =
+                Number(parts[0]);
+
+            const minute =
+                parts[1];
+
+            const suffix =
+                hour >= 12
+                    ? "PM"
+                    : "AM";
+
+            hour =
+                hour % 12 || 12;
+
+            return (
+                hour +
+                ":" +
+                minute +
+                " " +
+                suffix
+            );
+
+        }
+
+
+        function getStatusClass(status) {
+
+            const value =
+                String(
+                    status || "pending"
+                ).toLowerCase();
+
+            if (
+                [
+                    "confirmed",
+                    "completed"
+                ].includes(value)
+            ) {
+                return "confirmed";
+            }
+
+            if (value === "cancelled") {
+                return "cancelled";
+            }
+
+            return "pending";
+
+        }
+
+
+        function getStatusIcon(status) {
+
+            const value =
+                String(
+                    status || "pending"
+                ).toLowerCase();
+
+            if (value === "completed") {
+                return "fa-circle-check";
+            }
+
+            if (value === "confirmed") {
+                return "fa-calendar-check";
+            }
+
+            if (value === "cancelled") {
+                return "fa-circle-xmark";
+            }
+
+            return "fa-clock";
+
+        }
+
+
+        function showToast(
+            message,
+            type = "success"
+        ) {
+
+            const toast =
+                $("toast");
+
+            toast.textContent =
+                message;
+
+            toast.className =
+                "toast " +
+                type +
+                " show";
+
+            setTimeout(
+                () => {
+                    toast.classList.remove(
+                        "show"
+                    );
+                },
+                3200
+            );
+
+        }
+
+
+        function getAppointmentId() {
+
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+            return params.get("id");
+
+        }
+
+
+        /* =====================================================
+           AUTH
+           ===================================================== */
+
+        async function getCurrentUser() {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .auth
+                    .getUser();
+
+            if (error) {
+
+                console.error(
+                    "Auth error:",
+                    error
+                );
+
+                return null;
+
+            }
+
+            return data.user || null;
+
+        }
+
+
+        /* =====================================================
+           LOAD APPOINTMENT
+           ===================================================== */
+
+        async function loadAppointment(id) {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("appointments")
+                    .select(`
+                        id,
+                        customer_id,
+                        service_id,
+                        staff_id,
+                        appointment_date,
+                        appointment_time,
+                        status,
+                        notes,
+                        created_at,
+                        services (
+                            id,
+                            name,
+                            description,
+                            duration_minutes,
+                            price
+                        ),
+                        staff (
+                            id,
+                            name,
+                            phone
+                        )
+                    `)
+                    .eq(
+                        "id",
+                        id
+                    )
+                    .eq(
+                        "customer_id",
+                        currentUser.id
+                    )
+                    .maybeSingle();
+
+
+            if (error) {
+
+                console.error(
+                    "Appointment query error:",
+                    error
+                );
+
+                /*
+                 * Fallback without staff relationship.
+                 */
+                const fallback =
+                    await supabaseClient
+                        .from("appointments")
+                        .select(`
+                            id,
+                            customer_id,
+                            service_id,
+                            staff_id,
+                            appointment_date,
+                            appointment_time,
+                            status,
+                            notes,
+                            created_at,
+                            services (
+                                id,
+                                name,
+                                description,
+                                duration_minutes,
+                                price
+                            )
+                        `)
+                        .eq(
+                            "id",
+                            id
+                        )
+                        .eq(
+                            "customer_id",
+                            currentUser.id
+                        )
+                        .maybeSingle();
+
+
+                if (fallback.error) {
+
+                    console.error(
+                        "Fallback query error:",
+                        fallback.error
+                    );
+
+                    showError(
+                        "Unable to load appointment",
+                        "There was a problem fetching this appointment."
+                    );
+
+                    return;
+
+                }
+
+
+                appointment =
+                    fallback.data;
+
+            }
+            else {
+
+                appointment =
+                    data;
+
+            }
+
+
+            if (!appointment) {
+
+                showError(
+                    "Appointment not found",
+                    "This appointment does not exist or you do not have access to it."
+                );
+
+                return;
+
+            }
+
+
+            renderAppointment();
+
+        }
+
+
+        /* =====================================================
+           RENDER
+           ===================================================== */
+
+        function renderAppointment() {
+
+            const service =
+                appointment.services ||
+                {};
+
+
+            const status =
+                String(
+                    appointment.status ||
+                    "pending"
+                ).toLowerCase();
+
+
+            const price =
+                Number(
+                    service.price || 0
+                );
+
+
+            const duration =
+                Number(
+                    service.duration_minutes ||
+                    0
+                );
+
+
+            const customerMetadata =
+                currentUser.user_metadata ||
+                {};
+
+
+            const customerName =
+                customerMetadata.full_name ||
+                currentUser.email?.split("@")[0] ||
+                "Customer";
+
+
+            const staff =
+                appointment.staff ||
+                null;
+
+
+            $("pageContent").innerHTML = `
+
+                <!-- =========================================
+                     HERO
+                     ========================================= -->
+
+                <section class="details-hero">
+
+                    <div class="eyebrow">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                        APPOINTMENT DETAILS
+
+                    </div>
+
+
+                    <h1>
+                        ${escapeHTML(
+                            service.name ||
+                            "Beauty Appointment"
+                        )}
+                    </h1>
+
+
+                    <p>
+                        Your SG MAKEOVERS appointment information,
+                        service details and booking status.
+                    </p>
+
+
+                    <div class="status-pill">
+
+                        <i class="fa-solid ${getStatusIcon(status)}"></i>
+
+                        ${escapeHTML(
+                            status.replace(
+                                /^./,
+                                letter =>
+                                    letter.toUpperCase()
+                            )
+                        )}
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================================
+                     GRID
+                     ========================================= -->
+
+                <div class="content-grid">
+
+
+                    <!-- =====================================
+                         LEFT
+                         ===================================== -->
+
+                    <div>
+
+
+                        <!-- SERVICE CARD -->
+
+                        <section class="card">
+
+                            <div class="card-title">
+
+                                <h2>
+                                    Selected Service
+                                </h2>
+
+                                <i class="fa-solid fa-sparkles"></i>
+
+                            </div>
+
+
+                            <div class="service-box">
+
+                                <div class="service-icon">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                </div>
+
+
+                                <div class="service-info">
+
+                                    <h3>
+                                        ${escapeHTML(
+                                            service.name ||
+                                            "Beauty Service"
+                                        )}
+                                    </h3>
+
+                                    <p>
+                                        ${escapeHTML(
+                                            service.description ||
+                                            "Professional beauty service by SG MAKEOVERS."
+                                        )}
+                                    </p>
+
+                                </div>
+
+
+                                <div class="service-price">
+
+                                    ${formatMoney(
+                                        price
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+
+                        <!-- APPOINTMENT INFO -->
+
+                        <section class="card">
+
+                            <div class="card-title">
+
+                                <h2>
+                                    Appointment Information
+                                </h2>
+
+                                <i class="fa-regular fa-calendar"></i>
+
+                            </div>
+
+
+                            <div class="detail-list">
+
+
+                                <div class="detail-row">
+
+                                    <div class="detail-label">
+
+                                        <i class="fa-regular fa-calendar"></i>
+
+                                        Appointment Date
+
+                                    </div>
+
+                                    <div class="detail-value">
+
+                                        ${escapeHTML(
+                                            formatDate(
+                                                appointment.appointment_date
+                                            )
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <div class="detail-label">
+
+                                        <i class="fa-regular fa-clock"></i>
+
+                                        Appointment Time
+
+                                    </div>
+
+                                    <div class="detail-value">
+
+                                        ${escapeHTML(
+                                            formatTime(
+                                                appointment.appointment_time
+                                            )
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <div class="detail-label">
+
+                                        <i class="fa-solid fa-hourglass-half"></i>
+
+                                        Duration
+
+                                    </div>
+
+                                    <div class="detail-value">
+
+                                        ${
+                                            duration
+                                                ? escapeHTML(
+                                                    duration +
+                                                    " minutes"
+                                                )
+                                                : "Not available"
+                                        }
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <div class="detail-label">
+
+                                        <i class="fa-solid fa-hashtag"></i>
+
+                                        Appointment ID
+
+                                    </div>
+
+                                    <div class="detail-value">
+
+                                        ${escapeHTML(
+                                            String(
+                                                appointment.id
+                                            )
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <div class="detail-label">
+
+                                        <i class="fa-regular fa-calendar-plus"></i>
+
+                                        Booked On
+
+                                    </div>
+
+                                    <div class="detail-value">
+
+                                        ${escapeHTML(
+                                            formatDate(
+                                                appointment.created_at
+                                            )
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+
+                        <!-- CUSTOMER -->
+
+                        <section class="card">
+
+                            <div class="card-title">
+
+                                <h2>
+                                    Customer Information
+                                </h2>
+
+                                <i class="fa-regular fa-user"></i>
+
+                            </div>
+
+
+                            <div class="customer-box">
+
+                                <div class="customer-avatar">
+
+                                    ${escapeHTML(
+                                        getInitials(
+                                            customerName
+                                        )
+                                    )}
+
+                                </div>
+
+
+                                <div class="customer-info">
+
+                                    <strong>
+                                        ${escapeHTML(
+                                            customerName
+                                        )}
+                                    </strong>
+
+                                    <span>
+                                        ${escapeHTML(
+                                            currentUser.email ||
+                                            "Email unavailable"
+                                        )}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+
+                        <!-- NOTES -->
+
+                        ${
+                            appointment.notes
+                                ? `
+                                    <section class="card">
+
+                                        <div class="card-title">
+
+                                            <h2>
+                                                Booking Notes
+                                            </h2>
+
+                                            <i class="fa-regular fa-note-sticky"></i>
+
+                                        </div>
+
+                                        <div class="notes-box">
+
+                                            ${escapeHTML(
+                                                appointment.notes
+                                            )}
+
+                                        </div>
+
+                                    </section>
+                                  `
+                                : ""
+                        }
+
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         RIGHT
+                         ===================================== -->
+
+                    <aside>
+
+
+                        <!-- SUMMARY -->
+
+                        <section class="card">
+
+                            <div class="card-title">
+
+                                <h2>
+                                    Booking Summary
+                                </h2>
+
+                                <i class="fa-solid fa-receipt"></i>
+
+                            </div>
+
+
+                            <div class="summary-line">
+
+                                <span>
+                                    Service
+                                </span>
+
+                                <strong>
+                                    ${escapeHTML(
+                                        service.name ||
+                                        "Service"
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="summary-line">
+
+                                <span>
+                                    Duration
+                                </span>
+
+                                <strong>
+                                    ${
+                                        duration
+                                            ? duration + " min"
+                                            : "—"
+                                    }
+                                </strong>
+
+                            </div>
+
+
+                            <div class="summary-line">
+
+                                <span>
+                                    Appointment
+                                </span>
+
+                                <strong>
+                                    ${escapeHTML(
+                                        formatDate(
+                                            appointment.appointment_date
+                                        )
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="summary-line total">
+
+                                <span>
+                                    Total
+                                </span>
+
+                                <strong>
+                                    ${formatMoney(
+                                        price
+                                    )}
+                                </strong>
+
+                            </div>
+
+                        </section>
+
+
+
+                        <!-- STAFF -->
+
+                        ${
+                            staff
+                                ? `
+                                    <section class="card">
+
+                                        <div class="card-title">
+
+                                            <h2>
+                                                Assigned Staff
+                                            </h2>
+
+                                            <i class="fa-solid fa-user-tie"></i>
+
+                                        </div>
+
+
+                                        <div class="customer-box">
+
+                                            <div class="customer-avatar">
+
+                                                <i class="fa-solid fa-user-tie"></i>
+
+                                            </div>
+
+
+                                            <div class="customer-info">
+
+                                                <strong>
+                                                    ${escapeHTML(
+                                                        staff.name ||
+                                                        "Staff Member"
+                                                    )}
+                                                </strong>
+
+                                                <span>
+                                                    ${
+                                                        staff.phone
+                                                            ? escapeHTML(
+                                                                staff.phone
+                                                            )
+                                                            : "Assigned by SG MAKEOVERS"
+                                                    }
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </section>
+                                  `
+                                : ""
+                        }
+
+
+
+                        <!-- ACTIONS -->
+
+                        <section class="card">
+
+                            <div class="card-title">
+
+                                <h2>
+                                    Actions
+                                </h2>
+
+                                <i class="fa-solid fa-bolt"></i>
+
+                            </div>
+
+
+                            <div class="actions">
+
+
+                                ${
+                                    status !== "cancelled" &&
+                                    status !== "completed"
+                                        ? `
+                                            <button
+                                                type="button"
+                                                class="action-btn primary"
+                                                id="rescheduleBtn"
+                                            >
+                                                <i class="fa-solid fa-calendar-days"></i>
+                                                Reschedule / Book Again
+                                            </button>
+                                          `
+                                        : `
+                                            <a
+                                                href="services.html"
+                                                class="action-btn primary"
+                                            >
+                                                <i class="fa-solid fa-sparkles"></i>
+                                                Book New Service
+                                            </a>
+                                          `
+                                }
+
+
+                                ${
+                                    status !== "cancelled" &&
+                                    status !== "completed"
+                                        ? `
+                                            <button
+                                                type="button"
+                                                class="action-btn danger"
+                                                id="cancelBtn"
+                                            >
+                                                <i class="fa-solid fa-calendar-xmark"></i>
+                                                Cancel Appointment
+                                            </button>
+                                          `
+                                        : ""
+                                }
+
+
+                                <a
+                                    href="my-appointments.html"
+                                    class="action-btn"
+                                >
+                                    <i class="fa-solid fa-list"></i>
+                                    All Appointments
+                                </a>
+
+
+                                <a
+                                    href="customer-dashboard.html"
+                                    class="action-btn"
+                                >
+                                    <i class="fa-solid fa-house"></i>
+                                    Dashboard
+                                </a>
+
+                            </div>
+
+                        </section>
+
+
+                    </aside>
+
+                </div>
+
+            `;
+
+
+            const rescheduleBtn =
+                $("rescheduleBtn");
+
+
+            if (rescheduleBtn) {
+
+                rescheduleBtn.addEventListener(
+                    "click",
+                    function() {
+
+                        if (
+                            appointment.service_id
+                        ) {
+
+                            window.location.href =
+                                "book-appointment.html?service=" +
+                                encodeURIComponent(
+                                    appointment.service_id
+                                );
+
+                        }
+                        else {
+
+                            window.location.href =
+                                "services.html";
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            const cancelBtn =
+                $("cancelBtn");
+
+
+            if (cancelBtn) {
+
+                cancelBtn.addEventListener(
+                    "click",
+                    cancelAppointment
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           CANCEL APPOINTMENT
+           ===================================================== */
+
+        async function cancelAppointment() {
+
+            if (!appointment) {
+                return;
+            }
+
+
+            const status =
+                String(
+                    appointment.status ||
+                    ""
+                ).toLowerCase();
+
+
+            if (
+                status === "cancelled" ||
+                status === "completed"
+            ) {
+
+                showToast(
+                    "This appointment cannot be cancelled.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const confirmed =
+                window.confirm(
+                    "Are you sure you want to cancel this appointment?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            const cancelBtn =
+                $("cancelBtn");
+
+
+            if (cancelBtn) {
+
+                cancelBtn.disabled = true;
+
+                cancelBtn.innerHTML = `
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    Cancelling...
+                `;
+
+            }
+
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from("appointments")
+                    .update({
+                        status: "cancelled"
+                    })
+                    .eq(
+                        "id",
+                        appointment.id
+                    )
+                    .eq(
+                        "customer_id",
+                        currentUser.id
+                    );
+
+
+            if (error) {
+
+                console.error(
+                    "Cancel error:",
+                    error
+                );
+
+
+                if (cancelBtn) {
+
+                    cancelBtn.disabled =
+                        false;
+
+                    cancelBtn.innerHTML = `
+                        <i class="fa-solid fa-calendar-xmark"></i>
+                        Cancel Appointment
+                    `;
+
+                }
+
+
+                showToast(
+                    "Could not cancel the appointment. Please try again.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            showToast(
+                "Appointment cancelled successfully.",
+                "success"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "my-appointments.html";
+
+                },
+                900
+            );
+
+        }
+
+
+        /* =====================================================
+           ERROR STATE
+           ===================================================== */
+
+        function showError(
+            title,
+            message
+        ) {
+
+            $("pageContent").innerHTML = `
+
+                <section class="state-card">
+
+                    <div class="state-icon">
+
+                        <i class="fa-solid fa-calendar-xmark"></i>
+
+                    </div>
+
+                    <h2>
+                        ${escapeHTML(title)}
+                    </h2>
+
+                    <p>
+                        ${escapeHTML(message)}
+                    </p>
+
+                    <a
+                        href="my-appointments.html"
+                        class="state-btn"
+                    >
+                        <i class="fa-solid fa-arrow-left"></i>
+                        My Appointments
+                    </a>
+
+                </section>
+
+            `;
+
+        }
+
+
+        /* =====================================================
+           MOBILE MENU
+           ===================================================== */
+
+        function setupMobileMenu() {
+
+            $("mobileMenu")
+                .addEventListener(
+                    "click",
+                    function() {
+
+                        const nav =
+                            document.querySelector(
+                                ".nav-links"
+                            );
+
+
+                        const visible =
+                            nav.style.display ===
+                            "flex";
+
+
+                        nav.style.display =
+                            visible
+                                ? ""
+                                : "flex";
+
+
+                        if (!visible) {
+
+                            nav.style.position =
+                                "absolute";
+
+                            nav.style.top =
+                                "78px";
+
+                            nav.style.left =
+                                "12px";
+
+                            nav.style.right =
+                                "12px";
+
+                            nav.style.padding =
+                                "18px";
+
+                            nav.style.flexDirection =
+                                "column";
+
+                            nav.style.alignItems =
+                                "flex-start";
+
+                            nav.style.borderRadius =
+                                "18px";
+
+                            nav.style.background =
+                                "rgba(255,250,247,.98)";
+
+                            nav.style.boxShadow =
+                                "0 20px 50px rgba(60,30,50,.12)";
+
+                        }
+
+                    }
+                );
+
+        }
+
+
+        /* =====================================================
+           LOGOUT
+           ===================================================== */
+
+        async function logout() {
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+
+            if (error) {
+
+                console.error(
+                    error
+                );
+
+                showToast(
+                    "Logout failed.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        /* =====================================================
+           AUTH LISTENER
+           ===================================================== */
+
+        function setupAuthListener() {
+
+            supabaseClient
+                .auth
+                .onAuthStateChange(
+                    function(event) {
+
+                        if (
+                            event ===
+                            "SIGNED_OUT"
+                        ) {
+
+                            window.location.href =
+                                "login.html";
+
+                        }
+
+                    }
+                );
+
+        }
+
+
+        /* =====================================================
+           INITIALIZE
+           ===================================================== */
+
+        async function initialize() {
+
+            try {
+
+                currentUser =
+                    await getCurrentUser();
+
+
+                if (!currentUser) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                const metadata =
+                    currentUser.user_metadata ||
+                    {};
+
+
+                $("navAvatar")
+                    .textContent =
+                    getInitials(
+                        metadata.full_name ||
+                        currentUser.email
+                    );
+
+
+                const appointmentId =
+                    getAppointmentId();
+
+
+                if (!appointmentId) {
+
+                    showError(
+                        "Appointment ID missing",
+                        "Open this page from your appointment list to view a specific appointment."
+                    );
+
+                    return;
+
+                }
+
+
+                setupMobileMenu();
+
+                setupAuthListener();
+
+                await loadAppointment(
+                    appointmentId
+                );
+
+            }
+            catch(error) {
+
+                console.error(
+                    "Initialization error:",
+                    error
+                );
+
+                showError(
+                    "Something went wrong",
+                    "Please refresh the page and try again."
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LOGOUT
+           ===================================================== */
+
+        $("logoutBtn")
+            .addEventListener(
+                "click",
+                logout
+            );
+
+
+        /* =====================================================
+           START
+           ===================================================== */
+
+        if (
+            document.readyState ===
+            "loading"
+        ) {
+
+            document.addEventListener(
+                "DOMContentLoaded",
+                initialize
+            );
+
+        }
+        else {
+
+            initialize();
+
+        }
+
+    </script>
+
+</body>
+</html>

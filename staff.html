@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff | SG MAKEOVERS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #df3f9b;
+            --purple: #8b45c6;
+            --dark: #211426;
+            --dark-2: #2d1930;
+            --text: #251b2b;
+            --muted: #8a748b;
+            --border: #eadde8;
+            --bg: #fffafd;
+            --white: #ffffff;
+            --green: #16a36a;
+            --orange: #f39a25;
+            --red: #d84b62;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 270px;
+            background: linear-gradient(180deg, #211426 0%, #180f1d 100%);
+            color: white;
+            padding: 26px 18px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 0 12px 30px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #ed2d91, #9344d3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            box-shadow: 0 10px 25px rgba(220, 45, 145, .25);
+        }
+
+        .brand-name {
+            font-family: "Playfair Display", serif;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .brand-sub {
+            font-size: 7px;
+            letter-spacing: 2px;
+            margin-top: 3px;
+            opacity: .7;
+        }
+
+        .menu-label {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: #a88ca9;
+            padding: 13px 22px;
+            text-transform: uppercase;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 13px 18px;
+            border-radius: 12px;
+            color: #e4d8e6;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .2s ease;
+        }
+
+        .nav a i {
+            width: 18px;
+            text-align: center;
+        }
+
+        .nav a:hover {
+            background: rgba(255,255,255,.07);
+        }
+
+        .nav a.active {
+            background: linear-gradient(90deg, #df248f, #8e43c5);
+            color: white;
+            box-shadow: 0 10px 25px rgba(210, 40, 140, .2);
+        }
+
+        .admin-card {
+            margin: 28px 5px 0;
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,.12);
+            background: rgba(255,255,255,.04);
+            border-radius: 15px;
+        }
+
+        .admin-row {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #dc3196, #974bc9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .admin-name {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .admin-email {
+            font-size: 9px;
+            color: #b9a5bb;
+            margin-top: 3px;
+        }
+
+        .logout {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #e9dce9;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 270px;
+            width: calc(100% - 270px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 78px;
+            background: rgba(255,255,255,.95);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 34px;
+            gap: 12px;
+        }
+
+        .top-btn {
+            height: 40px;
+            padding: 0 17px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 11px;
+            color: #694873;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .top-btn:hover {
+            border-color: #d7a4ca;
+        }
+
+        .content {
+            padding: 38px 34px 60px;
+        }
+
+        .page-title {
+            font-family: "Playfair Display", serif;
+            font-size: 40px;
+            color: #24152d;
+        }
+
+        .page-subtitle {
+            color: #8b758b;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        /* STATS */
+
+        .stats {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 23px;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 29px;
+            font-weight: 700;
+            color: #21172a;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff0f7;
+            color: var(--pink);
+        }
+
+        .stat-label {
+            color: #8d778e;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* TOOLBAR */
+
+        .toolbar {
+            margin-top: 25px;
+            padding: 15px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .search {
+            flex: 1;
+            position: relative;
+        }
+
+        .search i {
+            position: absolute;
+            left: 15px;
+            top: 14px;
+            color: #a68ea7;
+        }
+
+        .search input {
+            width: 100%;
+            height: 44px;
+            padding: 0 15px 0 42px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            outline: none;
+        }
+
+        .search input:focus {
+            border-color: #d84b9f;
+        }
+
+        .filter {
+            width: 180px;
+            height: 44px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 0 13px;
+            outline: none;
+            background: white;
+        }
+
+        .primary-btn {
+            height: 44px;
+            padding: 0 20px;
+            border: 0;
+            border-radius: 11px;
+            color: white;
+            background: linear-gradient(90deg, #df3198, #9147d0);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* TABLE */
+
+        .table-card {
+            margin-top: 20px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            overflow: hidden;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            text-align: left;
+            padding: 17px 18px;
+            font-size: 10px;
+            letter-spacing: 1.3px;
+            color: #967d96;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 17px 18px;
+            border-bottom: 1px solid #f0e7ef;
+            font-size: 13px;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .staff-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .staff-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: linear-gradient(135deg,#ed4ca4,#914bc4);
+        }
+
+        .staff-avatar-fallback {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .staff-name {
+            font-weight: 700;
+            color: #281a30;
+        }
+
+        .staff-email {
+            font-size: 11px;
+            color: #9a859b;
+            margin-top: 3px;
+        }
+
+        .specialization {
+            color: #725878;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 11px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .status.active {
+            background: #e9f8f1;
+            color: #11815a;
+        }
+
+        .status.inactive {
+            background: #fff0f2;
+            color: #c03b54;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .action-btn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            cursor: pointer;
+            color: #735577;
+        }
+
+        .action-btn:hover {
+            border-color: #ca80b6;
+            color: var(--pink);
+        }
+
+        .empty,
+        .loading,
+        .error {
+            padding: 55px 20px;
+            text-align: center;
+            color: #927e93;
+        }
+
+        .empty i,
+        .loading i,
+        .error i {
+            font-size: 32px;
+            margin-bottom: 13px;
+            color: #c685bb;
+        }
+
+        .error {
+            color: #bd4a60;
+        }
+
+        /* MODAL */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 15, 32, .58);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 500;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: min(620px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 22px;
+            padding: 28px;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 23px;
+        }
+
+        .modal-title {
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+        }
+
+        .close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #59415d;
+        }
+
+        .field input,
+        .field select {
+            height: 44px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0 13px;
+            outline: none;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: #d64a9f;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 23px;
+        }
+
+        .secondary-btn {
+            height: 44px;
+            padding: 0 18px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: #24152b;
+            color: white;
+            padding: 13px 18px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.18);
+            display: none;
+            z-index: 800;
+            font-size: 13px;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        @media(max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media(max-width: 800px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .filter {
+                width: 100%;
+            }
+        }
+
+        @media(max-width: 650px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .content {
+                padding: 25px 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-spa"></i>
+            </div>
+
+            <div>
+                <div class="brand-name">SG MAKEOVERS</div>
+                <div class="brand-sub">ONLINE BEAUTY SERVICES</div>
+            </div>
+        </div>
+
+        <div class="menu-label">Main Menu</div>
+
+        <nav class="nav">
+            <a href="dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </a>
+
+            <a href="customers.html">
+                <i class="fa-solid fa-users"></i>
+                Customers
+            </a>
+
+            <a href="services.html">
+                <i class="fa-solid fa-scissors"></i>
+                Services
+            </a>
+
+            <a href="staff.html" class="active">
+                <i class="fa-solid fa-user-tie"></i>
+                Staff
+            </a>
+
+            <a href="appointments.html">
+                <i class="fa-solid fa-calendar-check"></i>
+                Appointments
+            </a>
+
+            <a href="payments.html">
+                <i class="fa-solid fa-wallet"></i>
+                Payments
+            </a>
+
+            <a href="reports.html">
+                <i class="fa-solid fa-chart-column"></i>
+                Reports
+            </a>
+        </nav>
+
+        <div class="admin-card">
+            <div class="admin-row">
+                <div class="admin-avatar" id="adminAvatar">A</div>
+
+                <div>
+                    <div class="admin-name" id="adminName">
+                        Administrator
+                    </div>
+
+                    <div class="admin-email" id="adminEmail">
+                        admin@sgmakeovers.com
+                    </div>
+                </div>
+            </div>
+
+            <div class="logout" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <button class="top-btn" onclick="window.open('../index.html','_blank')">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                View Website
+            </button>
+
+            <button class="top-btn">
+                <i class="fa-regular fa-bell"></i>
+            </button>
+
+        </header>
+
+
+        <section class="content">
+
+            <h1 class="page-title">Staff</h1>
+
+            <p class="page-subtitle">
+                Manage your SG MAKEOVERS beauty professionals and team members.
+            </p>
+
+
+            <!-- STATS -->
+            <div class="stats">
+
+                <div class="stat">
+                    <div class="stat-top">
+                        <div class="stat-number" id="totalStaff">0</div>
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-label">
+                        Total Staff
+                    </div>
+                </div>
+
+
+                <div class="stat">
+                    <div class="stat-top">
+                        <div class="stat-number" id="activeStaff">0</div>
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-label">
+                        Active Staff
+                    </div>
+                </div>
+
+
+                <div class="stat">
+                    <div class="stat-top">
+                        <div class="stat-number" id="inactiveStaff">0</div>
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-user-slash"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-label">
+                        Inactive Staff
+                    </div>
+                </div>
+
+
+                <div class="stat">
+                    <div class="stat-top">
+                        <div class="stat-number" id="experienceStaff">0</div>
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-label">
+                        Total Experience (Years)
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- TOOLBAR -->
+            <div class="toolbar">
+
+                <div class="search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search staff by name, email or specialization..."
+                    >
+                </div>
+
+                <select class="filter" id="statusFilter">
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+
+                <button class="primary-btn" id="addStaffBtn">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Staff
+                </button>
+
+            </div>
+
+
+            <!-- TABLE -->
+            <div class="table-card">
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>STAFF</th>
+                                <th>SPECIALIZATION</th>
+                                <th>PHONE</th>
+                                <th>EXPERIENCE</th>
+                                <th>STATUS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="staffTableBody">
+
+                            <tr>
+                                <td colspan="6">
+                                    <div class="loading">
+                                        <i class="fa-solid fa-spinner fa-spin"></i>
+                                        <div>Loading staff...</div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal-overlay" id="staffModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div class="modal-title" id="modalTitle">
+                Add Staff
+            </div>
+
+            <button class="close" id="closeModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <form id="staffForm">
+
+            <input type="hidden" id="staffId">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Full Name</label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        required
+                        placeholder="Enter full name"
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label>Phone</label>
+                    <input
+                        type="text"
+                        id="phone"
+                        placeholder="Enter phone number"
+                    >
+                </div>
+
+
+                <div class="field full">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter email address"
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label>Specialization</label>
+                    <input
+                        type="text"
+                        id="specialization"
+                        placeholder="e.g. Makeup Artist"
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label>Experience (Years)</label>
+                    <input
+                        type="number"
+                        id="experience"
+                        min="0"
+                        value="0"
+                    >
+                </div>
+
+
+                <div class="field full">
+                    <label>Image URL</label>
+                    <input
+                        type="url"
+                        id="imageUrl"
+                        placeholder="https://..."
+                    >
+                </div>
+
+
+                <div class="field full">
+                    <label>Status</label>
+
+                    <select id="isActive">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    id="cancelModal"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                    id="saveStaffBtn"
+                >
+                    Save Staff
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
+
+
+<script>
+
+    let staffList = [];
+    let editingId = null;
+
+
+    const tableBody = document.getElementById("staffTableBody");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+
+    const modal = document.getElementById("staffModal");
+    const staffForm = document.getElementById("staffForm");
+
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    function showToast(message) {
+
+        const toast = document.getElementById("toast");
+
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 2500);
+    }
+
+
+    /* =========================
+       ADMIN VERIFICATION
+       IMPORTANT:
+       DO NOT QUERY admins TABLE
+    ========================= */
+
+    async function verifyAdmin() {
+
+        const {
+            data: { user },
+            error: userError
+        } = await supabaseClient.auth.getUser();
+
+
+        if (userError || !user) {
+
+            window.location.href = "admin-login.html";
+            return false;
+        }
+
+
+        /*
+         * This uses the SECURITY DEFINER
+         * is_admin() function already created
+         * in Supabase.
+         */
+
+        const {
+            data: isAdmin,
+            error: adminError
+        } = await supabaseClient.rpc("is_admin");
+
+
+        if (adminError) {
+
+            console.error("Admin verification error:", adminError);
+
+            alert(
+                "Admin verification failed. Please check your Supabase configuration."
+            );
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href = "admin-login.html";
+
+            return false;
+        }
+
+
+        if (!isAdmin) {
+
+            alert("You do not have admin access.");
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href = "admin-login.html";
+
+            return false;
+        }
+
+
+        document.getElementById("adminEmail").textContent =
+            user.email || "admin@sgmakeovers.com";
+
+
+        const metadata = user.user_metadata || {};
+
+        const name =
+            metadata.full_name ||
+            metadata.name ||
+            "Administrator";
+
+
+        document.getElementById("adminName").textContent = name;
+
+        document.getElementById("adminAvatar").textContent =
+            name.charAt(0).toUpperCase();
+
+
+        return true;
+    }
+
+
+    /* =========================
+       LOAD STAFF
+    ========================= */
+
+    async function loadStaff() {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    <div class="loading">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <div>Loading staff...</div>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("staff")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+
+        if (error) {
+
+            console.error("Staff loading error:", error);
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6">
+                        <div class="error">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <div>Unable to load staff.</div>
+                            <small>${error.message}</small>
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        staffList = data || [];
+
+        updateStats();
+
+        renderStaff();
+    }
+
+
+    /* =========================
+       STATS
+    ========================= */
+
+    function updateStats() {
+
+        const total = staffList.length;
+
+        const active = staffList.filter(
+            staff => staff.is_active === true
+        ).length;
+
+        const inactive = total - active;
+
+        const experience = staffList.reduce(
+            (sum, staff) =>
+                sum + Number(staff.experience_years || 0),
+            0
+        );
+
+
+        document.getElementById("totalStaff").textContent = total;
+
+        document.getElementById("activeStaff").textContent = active;
+
+        document.getElementById("inactiveStaff").textContent = inactive;
+
+        document.getElementById("experienceStaff").textContent = experience;
+    }
+
+
+    /* =========================
+       RENDER STAFF
+    ========================= */
+
+    function renderStaff() {
+
+        const search = searchInput.value
+            .trim()
+            .toLowerCase();
+
+        const status = statusFilter.value;
+
+
+        const filtered = staffList.filter(staff => {
+
+            const matchesSearch =
+                !search ||
+                (staff.full_name || "")
+                    .toLowerCase()
+                    .includes(search) ||
+                (staff.email || "")
+                    .toLowerCase()
+                    .includes(search) ||
+                (staff.specialization || "")
+                    .toLowerCase()
+                    .includes(search) ||
+                (staff.phone || "")
+                    .toLowerCase()
+                    .includes(search);
+
+
+            const matchesStatus =
+                status === "all" ||
+                (status === "active" && staff.is_active === true) ||
+                (status === "inactive" && staff.is_active === false);
+
+
+            return matchesSearch && matchesStatus;
+        });
+
+
+        if (!filtered.length) {
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6">
+                        <div class="empty">
+                            <i class="fa-solid fa-user-group"></i>
+                            <div>No staff found.</div>
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        tableBody.innerHTML = filtered.map(staff => {
+
+            const initials =
+                (staff.full_name || "S")
+                    .split(" ")
+                    .map(word => word.charAt(0))
+                    .join("")
+                    .substring(0, 2)
+                    .toUpperCase();
+
+
+            const avatar = staff.image_url
+                ? `
+                    <img
+                        class="staff-avatar"
+                        src="${escapeHtml(staff.image_url)}"
+                        alt="${escapeHtml(staff.full_name || "Staff")}"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    >
+
+                    <div
+                        class="staff-avatar staff-avatar-fallback"
+                        style="display:none;"
+                    >
+                        ${initials}
+                    </div>
+                `
+                : `
+                    <div class="staff-avatar staff-avatar-fallback">
+                        ${initials}
+                    </div>
+                `;
+
+
+            return `
+                <tr>
+
+                    <td>
+                        <div class="staff-info">
+
+                            ${avatar}
+
+                            <div>
+                                <div class="staff-name">
+                                    ${escapeHtml(staff.full_name || "Unnamed")}
+                                </div>
+
+                                <div class="staff-email">
+                                    ${escapeHtml(staff.email || "No email")}
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+
+
+                    <td>
+                        <span class="specialization">
+                            ${escapeHtml(staff.specialization || "—")}
+                        </span>
+                    </td>
+
+
+                    <td>
+                        ${escapeHtml(staff.phone || "—")}
+                    </td>
+
+
+                    <td>
+                        ${Number(staff.experience_years || 0)} years
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            staff.is_active
+                            ?
+                            `
+                                <span class="status active">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Active
+                                </span>
+                            `
+                            :
+                            `
+                                <span class="status inactive">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                    Inactive
+                                </span>
+                            `
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn"
+                                title="Edit"
+                                onclick="editStaff(${staff.id})"
+                            >
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+
+
+                            <button
+                                class="action-btn"
+                                title="${
+                                    staff.is_active
+                                    ? "Deactivate"
+                                    : "Activate"
+                                }"
+                                onclick="toggleStaff(${staff.id}, ${staff.is_active})"
+                            >
+                                <i class="fa-solid ${
+                                    staff.is_active
+                                    ? "fa-user-slash"
+                                    : "fa-user-check"
+                                }"></i>
+                            </button>
+
+
+                            <button
+                                class="action-btn"
+                                title="Delete"
+                                onclick="deleteStaff(${staff.id})"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+            `;
+
+        }).join("");
+    }
+
+
+    /* =========================
+       ESCAPE HTML
+    ========================= */
+
+    function escapeHtml(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    /* =========================
+       OPEN MODAL
+    ========================= */
+
+    function openModal(staff = null) {
+
+        modal.classList.add("show");
+
+        if (staff) {
+
+            editingId = staff.id;
+
+            document.getElementById("modalTitle").textContent =
+                "Edit Staff";
+
+            document.getElementById("staffId").value =
+                staff.id;
+
+            document.getElementById("fullName").value =
+                staff.full_name || "";
+
+            document.getElementById("phone").value =
+                staff.phone || "";
+
+            document.getElementById("email").value =
+                staff.email || "";
+
+            document.getElementById("specialization").value =
+                staff.specialization || "";
+
+            document.getElementById("experience").value =
+                staff.experience_years || 0;
+
+            document.getElementById("imageUrl").value =
+                staff.image_url || "";
+
+            document.getElementById("isActive").value =
+                staff.is_active ? "true" : "false";
+
+        } else {
+
+            editingId = null;
+
+            document.getElementById("modalTitle").textContent =
+                "Add Staff";
+
+            staffForm.reset();
+
+            document.getElementById("experience").value = 0;
+
+            document.getElementById("isActive").value = "true";
+        }
+    }
+
+
+    function closeModal() {
+
+        modal.classList.remove("show");
+
+        editingId = null;
+
+        staffForm.reset();
+    }
+
+
+    /* =========================
+       EDIT
+    ========================= */
+
+    window.editStaff = function(id) {
+
+        const staff = staffList.find(
+            item => Number(item.id) === Number(id)
+        );
+
+        if (!staff) return;
+
+        openModal(staff);
+    };
+
+
+    /* =========================
+       ADD / UPDATE
+    ========================= */
+
+    staffForm.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+
+        const saveBtn =
+            document.getElementById("saveStaffBtn");
+
+        saveBtn.disabled = true;
+
+        saveBtn.textContent = "Saving...";
+
+
+        const payload = {
+
+            full_name:
+                document.getElementById("fullName").value.trim(),
+
+            phone:
+                document.getElementById("phone").value.trim() || null,
+
+            email:
+                document.getElementById("email").value.trim() || null,
+
+            specialization:
+                document.getElementById("specialization").value.trim() || null,
+
+            experience_years:
+                Number(document.getElementById("experience").value || 0),
+
+            image_url:
+                document.getElementById("imageUrl").value.trim() || null,
+
+            is_active:
+                document.getElementById("isActive").value === "true"
+        };
+
+
+        let error;
+
+
+        if (editingId) {
+
+            const result =
+                await supabaseClient
+                    .from("staff")
+                    .update(payload)
+                    .eq("id", editingId);
+
+            error = result.error;
+
+        } else {
+
+            const result =
+                await supabaseClient
+                    .from("staff")
+                    .insert(payload);
+
+            error = result.error;
+        }
+
+
+        saveBtn.disabled = false;
+
+        saveBtn.textContent = "Save Staff";
+
+
+        if (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to save staff:\n\n" +
+                error.message
+            );
+
+            return;
+        }
+
+
+        closeModal();
+
+        showToast(
+            editingId
+            ? "Staff updated successfully."
+            : "Staff added successfully."
+        );
+
+        await loadStaff();
+    });
+
+
+    /* =========================
+       TOGGLE STATUS
+    ========================= */
+
+    window.toggleStaff = async function(id, currentStatus) {
+
+        const action =
+            currentStatus
+            ? "deactivate"
+            : "activate";
+
+
+        const confirmed = confirm(
+            `Are you sure you want to ${action} this staff member?`
+        );
+
+
+        if (!confirmed) return;
+
+
+        const {
+            error
+        } = await supabaseClient
+            .from("staff")
+            .update({
+                is_active: !currentStatus
+            })
+            .eq("id", id);
+
+
+        if (error) {
+
+            alert(
+                "Unable to update staff status:\n\n" +
+                error.message
+            );
+
+            return;
+        }
+
+
+        showToast(
+            currentStatus
+            ? "Staff deactivated."
+            : "Staff activated."
+        );
+
+
+        await loadStaff();
+    };
+
+
+    /* =========================
+       DELETE
+    ========================= */
+
+    window.deleteStaff = async function(id) {
+
+        const confirmed = confirm(
+            "Are you sure you want to delete this staff member?"
+        );
+
+
+        if (!confirmed) return;
+
+
+        const {
+            error
+        } = await supabaseClient
+            .from("staff")
+            .delete()
+            .eq("id", id);
+
+
+        if (error) {
+
+            alert(
+                "Unable to delete staff:\n\n" +
+                error.message
+            );
+
+            return;
+        }
+
+
+        showToast("Staff deleted successfully.");
+
+        await loadStaff();
+    };
+
+
+    /* =========================
+       EVENTS
+    ========================= */
+
+    document
+        .getElementById("addStaffBtn")
+        .addEventListener("click", () => {
+            openModal();
+        });
+
+
+    document
+        .getElementById("closeModal")
+        .addEventListener("click", closeModal);
+
+
+    document
+        .getElementById("cancelModal")
+        .addEventListener("click", closeModal);
+
+
+    modal.addEventListener("click", function(event) {
+
+        if (event.target === modal) {
+            closeModal();
+        }
+
+    });
+
+
+    searchInput.addEventListener(
+        "input",
+        renderStaff
+    );
+
+
+    statusFilter.addEventListener(
+        "change",
+        renderStaff
+    );
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener("click", async function() {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href = "admin-login.html";
+        });
+
+
+    /* =========================
+       INITIALIZE
+    ========================= */
+
+    async function init() {
+
+        const allowed = await verifyAdmin();
+
+        if (!allowed) return;
+
+        await loadStaff();
+    }
+
+
+    init();
+
+</script>
+
+</body>
+</html>

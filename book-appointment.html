@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Appointment | SG MAKEOVERS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <style>
+        :root {
+            --pink: #e75480;
+            --pink-dark: #c83b69;
+            --purple: #7c3aed;
+            --purple-dark: #5b21b6;
+            --cream: #fff8f3;
+            --soft: #fff0f5;
+            --dark: #241522;
+            --muted: #756b73;
+            --border: #eadfe5;
+            --white: #ffffff;
+            --success: #15803d;
+            --danger: #dc2626;
+            --shadow: 0 20px 60px rgba(67, 27, 55, 0.10);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(231, 84, 128, 0.08), transparent 32%),
+                radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.08), transparent 30%),
+                var(--cream);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        textarea {
+            font-family: inherit;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 248, 243, 0.94);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(234, 223, 229, 0.8);
+        }
+
+        .nav-container {
+            max-width: 1250px;
+            margin: auto;
+            min-height: 78px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            box-shadow: 0 10px 25px rgba(199, 55, 105, 0.25);
+        }
+
+        .brand-text h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+            line-height: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-text span {
+            display: block;
+            margin-top: 5px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--pink-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .nav-links a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #5c5159;
+            transition: 0.25s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--pink-dark);
+            background: #fff0f5;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .login-btn {
+            padding: 11px 18px;
+            border-radius: 11px;
+            border: 1px solid var(--border);
+            background: white;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dark);
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .login-btn:hover {
+            border-color: var(--pink);
+            color: var(--pink-dark);
+        }
+
+        .menu-btn {
+            display: none;
+            border: 0;
+            background: transparent;
+            font-size: 22px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* HERO */
+
+        .page-hero {
+            padding: 70px 24px 55px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(231, 84, 128, 0.08);
+            top: -130px;
+            left: -100px;
+        }
+
+        .page-hero::after {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(124, 58, 237, 0.07);
+            right: -100px;
+            bottom: -120px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 999px;
+            background: #fff0f5;
+            color: var(--pink-dark);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            margin-bottom: 17px;
+        }
+
+        .page-hero h1 {
+            position: relative;
+            z-index: 1;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(38px, 6vw, 58px);
+            line-height: 1.08;
+            margin-bottom: 14px;
+        }
+
+        .page-hero h1 span {
+            color: var(--pink);
+        }
+
+        .page-hero p {
+            position: relative;
+            z-index: 1;
+            max-width: 650px;
+            margin: auto;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* BOOKING */
+
+        .booking-section {
+            max-width: 1180px;
+            margin: 0 auto 90px;
+            padding: 0 24px;
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        /* SERVICE SUMMARY */
+
+        .service-card {
+            position: sticky;
+            top: 105px;
+        }
+
+        .service-image-wrap {
+            height: 270px;
+            position: relative;
+            overflow: hidden;
+            background: #f8e8ef;
+        }
+
+        .service-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(30, 15, 27, 0.58),
+                transparent 55%
+            );
+        }
+
+        .service-category {
+            position: absolute;
+            left: 20px;
+            bottom: 18px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            color: var(--pink-dark);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .service-content {
+            padding: 27px;
+        }
+
+        .service-content h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .service-description {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 23px;
+        }
+
+        .service-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .meta-item {
+            flex: 1;
+            min-width: 120px;
+            padding: 13px;
+            border-radius: 13px;
+            background: #fff7fa;
+        }
+
+        .meta-item i {
+            color: var(--pink);
+            margin-right: 6px;
+        }
+
+        .meta-item small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .meta-item strong {
+            font-size: 14px;
+        }
+
+        .price-box {
+            padding-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-label {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--pink-dark);
+        }
+
+        /* FORM */
+
+        .form-card {
+            padding: 34px;
+        }
+
+        .form-header {
+            margin-bottom: 28px;
+        }
+
+        .form-header h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 31px;
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .login-notice {
+            display: none;
+            padding: 15px 17px;
+            border-radius: 14px;
+            background: #fff3f6;
+            border: 1px solid #f2c8d7;
+            color: #8d284b;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .login-notice a {
+            color: var(--pink-dark);
+            font-weight: 800;
+            text-decoration: underline;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 17px;
+        }
+
+        .field {
+            margin-bottom: 19px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            color: #493b44;
+        }
+
+        .required {
+            color: var(--pink);
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a18e99;
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: #fffdfc;
+            border-radius: 13px;
+            padding: 14px 15px 14px 43px;
+            outline: none;
+            color: var(--dark);
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .field textarea {
+            padding-left: 15px;
+            min-height: 105px;
+            resize: vertical;
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 4px rgba(231, 84, 128, 0.08);
+        }
+
+        .field input:disabled {
+            background: #f8f5f6;
+            color: #81757c;
+            cursor: not-allowed;
+        }
+
+        .help-text {
+            margin-top: 6px;
+            color: #8b7e86;
+            font-size: 11px;
+        }
+
+        .booking-summary {
+            margin: 7px 0 23px;
+            padding: 18px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #fff1f6, #f7f1ff);
+            border: 1px solid #eedde7;
+        }
+
+        .summary-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #6c5963;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .summary-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+
+        .summary-row span:first-child {
+            color: var(--muted);
+        }
+
+        .summary-row strong {
+            color: var(--dark);
+            text-align: right;
+        }
+
+        .summary-total {
+            border-top: 1px solid #e6d6df;
+            margin-top: 9px;
+            padding-top: 12px;
+        }
+
+        .summary-total strong {
+            color: var(--pink-dark);
+            font-size: 19px;
+        }
+
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 8px 0 20px;
+            color: #776b73;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .terms input {
+            margin-top: 3px;
+            accent-color: var(--pink);
+        }
+
+        .terms a {
+            color: var(--pink-dark);
+            font-weight: 700;
+        }
+
+        .submit-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 14px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            cursor: pointer;
+            box-shadow: 0 13px 30px rgba(130, 53, 117, 0.22);
+            transition: 0.25s;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 17px 34px rgba(130, 53, 117, 0.28);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .submit-btn i {
+            margin-right: 8px;
+        }
+
+        .message {
+            display: none;
+            padding: 13px 15px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+            background: #fff1f1;
+            color: #a32626;
+            border: 1px solid #f1cccc;
+        }
+
+        .message.success {
+            display: block;
+            background: #effcf3;
+            color: var(--success);
+            border: 1px solid #c9ebd2;
+        }
+
+        .loading-state {
+            max-width: 1180px;
+            margin: 0 auto 90px;
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 4px solid #f2dce5;
+            border-top-color: var(--pink);
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        .loading-state p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #261823;
+            color: white;
+            padding: 45px 24px 25px;
+        }
+
+        .footer-container {
+            max-width: 1180px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr;
+            gap: 50px;
+        }
+
+        .footer-brand h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .footer-brand span {
+            color: #f29ab6;
+            font-size: 10px;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .footer-brand p {
+            margin-top: 15px;
+            max-width: 370px;
+            color: #cbbec5;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .footer-col h4 {
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .footer-col a,
+        .footer-col p {
+            display: block;
+            color: #cbbec5;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .footer-col a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1180px;
+            margin: 35px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #a998a2;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 950px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 78px;
+                left: 0;
+                right: 0;
+                padding: 15px 24px 20px;
+                background: rgba(255, 248, 243, 0.98);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links a {
+                text-align: center;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+            }
+
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .nav-container {
+                padding: 0 16px;
+            }
+
+            .brand-text h2 {
+                font-size: 19px;
+            }
+
+            .brand-text span {
+                font-size: 8px;
+            }
+
+            .brand-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 13px;
+            }
+
+            .login-btn {
+                display: none;
+            }
+
+            .page-hero {
+                padding: 50px 18px 40px;
+            }
+
+            .booking-section {
+                padding: 0 16px;
+            }
+
+            .form-card {
+                padding: 23px 18px;
+            }
+
+            .service-content {
+                padding: 21px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+
+            <a href="index.html" class="brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+
+                <div class="brand-text">
+                    <h2>SG MAKEOVERS</h2>
+                    <span>ONLINE BEAUTY SERVICES</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="customer-dashboard.html">Dashboard</a>
+                <a href="my-appointments.html" class="active">Appointments</a>
+                <a href="profile.html">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="login.html" class="login-btn">
+                    <i class="fa-regular fa-user"></i>
+                    Login
+                </a>
+
+                <button class="menu-btn" id="menuBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="page-hero">
+
+        <div class="eyebrow">
+            <i class="fa-regular fa-calendar-check"></i>
+            Easy Online Booking
+        </div>
+
+        <h1>
+            Book Your <span>Beauty Session</span>
+        </h1>
+
+        <p>
+            Choose your preferred date and time and let SG MAKEOVERS
+            take care of the rest. Your appointment will be saved securely.
+        </p>
+
+    </section>
+
+    <!-- LOADING -->
+    <div class="loading-state" id="loadingState">
+
+        <div class="loading-spinner"></div>
+
+        <p>
+            Loading your selected service...
+        </p>
+
+    </div>
+
+    <!-- BOOKING -->
+    <section class="booking-section" id="bookingSection" style="display:none;">
+
+        <div class="booking-grid">
+
+            <!-- SERVICE SUMMARY -->
+            <div class="card service-card">
+
+                <div class="service-image-wrap">
+
+                    <img
+                        id="serviceImage"
+                        class="service-image"
+                        src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1000&q=85"
+                        alt="Beauty Service"
+                    >
+
+                    <div class="image-overlay"></div>
+
+                    <div class="service-category" id="serviceCategory">
+                        Beauty Service
+                    </div>
+
+                </div>
+
+                <div class="service-content">
+
+                    <h2 id="serviceName">
+                        Loading...
+                    </h2>
+
+                    <p class="service-description" id="serviceDescription">
+                        Please wait while we load service details.
+                    </p>
+
+                    <div class="service-meta">
+
+                        <div class="meta-item">
+                            <small>Duration</small>
+                            <strong>
+                                <i class="fa-regular fa-clock"></i>
+                                <span id="serviceDuration">--</span>
+                            </strong>
+                        </div>
+
+                        <div class="meta-item">
+                            <small>Category</small>
+                            <strong>
+                                <i class="fa-solid fa-sparkles"></i>
+                                <span id="serviceCategorySmall">--</span>
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <div class="price-box">
+
+                        <div>
+                            <div class="price-label">
+                                Service Price
+                            </div>
+                        </div>
+
+                        <div class="price" id="servicePrice">
+                            ₹0
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BOOKING FORM -->
+            <div class="card form-card">
+
+                <div class="form-header">
+
+                    <h2>Appointment Details</h2>
+
+                    <p>
+                        Fill in your preferred date, time and additional
+                        requirements to confirm your appointment.
+                    </p>
+
+                </div>
+
+                <div class="login-notice" id="loginNotice">
+                    <i class="fa-solid fa-circle-info"></i>
+                    &nbsp;
+                    Please
+                    <a href="login.html">login to your account</a>
+                    before booking an appointment.
+                </div>
+
+                <div class="message" id="message"></div>
+
+                <form id="bookingForm">
+
+                    <!-- CUSTOMER -->
+                    <div class="form-row">
+
+                        <div class="field">
+
+                            <label>
+                                Full Name
+                                <span class="required">*</span>
+                            </label>
+
+                            <div class="input-wrap">
+
+                                <i class="fa-regular fa-user"></i>
+
+                                <input
+                                    type="text"
+                                    id="customerName"
+                                    placeholder="Your full name"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                        <div class="field">
+
+                            <label>
+                                Phone Number
+                                <span class="required">*</span>
+                            </label>
+
+                            <div class="input-wrap">
+
+                                <i class="fa-solid fa-phone"></i>
+
+                                <input
+                                    type="tel"
+                                    id="customerPhone"
+                                    placeholder="Your phone number"
+                                    maxlength="15"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="customerEmail"
+                                placeholder="Your email address"
+                                disabled
+                            >
+
+                        </div>
+
+                        <div class="help-text">
+                            Email is linked to your SG MAKEOVERS account.
+                        </div>
+
+                    </div>
+
+                    <!-- DATE/TIME -->
+                    <div class="form-row">
+
+                        <div class="field">
+
+                            <label>
+                                Appointment Date
+                                <span class="required">*</span>
+                            </label>
+
+                            <div class="input-wrap">
+
+                                <i class="fa-regular fa-calendar"></i>
+
+                                <input
+                                    type="date"
+                                    id="appointmentDate"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                        <div class="field">
+
+                            <label>
+                                Preferred Time
+                                <span class="required">*</span>
+                            </label>
+
+                            <div class="input-wrap">
+
+                                <i class="fa-regular fa-clock"></i>
+
+                                <input
+                                    type="time"
+                                    id="appointmentTime"
+                                    min="09:00"
+                                    max="20:00"
+                                    required
+                                >
+
+                            </div>
+
+                            <div class="help-text">
+                                Available salon hours: 9:00 AM – 8:00 PM
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- NOTES -->
+                    <div class="field">
+
+                        <label>
+                            Special Requirements
+                        </label>
+
+                        <textarea
+                            id="appointmentNotes"
+                            placeholder="Tell us anything we should know before your appointment..."
+                        ></textarea>
+
+                    </div>
+
+                    <!-- SUMMARY -->
+                    <div class="booking-summary">
+
+                        <div class="summary-title">
+                            Booking Summary
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Service</span>
+                            <strong id="summaryService">
+                                --
+                            </strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Date</span>
+                            <strong id="summaryDate">
+                                Select date
+                            </strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Time</span>
+                            <strong id="summaryTime">
+                                Select time
+                            </strong>
+                        </div>
+
+                        <div class="summary-row summary-total">
+                            <span>Total Amount</span>
+                            <strong id="summaryPrice">
+                                ₹0
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <!-- TERMS -->
+                    <label class="terms">
+
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            required
+                        >
+
+                        <span>
+                            I confirm that the appointment details are correct
+                            and agree to the SG MAKEOVERS booking terms.
+                        </span>
+
+                    </label>
+
+                    <!-- SUBMIT -->
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                        id="submitBtn"
+                    >
+
+                        <i class="fa-regular fa-calendar-check"></i>
+
+                        Confirm Appointment
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <h2>SG MAKEOVERS</h2>
+
+                <span>ONLINE BEAUTY SERVICES</span>
+
+                <p>
+                    Your trusted online beauty service platform for
+                    professional salon and makeover appointments.
+                </p>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h4>Quick Links</h4>
+
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="customer-dashboard.html">Dashboard</a>
+                <a href="my-appointments.html">Appointments</a>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h4>Contact</h4>
+
+                <p>
+                    <i class="fa-solid fa-phone"></i>
+                    &nbsp;9004262111
+                </p>
+
+                <p>
+                    <i class="fa-regular fa-envelope"></i>
+                    &nbsp;your-email@example.com
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 SG MAKEOVERS. All Rights Reserved.
+        </div>
+
+    </footer>
+
+    <script>
+
+        const loadingState = document.getElementById("loadingState");
+        const bookingSection = document.getElementById("bookingSection");
+
+        const serviceImage = document.getElementById("serviceImage");
+        const serviceName = document.getElementById("serviceName");
+        const serviceDescription = document.getElementById("serviceDescription");
+        const serviceCategory = document.getElementById("serviceCategory");
+        const serviceCategorySmall = document.getElementById("serviceCategorySmall");
+        const serviceDuration = document.getElementById("serviceDuration");
+        const servicePrice = document.getElementById("servicePrice");
+
+        const customerName = document.getElementById("customerName");
+        const customerPhone = document.getElementById("customerPhone");
+        const customerEmail = document.getElementById("customerEmail");
+
+        const appointmentDate = document.getElementById("appointmentDate");
+        const appointmentTime = document.getElementById("appointmentTime");
+        const appointmentNotes = document.getElementById("appointmentNotes");
+
+        const summaryService = document.getElementById("summaryService");
+        const summaryDate = document.getElementById("summaryDate");
+        const summaryTime = document.getElementById("summaryTime");
+        const summaryPrice = document.getElementById("summaryPrice");
+
+        const bookingForm = document.getElementById("bookingForm");
+        const submitBtn = document.getElementById("submitBtn");
+
+        const message = document.getElementById("message");
+        const loginNotice = document.getElementById("loginNotice");
+
+        let currentUser = null;
+        let currentService = null;
+
+        /* -------------------------
+           MOBILE MENU
+        ------------------------- */
+
+        const menuBtn = document.getElementById("menuBtn");
+        const navLinks = document.getElementById("navLinks");
+
+        menuBtn.addEventListener("click", () => {
+            navLinks.classList.toggle("show");
+
+            const icon = menuBtn.querySelector("i");
+
+            if (navLinks.classList.contains("show")) {
+                icon.classList.remove("fa-bars");
+                icon.classList.add("fa-xmark");
+            } else {
+                icon.classList.remove("fa-xmark");
+                icon.classList.add("fa-bars");
+            }
+        });
+
+        /* -------------------------
+           DATE SETUP
+        ------------------------- */
+
+        const today = new Date();
+
+        const todayString =
+            today.getFullYear() +
+            "-" +
+            String(today.getMonth() + 1).padStart(2, "0") +
+            "-" +
+            String(today.getDate()).padStart(2, "0");
+
+        appointmentDate.min = todayString;
+
+        /* -------------------------
+           MESSAGE
+        ------------------------- */
+
+        function showMessage(text, type = "error") {
+
+            message.textContent = text;
+
+            message.className = "message " + type;
+
+            window.scrollTo({
+                top: bookingSection.offsetTop - 100,
+                behavior: "smooth"
+            });
+        }
+
+        function clearMessage() {
+
+            message.textContent = "";
+
+            message.className = "message";
+        }
+
+        /* -------------------------
+           FORMATTERS
+        ------------------------- */
+
+        function formatPrice(value) {
+
+            return "₹" + Number(value || 0).toLocaleString("en-IN");
+        }
+
+        function formatDuration(minutes) {
+
+            const mins = Number(minutes || 0);
+
+            if (mins < 60) {
+                return mins + " mins";
+            }
+
+            const hours = Math.floor(mins / 60);
+            const remaining = mins % 60;
+
+            if (remaining === 0) {
+                return hours + (hours === 1 ? " hour" : " hours");
+            }
+
+            return hours + " hr " + remaining + " mins";
+        }
+
+        function formatDisplayDate(value) {
+
+            if (!value) {
+                return "Select date";
+            }
+
+            const date = new Date(value + "T00:00:00");
+
+            return date.toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            });
+        }
+
+        function formatDisplayTime(value) {
+
+            if (!value) {
+                return "Select time";
+            }
+
+            const parts = value.split(":");
+
+            let hour = Number(parts[0]);
+            const minute = parts[1];
+
+            const period = hour >= 12 ? "PM" : "AM";
+
+            hour = hour % 12 || 12;
+
+            return hour + ":" + minute + " " + period;
+        }
+
+        /* -------------------------
+           LOAD USER
+        ------------------------- */
+
+        async function loadUser() {
+
+            const {
+                data: {
+                    user
+                },
+                error
+            } = await supabaseClient.auth.getUser();
+
+            if (error) {
+                console.error(error);
+                return null;
+            }
+
+            return user;
+        }
+
+        /* -------------------------
+           LOAD PROFILE
+        ------------------------- */
+
+        async function loadProfile(user) {
+
+            if (!user) {
+                return;
+            }
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", user.id)
+                .maybeSingle();
+
+            if (error) {
+                console.warn("Profile load warning:", error.message);
+            }
+
+            const metadata = user.user_metadata || {};
+
+            customerName.value =
+                data?.full_name ||
+                metadata.full_name ||
+                "";
+
+            customerPhone.value =
+                data?.phone ||
+                metadata.phone ||
+                "";
+
+            customerEmail.value =
+                user.email ||
+                data?.email ||
+                "";
+        }
+
+        /* -------------------------
+           LOAD SERVICE
+        ------------------------- */
+
+        async function loadService() {
+
+            const params = new URLSearchParams(window.location.search);
+
+            const serviceId = params.get("service");
+
+            if (!serviceId) {
+
+                loadingState.innerHTML = `
+                    <div style="
+                        max-width:520px;
+                        margin:auto;
+                        padding:30px;
+                        background:white;
+                        border:1px solid #eadfe5;
+                        border-radius:20px;
+                    ">
+                        <div style="
+                            width:55px;
+                            height:55px;
+                            margin:0 auto 15px;
+                            border-radius:50%;
+                            background:#fff0f5;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            color:#e75480;
+                            font-size:21px;
+                        ">
+                            <i class="fa-solid fa-spa"></i>
+                        </div>
+
+                        <h3 style="
+                            font-family:'Playfair Display',serif;
+                            font-size:25px;
+                            margin-bottom:8px;
+                        ">
+                            No Service Selected
+                        </h3>
+
+                        <p style="
+                            color:#756b73;
+                            font-size:14px;
+                            line-height:1.6;
+                            margin-bottom:20px;
+                        ">
+                            Please choose a service first before booking
+                            your appointment.
+                        </p>
+
+                        <a href="services.html" style="
+                            display:inline-block;
+                            padding:12px 20px;
+                            border-radius:12px;
+                            background:linear-gradient(135deg,#e75480,#7c3aed);
+                            color:white;
+                            font-size:13px;
+                            font-weight:800;
+                        ">
+                            Explore Services
+                        </a>
+                    </div>
+                `;
+
+                return false;
+            }
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("services")
+                .select("*")
+                .eq("id", serviceId)
+                .eq("is_active", true)
+                .maybeSingle();
+
+            if (error) {
+
+                console.error(error);
+
+                loadingState.innerHTML = `
+                    <div style="
+                        color:#a32626;
+                        background:#fff1f1;
+                        border:1px solid #f1cccc;
+                        padding:20px;
+                        border-radius:15px;
+                        max-width:550px;
+                        margin:auto;
+                    ">
+                        Unable to load service details.
+                        <br>
+                        <small>${error.message}</small>
+                    </div>
+                `;
+
+                return false;
+            }
+
+            if (!data) {
+
+                loadingState.innerHTML = `
+                    <div style="
+                        max-width:520px;
+                        margin:auto;
+                        padding:30px;
+                        background:white;
+                        border:1px solid #eadfe5;
+                        border-radius:20px;
+                    ">
+
+                        <h3 style="
+                            font-family:'Playfair Display',serif;
+                            font-size:25px;
+                            margin-bottom:8px;
+                        ">
+                            Service Not Available
+                        </h3>
+
+                        <p style="
+                            color:#756b73;
+                            font-size:14px;
+                            margin-bottom:20px;
+                        ">
+                            This service is currently unavailable.
+                        </p>
+
+                        <a href="services.html" style="
+                            display:inline-block;
+                            padding:12px 20px;
+                            border-radius:12px;
+                            background:linear-gradient(135deg,#e75480,#7c3aed);
+                            color:white;
+                            font-size:13px;
+                            font-weight:800;
+                        ">
+                            View Services
+                        </a>
+
+                    </div>
+                `;
+
+                return false;
+            }
+
+            currentService = data;
+
+            serviceName.textContent = data.name || "Beauty Service";
+
+            serviceDescription.textContent =
+                data.description ||
+                "Professional beauty service by SG MAKEOVERS.";
+
+            serviceCategory.textContent =
+                data.category || "Beauty Service";
+
+            serviceCategorySmall.textContent =
+                data.category || "Beauty";
+
+            serviceDuration.textContent =
+                formatDuration(data.duration_minutes);
+
+            servicePrice.textContent =
+                formatPrice(data.price);
+
+            summaryService.textContent =
+                data.name || "Beauty Service";
+
+            summaryPrice.textContent =
+                formatPrice(data.price);
+
+            if (data.image_url) {
+                serviceImage.src = data.image_url;
+            }
+
+            serviceImage.onerror = () => {
+
+                serviceImage.src =
+                    "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1000&q=85";
+            };
+
+            return true;
+        }
+
+        /* -------------------------
+           UPDATE SUMMARY
+        ------------------------- */
+
+        appointmentDate.addEventListener("change", () => {
+
+            summaryDate.textContent =
+                formatDisplayDate(appointmentDate.value);
+
+            clearMessage();
+        });
+
+        appointmentTime.addEventListener("change", () => {
+
+            summaryTime.textContent =
+                formatDisplayTime(appointmentTime.value);
+
+            clearMessage();
+        });
+
+        /* -------------------------
+           VALIDATE TIME
+        ------------------------- */
+
+        function validateTime() {
+
+            const time = appointmentTime.value;
+
+            if (!time) {
+                return true;
+            }
+
+            if (time < "09:00" || time > "20:00") {
+
+                showMessage(
+                    "Please select a time between 9:00 AM and 8:00 PM."
+                );
+
+                return false;
+            }
+
+            return true;
+        }
+
+        /* -------------------------
+           BOOK APPOINTMENT
+        ------------------------- */
+
+        bookingForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            clearMessage();
+
+            if (!currentService) {
+
+                showMessage(
+                    "Service information is not available. Please try again."
+                );
+
+                return;
+            }
+
+            if (!currentUser) {
+
+                showMessage(
+                    "Please login before booking your appointment."
+                );
+
+                loginNotice.style.display = "block";
+
+                return;
+            }
+
+            if (!validateTime()) {
+                return;
+            }
+
+            const selectedDate = appointmentDate.value;
+            const selectedTime = appointmentTime.value;
+
+            if (!selectedDate || !selectedTime) {
+
+                showMessage(
+                    "Please select your appointment date and time."
+                );
+
+                return;
+            }
+
+            const selectedDateTime =
+                new Date(selectedDate + "T" + selectedTime);
+
+            if (selectedDateTime < new Date()) {
+
+                showMessage(
+                    "Please select a future appointment date and time."
+                );
+
+                return;
+            }
+
+            const name = customerName.value.trim();
+            const phone = customerPhone.value.trim();
+            const notes = appointmentNotes.value.trim();
+
+            if (!name) {
+
+                showMessage(
+                    "Please enter your full name."
+                );
+
+                customerName.focus();
+
+                return;
+            }
+
+            if (!phone) {
+
+                showMessage(
+                    "Please enter your phone number."
+                );
+
+                customerPhone.focus();
+
+                return;
+            }
+
+            if (phone.length < 10) {
+
+                showMessage(
+                    "Please enter a valid phone number."
+                );
+
+                customerPhone.focus();
+
+                return;
+            }
+
+            if (!document.getElementById("terms").checked) {
+
+                showMessage(
+                    "Please accept the booking confirmation terms."
+                );
+
+                return;
+            }
+
+            submitBtn.disabled = true;
+
+            submitBtn.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Confirming Appointment...
+            `;
+
+            try {
+
+                /*
+                 * Save/update customer profile first
+                 */
+
+                const {
+                    error: profileError
+                } = await supabaseClient
+                    .from("profiles")
+                    .upsert({
+                        id: currentUser.id,
+                        full_name: name,
+                        phone: phone,
+                        email: currentUser.email || null
+                    });
+
+                if (profileError) {
+
+                    console.warn(
+                        "Profile update warning:",
+                        profileError.message
+                    );
+                }
+
+                /*
+                 * Create real appointment
+                 */
+
+                const {
+                    data: appointment,
+                    error: appointmentError
+                } = await supabaseClient
+                    .from("appointments")
+                    .insert({
+                        customer_id: currentUser.id,
+                        service_id: currentService.id,
+                        appointment_date: selectedDate,
+                        appointment_time: selectedTime,
+                        status: "pending",
+                        notes: notes || null,
+                        total_amount: Number(currentService.price || 0)
+                    })
+                    .select("id")
+                    .single();
+
+                if (appointmentError) {
+
+                    console.error(
+                        "Appointment insert error:",
+                        appointmentError
+                    );
+
+                    throw appointmentError;
+                }
+
+                /*
+                 * Save latest appointment locally
+                 * for convenience.
+                 */
+
+                localStorage.setItem(
+                    "latestAppointment",
+                    JSON.stringify({
+                        id: appointment.id,
+                        service_id: currentService.id,
+                        service_name: currentService.name,
+                        appointment_date: selectedDate,
+                        appointment_time: selectedTime,
+                        total_amount: Number(currentService.price || 0)
+                    })
+                );
+
+                showMessage(
+                    "Appointment booked successfully! Redirecting...",
+                    "success"
+                );
+
+                submitBtn.innerHTML = `
+                    <i class="fa-solid fa-circle-check"></i>
+                    Appointment Confirmed
+                `;
+
+                /*
+                 * Go to real appointment details page.
+                 */
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        "appointment-details.html?id=" +
+                        appointment.id;
+
+                }, 900);
+
+            } catch (error) {
+
+                console.error(error);
+
+                let errorText =
+                    error?.message ||
+                    "Something went wrong while booking your appointment.";
+
+                if (
+                    errorText.toLowerCase().includes("row-level security")
+                ) {
+
+                    errorText =
+                        "Booking permission is not enabled for this account. Please check Supabase appointment policies.";
+                }
+
+                showMessage(errorText);
+
+                submitBtn.disabled = false;
+
+                submitBtn.innerHTML = `
+                    <i class="fa-regular fa-calendar-check"></i>
+                    Confirm Appointment
+                `;
+            }
+
+        });
+
+        /* -------------------------
+           INITIALIZE
+        ------------------------- */
+
+        async function initializePage() {
+
+            try {
+
+                const serviceLoaded =
+                    await loadService();
+
+                if (!serviceLoaded) {
+                    return;
+                }
+
+                currentUser =
+                    await loadUser();
+
+                if (!currentUser) {
+
+                    loginNotice.style.display = "block";
+
+                    customerName.disabled = true;
+                    customerPhone.disabled = true;
+                    appointmentDate.disabled = true;
+                    appointmentTime.disabled = true;
+                    appointmentNotes.disabled = true;
+
+                    submitBtn.disabled = true;
+
+                } else {
+
+                    await loadProfile(currentUser);
+
+                    loginNotice.style.display = "none";
+
+                    customerName.disabled = false;
+                    customerPhone.disabled = false;
+                    appointmentDate.disabled = false;
+                    appointmentTime.disabled = false;
+                    appointmentNotes.disabled = false;
+
+                    submitBtn.disabled = false;
+                }
+
+                loadingState.style.display = "none";
+                bookingSection.style.display = "block";
+
+            } catch (error) {
+
+                console.error(error);
+
+                loadingState.innerHTML = `
+                    <div style="
+                        color:#a32626;
+                        background:#fff1f1;
+                        border:1px solid #f1cccc;
+                        padding:20px;
+                        border-radius:15px;
+                        max-width:550px;
+                        margin:auto;
+                    ">
+                        Something went wrong while loading the booking page.
+                        <br>
+                        <small>${error.message || ""}</small>
+                    </div>
+                `;
+            }
+        }
+
+        initializePage();
+
+    </script>
+
+</body>
+</html>

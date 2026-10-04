@@ -1,0 +1,2057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | SG MAKEOVERS Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #d94680;
+            --pink-dark: #b83268;
+            --purple: #7c3aed;
+            --dark: #21151d;
+            --muted: #8b7d86;
+            --border: #eee2e8;
+            --cream: #fff9fb;
+            --white: #fff;
+            --green: #16805b;
+            --green-bg: #e9f8f1;
+            --orange: #b7791f;
+            --orange-bg: #fff7df;
+            --red: #c53030;
+            --red-bg: #fff0f0;
+            --shadow: 0 15px 40px rgba(61, 28, 48, .08);
+        }
+
+        body {
+            min-height: 100vh;
+            background: #faf7f9;
+            color: var(--dark);
+            font-family: "DM Sans", sans-serif;
+        }
+
+        button,
+        select,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+            background: linear-gradient(180deg, #24151f, #321522 55%, #24151f);
+            color: white;
+            padding: 28px 18px;
+            overflow-y: auto;
+        }
+
+        .brand {
+            padding: 0 12px 30px;
+            border-bottom: 1px solid rgba(255,255,255,.09);
+            margin-bottom: 24px;
+        }
+
+        .brand small {
+            display: block;
+            color: #e9a9c2;
+            font-size: 10px;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+
+        .brand h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .nav-title {
+            color: #a9949e;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0 12px;
+            margin: 22px 0 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: #d7cbd0;
+            text-decoration: none;
+            padding: 12px 13px;
+            border-radius: 12px;
+            margin: 4px 0;
+            font-size: 14px;
+            transition: .25s;
+        }
+
+        .nav-link i {
+            width: 18px;
+            text-align: center;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: linear-gradient(
+                135deg,
+                rgba(217,70,128,.28),
+                rgba(124,58,237,.2)
+            );
+        }
+
+        .nav-link.active {
+            box-shadow: inset 3px 0 var(--pink);
+        }
+
+        /* MAIN */
+
+        .main {
+            width: calc(100% - 260px);
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 78px;
+            background: rgba(255,255,255,.92);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 34px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(12px);
+        }
+
+        .page-title h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 26px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: white;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .admin-info span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .content {
+            padding: 30px 34px 55px;
+        }
+
+        /* FILTER */
+
+        .filter-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 22px;
+        }
+
+        .filter-row {
+            display: flex;
+            align-items: end;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .field {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .field label {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 7px;
+            font-weight: 700;
+        }
+
+        .field select {
+            width: 100%;
+            height: 43px;
+            border: 1px solid var(--border);
+            background: #fffafb;
+            border-radius: 10px;
+            padding: 0 12px;
+            color: var(--dark);
+            outline: none;
+        }
+
+        .field select:focus {
+            border-color: #e4a0ba;
+            box-shadow: 0 0 0 3px rgba(217,70,128,.08);
+        }
+
+        .btn {
+            height: 43px;
+            border: 0;
+            border-radius: 10px;
+            padding: 0 18px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+        }
+
+        .btn-secondary {
+            color: #5d4e56;
+            background: #f6edf1;
+        }
+
+        /* STATS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 21px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+        }
+
+        .stat-value {
+            font-family: "Playfair Display", serif;
+            font-size: 27px;
+        }
+
+        /* REPORT GRID */
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 22px;
+            margin-bottom: 22px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .panel-head {
+            padding: 21px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-head h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+        }
+
+        .panel-head span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .panel-body {
+            padding: 22px;
+        }
+
+        /* BAR CHART */
+
+        .chart {
+            min-height: 270px;
+            display: flex;
+            align-items: end;
+            gap: 14px;
+            padding: 20px 10px 10px;
+            border-bottom: 1px solid #f0e7eb;
+        }
+
+        .bar-item {
+            flex: 1;
+            height: 230px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .bar-value {
+            font-size: 10px;
+            color: var(--muted);
+            min-height: 15px;
+        }
+
+        .bar {
+            width: min(40px, 70%);
+            min-height: 3px;
+            border-radius: 9px 9px 3px 3px;
+            background: linear-gradient(
+                180deg,
+                var(--pink),
+                var(--purple)
+            );
+            transition: height .5s ease;
+        }
+
+        .bar-label {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* STATUS */
+
+        .status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .status-row {
+            display: grid;
+            grid-template-columns: 95px 1fr 45px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .progress {
+            height: 9px;
+            border-radius: 20px;
+            background: #f1e9ed;
+            overflow: hidden;
+        }
+
+        .progress span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(
+                90deg,
+                var(--pink),
+                var(--purple)
+            );
+        }
+
+        .status-count {
+            text-align: right;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        /* SERVICE TABLE */
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th {
+            text-align: left;
+            background: #fffafb;
+            color: #907f88;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            font-size: 10px;
+            padding: 14px 20px;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-top: 1px solid #f2e9ed;
+            font-size: 13px;
+        }
+
+        .service-name {
+            font-weight: 700;
+        }
+
+        .service-count {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .amount {
+            font-weight: 800;
+        }
+
+        /* INSIGHT CARDS */
+
+        .insights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .insight {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            background: linear-gradient(
+                145deg,
+                #fff,
+                #fff8fb
+            );
+        }
+
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: white;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            margin-bottom: 14px;
+        }
+
+        .insight h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .insight p {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* LOADING */
+
+        .loading {
+            text-align: center;
+            padding: 70px 20px;
+            color: var(--muted);
+        }
+
+        .loading i {
+            font-size: 32px;
+            color: #d9a7bb;
+            margin-bottom: 12px;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            z-index: 5000;
+            min-width: 280px;
+            background: #251720;
+            color: white;
+            padding: 15px 18px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.2);
+            display: none;
+            font-size: 13px;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        .toast.error {
+            border-left: 4px solid #ff6978;
+        }
+
+        .toast.success {
+            border-left: 4px solid #43ca91;
+        }
+
+        /* MOBILE */
+
+        .mobile-menu {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: var(--dark);
+            font-size: 20px;
+        }
+
+        @media (max-width: 1050px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: .25s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 22px 18px 40px;
+            }
+
+            .admin-info {
+                display: none;
+            }
+
+            .insights {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-row {
+                align-items: stretch;
+            }
+
+            .field,
+            .btn {
+                width: 100%;
+            }
+
+            .page-title h2 {
+                font-size: 22px;
+            }
+
+            .status-row {
+                grid-template-columns: 80px 1fr 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <small>ONLINE BEAUTY SERVICES</small>
+            <h1>SG MAKEOVERS</h1>
+        </div>
+
+        <div class="nav-title">Main</div>
+
+        <a href="dashboard.html" class="nav-link">
+            <i class="fa-solid fa-chart-line"></i>
+            Dashboard
+        </a>
+
+        <a href="appointments.html" class="nav-link">
+            <i class="fa-regular fa-calendar-check"></i>
+            Appointments
+        </a>
+
+        <a href="customers.html" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            Customers
+        </a>
+
+        <a href="payments.html" class="nav-link">
+            <i class="fa-solid fa-wallet"></i>
+            Payments
+        </a>
+
+        <div class="nav-title">Management</div>
+
+        <a href="services.html" class="nav-link">
+            <i class="fa-solid fa-scissors"></i>
+            Services
+        </a>
+
+        <a href="staff.html" class="nav-link">
+            <i class="fa-solid fa-user-tie"></i>
+            Staff
+        </a>
+
+        <a href="reports.html" class="nav-link active">
+            <i class="fa-solid fa-file-invoice"></i>
+            Reports
+        </a>
+
+        <div class="nav-title">Account</div>
+
+        <a href="../customer-dashboard.html" class="nav-link">
+            <i class="fa-solid fa-house"></i>
+            Customer Site
+        </a>
+
+        <a href="#" class="nav-link" id="logoutBtn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div style="display:flex;align-items:center;gap:14px;">
+
+                <button class="mobile-menu" id="mobileMenu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="page-title">
+                    <h2>Reports & Analytics</h2>
+                    <p>Business performance overview</p>
+                </div>
+
+            </div>
+
+            <div class="admin-profile">
+
+                <div class="admin-avatar">
+                    SG
+                </div>
+
+                <div class="admin-info">
+                    <strong>SG Makeovers Admin</strong>
+                    <span>Administrator</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <!-- FILTER -->
+            <div class="filter-card">
+
+                <div class="filter-row">
+
+                    <div class="field">
+
+                        <label>Report Period</label>
+
+                        <select id="periodSelect">
+
+                            <option value="all">
+                                All Time
+                            </option>
+
+                            <option value="7">
+                                Last 7 Days
+                            </option>
+
+                            <option value="30" selected>
+                                Last 30 Days
+                            </option>
+
+                            <option value="90">
+                                Last 90 Days
+                            </option>
+
+                            <option value="365">
+                                Last 12 Months
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <button class="btn btn-primary" id="refreshBtn">
+                        <i class="fa-solid fa-rotate"></i>
+                        &nbsp; Refresh Report
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Appointments
+                        </span>
+
+                        <div class="stat-icon">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value" id="totalAppointments">
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Completed
+                        </span>
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value" id="completedAppointments">
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Cancelled
+                        </span>
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-ban"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value" id="cancelledAppointments">
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Revenue
+                        </span>
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value" id="totalRevenue">
+                        ₹0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REPORTS -->
+
+            <div class="report-grid">
+
+                <!-- REVENUE CHART -->
+
+                <div class="panel">
+
+                    <div class="panel-head">
+
+                        <div>
+                            <h3>Revenue Overview</h3>
+                            <span>Paid revenue by month</span>
+                        </div>
+
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="chart" id="revenueChart">
+
+                            <div class="loading">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPOINTMENT STATUS -->
+
+                <div class="panel">
+
+                    <div class="panel-head">
+
+                        <div>
+                            <h3>Appointment Status</h3>
+                            <span>Current period</span>
+                        </div>
+
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="status-list" id="statusList">
+
+                            <div class="loading">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SERVICES -->
+
+            <div class="panel" style="margin-bottom:22px;">
+
+                <div class="panel-head">
+
+                    <div>
+                        <h3>Service Performance</h3>
+                        <span>Most requested services</span>
+                    </div>
+
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Service</th>
+                                <th>Appointments</th>
+                                <th>Completed</th>
+                                <th>Revenue</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="serviceBody">
+
+                            <tr>
+                                <td colspan="4">
+                                    <div class="loading">
+                                        <i class="fa-solid fa-spinner fa-spin"></i>
+                                        <p>Loading service report...</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- INSIGHTS -->
+
+            <div class="insights">
+
+                <div class="insight">
+
+                    <div class="insight-icon">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+
+                    <h4>Top Service</h4>
+
+                    <p id="topService">
+                        Calculating your most popular service...
+                    </p>
+
+                </div>
+
+
+                <div class="insight">
+
+                    <div class="insight-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <h4>Completion Rate</h4>
+
+                    <p id="completionRate">
+                        Calculating appointment completion rate...
+                    </p>
+
+                </div>
+
+
+                <div class="insight">
+
+                    <div class="insight-icon">
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                    </div>
+
+                    <h4>Average Revenue</h4>
+
+                    <p id="averageRevenue">
+                        Calculating average revenue...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+    let appointments = [];
+    let payments = [];
+    let services = [];
+
+
+    /* -----------------------------
+       HELPERS
+    ----------------------------- */
+
+    const $ = id => document.getElementById(id);
+
+
+    function money(value) {
+
+        return new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+            maximumFractionDigits: 0
+        }).format(Number(value || 0));
+
+    }
+
+
+    function status(value) {
+
+        return String(value || "")
+            .trim()
+            .toLowerCase();
+
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function showToast(message, type = "success") {
+
+        const toast = $("toast");
+
+        toast.textContent = message;
+
+        toast.className =
+            `toast ${type} show`;
+
+        setTimeout(() => {
+
+            toast.classList.remove("show");
+
+        }, 3000);
+
+    }
+
+
+    function getPeriodStart() {
+
+        const period =
+            $("periodSelect").value;
+
+        if (period === "all") {
+            return null;
+        }
+
+        const days =
+            Number(period);
+
+        const date =
+            new Date();
+
+        date.setHours(0, 0, 0, 0);
+
+        date.setDate(
+            date.getDate() - days
+        );
+
+        return date;
+
+    }
+
+
+    function appointmentInPeriod(appointment) {
+
+        const start =
+            getPeriodStart();
+
+        if (!start) {
+            return true;
+        }
+
+        if (!appointment.appointment_date) {
+            return false;
+        }
+
+        const date =
+            new Date(
+                appointment.appointment_date +
+                "T00:00:00"
+            );
+
+        return date >= start;
+
+    }
+
+
+    function paymentInPeriod(payment) {
+
+        const start =
+            getPeriodStart();
+
+        if (!start) {
+            return true;
+        }
+
+        const rawDate =
+            payment.paid_at ||
+            payment.created_at;
+
+        if (!rawDate) {
+            return false;
+        }
+
+        return new Date(rawDate) >= start;
+
+    }
+
+
+    /* -----------------------------
+       ADMIN AUTH
+    ----------------------------- */
+
+    async function verifyAdmin() {
+
+        const {
+            data: { user },
+            error
+        } =
+            await supabaseClient.auth.getUser();
+
+
+        if (error || !user) {
+
+            window.location.href =
+                "admin-login.html";
+
+            return false;
+
+        }
+
+
+        const {
+            data: isAdmin,
+            error: adminError
+        } =
+            await supabaseClient.rpc(
+                "is_admin"
+            );
+
+
+        if (adminError || !isAdmin) {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "admin-login.html";
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* -----------------------------
+       LOAD DATABASE
+    ----------------------------- */
+
+    async function loadReport() {
+
+        try {
+
+            const allowed =
+                await verifyAdmin();
+
+            if (!allowed) {
+                return;
+            }
+
+
+            const [
+                appointmentsResponse,
+                paymentsResponse,
+                servicesResponse
+            ] = await Promise.all([
+
+                supabaseClient
+                    .from("appointments")
+                    .select("*"),
+
+                supabaseClient
+                    .from("payments")
+                    .select("*"),
+
+                supabaseClient
+                    .from("services")
+                    .select("*")
+
+            ]);
+
+
+            if (appointmentsResponse.error) {
+                throw appointmentsResponse.error;
+            }
+
+
+            if (paymentsResponse.error) {
+                throw paymentsResponse.error;
+            }
+
+
+            if (servicesResponse.error) {
+                throw servicesResponse.error;
+            }
+
+
+            appointments =
+                appointmentsResponse.data || [];
+
+            payments =
+                paymentsResponse.data || [];
+
+            services =
+                servicesResponse.data || [];
+
+
+            generateReport();
+
+
+        } catch (error) {
+
+            console.error(
+                "Report error:",
+                error
+            );
+
+            showToast(
+                error.message ||
+                "Unable to load report",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* -----------------------------
+       GENERATE REPORT
+    ----------------------------- */
+
+    function generateReport() {
+
+        const filteredAppointments =
+            appointments.filter(
+                appointmentInPeriod
+            );
+
+
+        const filteredPayments =
+            payments.filter(
+                paymentInPeriod
+            );
+
+
+        updateStats(
+            filteredAppointments,
+            filteredPayments
+        );
+
+
+        renderRevenueChart(
+            filteredPayments
+        );
+
+
+        renderStatus(
+            filteredAppointments
+        );
+
+
+        renderServices(
+            filteredAppointments,
+            filteredPayments
+        );
+
+
+        renderInsights(
+            filteredAppointments,
+            filteredPayments
+        );
+
+    }
+
+
+    /* -----------------------------
+       STATS
+    ----------------------------- */
+
+    function updateStats(
+        filteredAppointments,
+        filteredPayments
+    ) {
+
+        const total =
+            filteredAppointments.length;
+
+
+        const completed =
+            filteredAppointments.filter(
+                appointment =>
+                    status(
+                        appointment.status
+                    ) === "completed"
+            ).length;
+
+
+        const cancelled =
+            filteredAppointments.filter(
+                appointment =>
+                    status(
+                        appointment.status
+                    ) === "cancelled"
+            ).length;
+
+
+        const revenue =
+            filteredPayments
+                .filter(
+                    payment =>
+                        status(
+                            payment.status
+                        ) === "paid"
+                )
+                .reduce(
+                    (sum, payment) =>
+                        sum +
+                        Number(
+                            payment.amount || 0
+                        ),
+                    0
+                );
+
+
+        $("totalAppointments")
+            .textContent = total;
+
+
+        $("completedAppointments")
+            .textContent = completed;
+
+
+        $("cancelledAppointments")
+            .textContent = cancelled;
+
+
+        $("totalRevenue")
+            .textContent = money(revenue);
+
+    }
+
+
+    /* -----------------------------
+       REVENUE CHART
+    ----------------------------- */
+
+    function renderRevenueChart(
+        filteredPayments
+    ) {
+
+        const chart =
+            $("revenueChart");
+
+
+        const paid =
+            filteredPayments.filter(
+                payment =>
+                    status(payment.status)
+                    === "paid"
+            );
+
+
+        if (!paid.length) {
+
+            chart.innerHTML = `
+
+                <div class="loading" style="width:100%;">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <p>No paid revenue data available.</p>
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        const monthly = {};
+
+
+        paid.forEach(payment => {
+
+            const rawDate =
+                payment.paid_at ||
+                payment.created_at;
+
+            if (!rawDate) return;
+
+
+            const date =
+                new Date(rawDate);
+
+
+            const key =
+                date.toLocaleDateString(
+                    "en-IN",
+                    {
+                        month: "short",
+                        year: "numeric"
+                    }
+                );
+
+
+            if (!monthly[key]) {
+                monthly[key] = 0;
+            }
+
+
+            monthly[key] +=
+                Number(
+                    payment.amount || 0
+                );
+
+        });
+
+
+        let entries =
+            Object.entries(monthly);
+
+
+        entries.sort(
+            (a, b) => {
+
+                const aDate =
+                    new Date(
+                        `1 ${a[0]}`
+                    );
+
+                const bDate =
+                    new Date(
+                        `1 ${b[0]}`
+                    );
+
+                return aDate - bDate;
+
+            }
+        );
+
+
+        entries =
+            entries.slice(-6);
+
+
+        const max =
+            Math.max(
+                ...entries.map(
+                    item => item[1]
+                ),
+                1
+            );
+
+
+        chart.innerHTML =
+            entries.map(
+                ([month, value]) => {
+
+                    const height =
+                        Math.max(
+                            4,
+                            (value / max) * 190
+                        );
+
+
+                    return `
+
+                        <div class="bar-item">
+
+                            <div class="bar-value">
+                                ${money(value)}
+                            </div>
+
+                            <div
+                                class="bar"
+                                style="height:${height}px"
+                            ></div>
+
+                            <div class="bar-label">
+                                ${escapeHtml(month)}
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    /* -----------------------------
+       STATUS REPORT
+    ----------------------------- */
+
+    function renderStatus(
+        filteredAppointments
+    ) {
+
+        const list =
+            $("statusList");
+
+
+        const statuses = [
+            "pending",
+            "confirmed",
+            "completed",
+            "cancelled"
+        ];
+
+
+        const total =
+            filteredAppointments.length;
+
+
+        list.innerHTML =
+            statuses.map(
+                item => {
+
+                    const count =
+                        filteredAppointments.filter(
+                            appointment =>
+                                status(
+                                    appointment.status
+                                ) === item
+                        ).length;
+
+
+                    const percentage =
+                        total
+                        ? Math.round(
+                            (count / total) *
+                            100
+                        )
+                        : 0;
+
+
+                    return `
+
+                        <div class="status-row">
+
+                            <div class="status-name">
+                                ${escapeHtml(item)}
+                            </div>
+
+                            <div class="progress">
+                                <span
+                                    style="width:${percentage}%"
+                                ></span>
+                            </div>
+
+                            <div class="status-count">
+                                ${count}
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    /* -----------------------------
+       SERVICE REPORT
+    ----------------------------- */
+
+    function renderServices(
+        filteredAppointments,
+        filteredPayments
+    ) {
+
+        const body =
+            $("serviceBody");
+
+
+        if (!services.length) {
+
+            body.innerHTML = `
+
+                <tr>
+                    <td colspan="4">
+
+                        <div class="loading">
+                            <i class="fa-solid fa-scissors"></i>
+                            <p>No services found.</p>
+                        </div>
+
+                    </td>
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        const serviceData =
+            services.map(service => {
+
+                const serviceAppointments =
+                    filteredAppointments.filter(
+                        appointment =>
+                            String(
+                                appointment.service_id
+                            ) ===
+                            String(service.id)
+                    );
+
+
+                const completed =
+                    serviceAppointments.filter(
+                        appointment =>
+                            status(
+                                appointment.status
+                            ) === "completed"
+                    ).length;
+
+
+                const appointmentIds =
+                    new Set(
+                        serviceAppointments.map(
+                            appointment =>
+                                String(
+                                    appointment.id
+                                )
+                        )
+                    );
+
+
+                const revenue =
+                    filteredPayments
+                        .filter(
+                            payment =>
+                                status(
+                                    payment.status
+                                ) === "paid"
+                        )
+                        .filter(
+                            payment =>
+                                appointmentIds.has(
+                                    String(
+                                        payment.appointment_id
+                                    )
+                                )
+                        )
+                        .reduce(
+                            (sum, payment) =>
+                                sum +
+                                Number(
+                                    payment.amount ||
+                                    0
+                                ),
+                            0
+                        );
+
+
+                return {
+
+                    service,
+
+                    appointments:
+                        serviceAppointments.length,
+
+                    completed,
+
+                    revenue
+
+                };
+
+            });
+
+
+        serviceData.sort(
+            (a, b) =>
+                b.appointments -
+                a.appointments
+        );
+
+
+        const visible =
+            serviceData
+                .filter(
+                    item =>
+                        item.appointments > 0 ||
+                        item.revenue > 0
+                )
+                .slice(0, 10);
+
+
+        if (!visible.length) {
+
+            body.innerHTML = `
+
+                <tr>
+                    <td colspan="4">
+
+                        <div class="loading">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <p>
+                                No service activity found
+                                for this period.
+                            </p>
+                        </div>
+
+                    </td>
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        body.innerHTML =
+            visible.map(
+                item => `
+
+                    <tr>
+
+                        <td>
+
+                            <div class="service-name">
+                                ${escapeHtml(
+                                    item.service.name
+                                )}
+                            </div>
+
+                            <div class="service-count">
+                                ${
+                                    item.service.category ||
+                                    "Beauty Service"
+                                }
+                            </div>
+
+                        </td>
+
+                        <td>
+                            ${item.appointments}
+                        </td>
+
+                        <td>
+                            ${item.completed}
+                        </td>
+
+                        <td>
+
+                            <div class="amount">
+                                ${money(item.revenue)}
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `
+            ).join("");
+
+    }
+
+
+    /* -----------------------------
+       INSIGHTS
+    ----------------------------- */
+
+    function renderInsights(
+        filteredAppointments,
+        filteredPayments
+    ) {
+
+        const serviceCounts = {};
+
+
+        filteredAppointments.forEach(
+            appointment => {
+
+                const id =
+                    String(
+                        appointment.service_id
+                    );
+
+
+                serviceCounts[id] =
+                    (serviceCounts[id] || 0) +
+                    1;
+
+            }
+        );
+
+
+        let topServiceId = null;
+        let topCount = 0;
+
+
+        Object.entries(
+            serviceCounts
+        ).forEach(
+            ([id, count]) => {
+
+                if (count > topCount) {
+
+                    topCount = count;
+
+                    topServiceId = id;
+
+                }
+
+            }
+        );
+
+
+        const topService =
+            services.find(
+                service =>
+                    String(service.id) ===
+                    String(topServiceId)
+            );
+
+
+        if (topService) {
+
+            $("topService").textContent =
+                `${topService.name} is currently the most requested service with ${topCount} appointment${topCount === 1 ? "" : "s"}.`;
+
+        } else {
+
+            $("topService").textContent =
+                "No service activity is available for the selected period.";
+
+        }
+
+
+        const completed =
+            filteredAppointments.filter(
+                appointment =>
+                    status(
+                        appointment.status
+                    ) === "completed"
+            ).length;
+
+
+        const total =
+            filteredAppointments.length;
+
+
+        const completionRate =
+            total
+            ? Math.round(
+                (completed / total) * 100
+            )
+            : 0;
+
+
+        $("completionRate").textContent =
+            `${completionRate}% of appointments were completed during the selected period.`;
+
+
+        const paidPayments =
+            filteredPayments.filter(
+                payment =>
+                    status(
+                        payment.status
+                    ) === "paid"
+            );
+
+
+        const revenue =
+            paidPayments.reduce(
+                (sum, payment) =>
+                    sum +
+                    Number(
+                        payment.amount || 0
+                    ),
+                0
+            );
+
+
+        const average =
+            paidPayments.length
+            ? revenue /
+              paidPayments.length
+            : 0;
+
+
+        $("averageRevenue").textContent =
+            `Average paid transaction value is ${money(average)}.`;
+
+    }
+
+
+    /* -----------------------------
+       LOGOUT
+    ----------------------------- */
+
+    async function logout() {
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href =
+            "admin-login.html";
+
+    }
+
+
+    /* -----------------------------
+       EVENTS
+    ----------------------------- */
+
+    $("periodSelect")
+        .addEventListener(
+            "change",
+            generateReport
+        );
+
+
+    $("refreshBtn")
+        .addEventListener(
+            "click",
+            loadReport
+        );
+
+
+    $("logoutBtn")
+        .addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                logout();
+
+            }
+        );
+
+
+    $("mobileMenu")
+        .addEventListener(
+            "click",
+            () => {
+
+                $("sidebar")
+                    .classList.toggle("open");
+
+            }
+        );
+
+
+    /* -----------------------------
+       START
+    ----------------------------- */
+
+    loadReport();
+
+</script>
+
+</body>
+</html>
