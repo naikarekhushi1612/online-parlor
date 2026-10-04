@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payments | SG MAKEOVERS Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #d94680;
+            --pink-dark: #b83268;
+            --purple: #7c3aed;
+            --cream: #fff9fb;
+            --white: #ffffff;
+            --dark: #21151d;
+            --muted: #8b7d86;
+            --border: #eee2e8;
+            --success: #16805b;
+            --success-bg: #e9f8f1;
+            --warning: #b7791f;
+            --warning-bg: #fff7df;
+            --danger: #c53030;
+            --danger-bg: #fff0f0;
+            --shadow: 0 15px 40px rgba(61, 28, 48, .08);
+        }
+
+        body {
+            min-height: 100vh;
+            background: #faf7f9;
+            color: var(--dark);
+            font-family: "DM Sans", sans-serif;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+            background: linear-gradient(180deg, #24151f, #321522 55%, #24151f);
+            color: white;
+            padding: 28px 18px;
+            overflow-y: auto;
+        }
+
+        .brand {
+            padding: 0 12px 30px;
+            border-bottom: 1px solid rgba(255,255,255,.09);
+            margin-bottom: 24px;
+        }
+
+        .brand small {
+            display: block;
+            color: #e9a9c2;
+            font-size: 10px;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+
+        .brand h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .nav-title {
+            color: #a9949e;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0 12px;
+            margin: 22px 0 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: #d7cbd0;
+            text-decoration: none;
+            padding: 12px 13px;
+            border-radius: 12px;
+            margin: 4px 0;
+            font-size: 14px;
+            transition: .25s;
+        }
+
+        .nav-link i {
+            width: 18px;
+            text-align: center;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: linear-gradient(135deg, rgba(217,70,128,.28), rgba(124,58,237,.2));
+        }
+
+        .nav-link.active {
+            box-shadow: inset 3px 0 var(--pink);
+        }
+
+        /* MAIN */
+
+        .main {
+            width: calc(100% - 260px);
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 78px;
+            background: rgba(255,255,255,.92);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 34px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(12px);
+        }
+
+        .page-title h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 26px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: white;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .admin-info span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .content {
+            padding: 30px 34px 50px;
+        }
+
+        /* STATS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 21px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 17px;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            color: white;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .stat-value {
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+            margin-top: 5px;
+        }
+
+        /* TOOLBAR */
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .toolbar {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search {
+            flex: 1;
+            min-width: 230px;
+            position: relative;
+        }
+
+        .search i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aa9aa3;
+        }
+
+        .search input,
+        .filter select {
+            width: 100%;
+            height: 43px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: #fffafb;
+            outline: none;
+            color: var(--dark);
+            padding: 0 13px;
+        }
+
+        .search input {
+            padding-left: 40px;
+        }
+
+        .search input:focus,
+        .filter select:focus {
+            border-color: #e5a1bb;
+            box-shadow: 0 0 0 3px rgba(217,70,128,.08);
+        }
+
+        .filter {
+            width: 170px;
+        }
+
+        /* TABLE */
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px 20px;
+            background: #fffafb;
+            color: #907f88;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 17px 20px;
+            border-top: 1px solid #f2e9ed;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background: #fffafb;
+        }
+
+        .customer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .customer-avatar {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 36px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #f5c4d7, #d9c9f9);
+            color: #6c2850;
+            font-weight: 700;
+        }
+
+        .customer-name {
+            font-weight: 700;
+        }
+
+        .customer-email {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .service-name {
+            font-weight: 600;
+        }
+
+        .date {
+            color: #6e6168;
+            font-size: 12px;
+        }
+
+        .amount {
+            font-weight: 800;
+            color: #39212d;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .badge.paid {
+            color: var(--success);
+            background: var(--success-bg);
+        }
+
+        .badge.pending {
+            color: var(--warning);
+            background: var(--warning-bg);
+        }
+
+        .badge.failed,
+        .badge.cancelled {
+            color: var(--danger);
+            background: var(--danger-bg);
+        }
+
+        .badge.refunded {
+            color: #6941c6;
+            background: #f3edff;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .icon-btn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 9px;
+            color: #665862;
+            transition: .2s;
+        }
+
+        .icon-btn:hover {
+            color: var(--pink);
+            border-color: #e8aac0;
+            background: #fff5f8;
+        }
+
+        /* LOADING / EMPTY */
+
+        .state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .state i {
+            font-size: 35px;
+            margin-bottom: 13px;
+            color: #d7b7c5;
+        }
+
+        .state h3 {
+            color: var(--dark);
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            z-index: 5000;
+            min-width: 290px;
+            padding: 15px 18px;
+            border-radius: 13px;
+            background: #251720;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,.2);
+            display: none;
+            font-size: 13px;
+        }
+
+        .toast.show {
+            display: block;
+            animation: toastIn .25s ease;
+        }
+
+        .toast.success {
+            border-left: 4px solid #42c991;
+        }
+
+        .toast.error {
+            border-left: 4px solid #ff6d7d;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* MODAL */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 4000;
+            background: rgba(30,15,24,.58);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 22px;
+            box-shadow: 0 30px 80px rgba(0,0,0,.25);
+        }
+
+        .modal-head {
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-head h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 21px;
+        }
+
+        .close {
+            width: 35px;
+            height: 35px;
+            border: 0;
+            background: #f8eef2;
+            border-radius: 10px;
+            color: #715c67;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .detail {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fffafb;
+        }
+
+        .detail.full {
+            grid-column: 1 / -1;
+        }
+
+        .detail span {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .detail strong {
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        .modal-footer {
+            padding: 18px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 11px;
+            padding: 11px 17px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+        }
+
+        .btn-secondary {
+            background: #f7eef2;
+            color: #5c4d55;
+        }
+
+        /* MOBILE */
+
+        .mobile-menu {
+            display: none;
+            border: 0;
+            background: transparent;
+            font-size: 20px;
+            color: var(--dark);
+        }
+
+        @media (max-width: 1050px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: .25s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 22px 18px 40px;
+            }
+
+            .admin-info {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                align-items: stretch;
+            }
+
+            .search,
+            .filter {
+                width: 100%;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail.full {
+                grid-column: auto;
+            }
+
+            .page-title h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <small>ONLINE BEAUTY SERVICES</small>
+            <h1>SG MAKEOVERS</h1>
+        </div>
+
+        <div class="nav-title">Main</div>
+
+        <a href="dashboard.html" class="nav-link">
+            <i class="fa-solid fa-chart-line"></i>
+            Dashboard
+        </a>
+
+        <a href="appointments.html" class="nav-link">
+            <i class="fa-regular fa-calendar-check"></i>
+            Appointments
+        </a>
+
+        <a href="customers.html" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            Customers
+        </a>
+
+        <a href="payments.html" class="nav-link active">
+            <i class="fa-solid fa-wallet"></i>
+            Payments
+        </a>
+
+        <div class="nav-title">Management</div>
+
+        <a href="services.html" class="nav-link">
+            <i class="fa-solid fa-scissors"></i>
+            Services
+        </a>
+
+        <a href="staff.html" class="nav-link">
+            <i class="fa-solid fa-user-tie"></i>
+            Staff
+        </a>
+
+        <a href="reports.html" class="nav-link">
+            <i class="fa-solid fa-file-invoice"></i>
+            Reports
+        </a>
+
+        <div class="nav-title">Account</div>
+
+        <a href="../customer-dashboard.html" class="nav-link">
+            <i class="fa-solid fa-house"></i>
+            Customer Site
+        </a>
+
+        <a href="#" class="nav-link" id="logoutBtn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div style="display:flex;align-items:center;gap:14px;">
+                <button class="mobile-menu" id="mobileMenu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="page-title">
+                    <h2>Payments</h2>
+                    <p>Manage and monitor customer payments</p>
+                </div>
+            </div>
+
+            <div class="admin-profile">
+                <div class="admin-avatar">SG</div>
+
+                <div class="admin-info">
+                    <strong>SG Makeovers Admin</strong>
+                    <span>Administrator</span>
+                </div>
+            </div>
+
+        </header>
+
+        <section class="content">
+
+            <!-- STATS -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Payments</span>
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-value" id="totalPayments">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Paid Payments</span>
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-value" id="paidPayments">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Pending</span>
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-value" id="pendingPayments">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Revenue</span>
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-value" id="totalRevenue">₹0</div>
+                </div>
+
+            </div>
+
+            <!-- PAYMENT PANEL -->
+            <div class="panel">
+
+                <div class="toolbar">
+
+                    <div class="search">
+                        <i class="fa-solid fa-search"></i>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search customer, payment ID, transaction..."
+                        >
+                    </div>
+
+                    <div class="filter">
+                        <select id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="paid">Paid</option>
+                            <option value="pending">Pending</option>
+                            <option value="failed">Failed</option>
+                            <option value="refunded">Refunded</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Payment</th>
+                                <th>Customer</th>
+                                <th>Service</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="paymentsBody">
+
+                            <tr>
+                                <td colspan="8">
+
+                                    <div class="state">
+
+                                        <i class="fa-solid fa-spinner fa-spin"></i>
+
+                                        <h3>Loading payments...</h3>
+
+                                        <p>Please wait while we fetch payment records.</p>
+
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- DETAILS MODAL -->
+
+<div class="modal" id="detailsModal">
+
+    <div class="modal-card">
+
+        <div class="modal-head">
+
+            <h3>Payment Details</h3>
+
+            <button class="close" id="closeModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div class="detail-grid">
+
+                <div class="detail">
+                    <span>Payment ID</span>
+                    <strong id="detailPaymentId">—</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Status</span>
+                    <strong id="detailStatus">—</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Customer</span>
+                    <strong id="detailCustomer">—</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Email</span>
+                    <strong id="detailEmail">—</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Service</span>
+                    <strong id="detailService">—</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Amount</span>
+                    <strong id="detailAmount">—</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Payment Method</span>
+                    <strong id="detailMethod">—</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Transaction ID</span>
+                    <strong id="detailTransaction">—</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Appointment Date</span>
+                    <strong id="detailDate">—</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Appointment Time</span>
+                    <strong id="detailTime">—</strong>
+                </div>
+
+                <div class="detail full">
+                    <span>Created At</span>
+                    <strong id="detailCreated">—</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button class="btn btn-secondary" id="closeModalBtn">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+    let allPayments = [];
+    let allAppointments = [];
+    let allProfiles = [];
+    let allServices = [];
+
+
+    /* ------------------------------
+       HELPERS
+    ------------------------------ */
+
+    const $ = (id) => document.getElementById(id);
+
+
+    function showToast(message, type = "success") {
+
+        const toast = $("toast");
+
+        toast.textContent = message;
+        toast.className = `toast ${type} show`;
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
+    }
+
+
+    function formatMoney(value) {
+
+        const amount = Number(value || 0);
+
+        return new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+            maximumFractionDigits: 0
+        }).format(amount);
+    }
+
+
+    function formatDate(date) {
+
+        if (!date) return "—";
+
+        const d = new Date(date);
+
+        if (Number.isNaN(d.getTime())) {
+            return date;
+        }
+
+        return d.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
+
+    function formatDateTime(date) {
+
+        if (!date) return "—";
+
+        const d = new Date(date);
+
+        if (Number.isNaN(d.getTime())) {
+            return date;
+        }
+
+        return d.toLocaleString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    }
+
+
+    function cleanStatus(status) {
+
+        return String(status || "pending")
+            .trim()
+            .toLowerCase();
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    function getInitials(name) {
+
+        if (!name) return "CU";
+
+        const parts = String(name)
+            .trim()
+            .split(/\s+/)
+            .slice(0, 2);
+
+        return parts
+            .map(part => part.charAt(0).toUpperCase())
+            .join("");
+    }
+
+
+    /* ------------------------------
+       ADMIN CHECK
+    ------------------------------ */
+
+    async function verifyAdmin() {
+
+        const {
+            data: { user },
+            error
+        } = await supabaseClient.auth.getUser();
+
+        if (error || !user) {
+
+            window.location.href = "admin-login.html";
+
+            return null;
+        }
+
+        const { data: isAdmin, error: adminError } =
+            await supabaseClient.rpc("is_admin");
+
+        if (adminError || !isAdmin) {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href = "admin-login.html";
+
+            return null;
+        }
+
+        return user;
+    }
+
+
+    /* ------------------------------
+       LOAD DATA
+    ------------------------------ */
+
+    async function loadPayments() {
+
+        try {
+
+            const user = await verifyAdmin();
+
+            if (!user) return;
+
+
+            const [
+                paymentsResponse,
+                appointmentsResponse,
+                profilesResponse,
+                servicesResponse
+            ] = await Promise.all([
+
+                supabaseClient
+                    .from("payments")
+                    .select("*")
+                    .order("created_at", { ascending: false }),
+
+                supabaseClient
+                    .from("appointments")
+                    .select("*"),
+
+                supabaseClient
+                    .from("profiles")
+                    .select("*"),
+
+                supabaseClient
+                    .from("services")
+                    .select("*")
+            ]);
+
+
+            if (paymentsResponse.error) {
+                throw paymentsResponse.error;
+            }
+
+
+            allPayments = paymentsResponse.data || [];
+
+            allAppointments =
+                appointmentsResponse.data || [];
+
+            allProfiles =
+                profilesResponse.data || [];
+
+            allServices =
+                servicesResponse.data || [];
+
+
+            updateStats();
+
+            renderPayments();
+
+
+        } catch (error) {
+
+            console.error("Payments load error:", error);
+
+            $("paymentsBody").innerHTML = `
+
+                <tr>
+                    <td colspan="8">
+
+                        <div class="state">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                            <h3>Unable to load payments</h3>
+
+                            <p>${escapeHtml(error.message || "Something went wrong.")}</p>
+
+                        </div>
+
+                    </td>
+                </tr>
+
+            `;
+
+            showToast(
+                error.message || "Unable to load payments",
+                "error"
+            );
+        }
+
+    }
+
+
+    /* ------------------------------
+       DATA MATCHING
+    ------------------------------ */
+
+    function getAppointment(payment) {
+
+        if (!payment) return null;
+
+        return allAppointments.find(
+            appointment =>
+                String(appointment.id) ===
+                String(payment.appointment_id)
+        ) || null;
+    }
+
+
+    function getProfile(customerId) {
+
+        if (!customerId) return null;
+
+        return allProfiles.find(
+            profile =>
+                String(profile.id) ===
+                String(customerId)
+        ) || null;
+    }
+
+
+    function getService(serviceId) {
+
+        if (!serviceId) return null;
+
+        return allServices.find(
+            service =>
+                String(service.id) ===
+                String(serviceId)
+        ) || null;
+    }
+
+
+    function getCustomer(payment) {
+
+        const appointment = getAppointment(payment);
+
+        if (!appointment) return null;
+
+        return getProfile(appointment.customer_id);
+    }
+
+
+    function getServiceForPayment(payment) {
+
+        const appointment = getAppointment(payment);
+
+        if (!appointment) return null;
+
+        return getService(appointment.service_id);
+    }
+
+
+    /* ------------------------------
+       STATS
+    ------------------------------ */
+
+    function updateStats() {
+
+        const total =
+            allPayments.length;
+
+        const paid =
+            allPayments.filter(
+                payment =>
+                    cleanStatus(payment.status) === "paid"
+            ).length;
+
+        const pending =
+            allPayments.filter(
+                payment =>
+                    cleanStatus(payment.status) === "pending"
+            ).length;
+
+        const revenue =
+            allPayments
+                .filter(
+                    payment =>
+                        cleanStatus(payment.status) === "paid"
+                )
+                .reduce(
+                    (sum, payment) =>
+                        sum + Number(payment.amount || 0),
+                    0
+                );
+
+
+        $("totalPayments").textContent = total;
+
+        $("paidPayments").textContent = paid;
+
+        $("pendingPayments").textContent = pending;
+
+        $("totalRevenue").textContent =
+            formatMoney(revenue);
+    }
+
+
+    /* ------------------------------
+       RENDER
+    ------------------------------ */
+
+    function renderPayments() {
+
+        const search =
+            $("searchInput")
+                .value
+                .trim()
+                .toLowerCase();
+
+        const status =
+            $("statusFilter").value;
+
+
+        let payments = [...allPayments];
+
+
+        if (status !== "all") {
+
+            payments =
+                payments.filter(
+                    payment =>
+                        cleanStatus(payment.status) === status
+                );
+        }
+
+
+        if (search) {
+
+            payments =
+                payments.filter(payment => {
+
+                    const appointment =
+                        getAppointment(payment);
+
+                    const customer =
+                        getCustomer(payment);
+
+                    const service =
+                        getServiceForPayment(payment);
+
+
+                    const searchable = [
+
+                        payment.id,
+
+                        payment.transaction_id,
+
+                        payment.payment_method,
+
+                        payment.status,
+
+                        appointment?.id,
+
+                        customer?.full_name,
+
+                        customer?.email,
+
+                        customer?.phone,
+
+                        service?.name
+
+                    ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+
+                    return searchable.includes(search);
+                });
+        }
+
+
+        if (!payments.length) {
+
+            $("paymentsBody").innerHTML = `
+
+                <tr>
+                    <td colspan="8">
+
+                        <div class="state">
+
+                            <i class="fa-solid fa-wallet"></i>
+
+                            <h3>No payments found</h3>
+
+                            <p>
+                                Payment records will appear here
+                                when customers make payments.
+                            </p>
+
+                        </div>
+
+                    </td>
+                </tr>
+
+            `;
+
+            return;
+        }
+
+
+        $("paymentsBody").innerHTML =
+            payments.map(payment => {
+
+                const appointment =
+                    getAppointment(payment);
+
+                const customer =
+                    getCustomer(payment);
+
+                const service =
+                    getServiceForPayment(payment);
+
+                const status =
+                    cleanStatus(payment.status);
+
+                const customerName =
+                    customer?.full_name ||
+                    "Customer";
+
+                const customerEmail =
+                    customer?.email ||
+                    "No email";
+
+                const serviceName =
+                    service?.name ||
+                    "Service";
+
+                const appointmentDate =
+                    appointment?.appointment_date ||
+                    payment.paid_at ||
+                    payment.created_at;
+
+                const paymentMethod =
+                    payment.payment_method ||
+                    "—";
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+
+                            <strong>#${escapeHtml(payment.id)}</strong>
+
+                            <div class="date">
+                                ${
+                                    payment.transaction_id
+                                    ? escapeHtml(payment.transaction_id)
+                                    : "No transaction ID"
+                                }
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="customer-avatar">
+                                    ${escapeHtml(
+                                        getInitials(customerName)
+                                    )}
+                                </div>
+
+                                <div>
+
+                                    <div class="customer-name">
+                                        ${escapeHtml(customerName)}
+                                    </div>
+
+                                    <div class="customer-email">
+                                        ${escapeHtml(customerEmail)}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="service-name">
+                                ${escapeHtml(serviceName)}
+                            </div>
+
+                            ${
+                                appointment?.id
+                                ? `
+                                    <div class="date">
+                                        Appointment #${escapeHtml(
+                                            appointment.id
+                                        )}
+                                    </div>
+                                  `
+                                : ""
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="date">
+                                ${formatDate(appointmentDate)}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="amount">
+                                ${formatMoney(payment.amount)}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHtml(
+                                String(paymentMethod)
+                                    .replace(/_/g, " ")
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="badge ${escapeHtml(status)}">
+                                ${escapeHtml(status)}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="icon-btn"
+                                    title="View details"
+                                    onclick="openPaymentDetails('${escapeHtml(payment.id)}')"
+                                >
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    /* ------------------------------
+       PAYMENT DETAILS
+    ------------------------------ */
+
+    function openPaymentDetails(paymentId) {
+
+        const payment =
+            allPayments.find(
+                item =>
+                    String(item.id) ===
+                    String(paymentId)
+            );
+
+        if (!payment) return;
+
+
+        const appointment =
+            getAppointment(payment);
+
+        const customer =
+            getCustomer(payment);
+
+        const service =
+            getServiceForPayment(payment);
+
+
+        $("detailPaymentId").textContent =
+            `#${payment.id}`;
+
+        $("detailStatus").textContent =
+            payment.status || "—";
+
+        $("detailCustomer").textContent =
+            customer?.full_name || "—";
+
+        $("detailEmail").textContent =
+            customer?.email || "—";
+
+        $("detailService").textContent =
+            service?.name || "—";
+
+        $("detailAmount").textContent =
+            formatMoney(payment.amount);
+
+        $("detailMethod").textContent =
+            payment.payment_method || "—";
+
+        $("detailTransaction").textContent =
+            payment.transaction_id || "—";
+
+        $("detailDate").textContent =
+            appointment?.appointment_date
+            ? formatDate(appointment.appointment_date)
+            : "—";
+
+        $("detailTime").textContent =
+            appointment?.appointment_time || "—";
+
+        $("detailCreated").textContent =
+            formatDateTime(payment.created_at);
+
+
+        $("detailsModal").classList.add("show");
+
+    }
+
+
+    function closeModal() {
+
+        $("detailsModal")
+            .classList.remove("show");
+
+    }
+
+
+    /* ------------------------------
+       LOGOUT
+    ------------------------------ */
+
+    async function logout() {
+
+        try {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "admin-login.html";
+
+        } catch (error) {
+
+            console.error(error);
+
+            showToast(
+                "Unable to logout",
+                "error"
+            );
+        }
+
+    }
+
+
+    /* ------------------------------
+       EVENTS
+    ------------------------------ */
+
+    $("searchInput")
+        .addEventListener(
+            "input",
+            renderPayments
+        );
+
+
+    $("statusFilter")
+        .addEventListener(
+            "change",
+            renderPayments
+        );
+
+
+    $("logoutBtn")
+        .addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                logout();
+
+            }
+        );
+
+
+    $("closeModal")
+        .addEventListener(
+            "click",
+            closeModal
+        );
+
+
+    $("closeModalBtn")
+        .addEventListener(
+            "click",
+            closeModal
+        );
+
+
+    $("detailsModal")
+        .addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    $("detailsModal")
+                ) {
+                    closeModal();
+                }
+
+            }
+        );
+
+
+    $("mobileMenu")
+        .addEventListener(
+            "click",
+            () => {
+
+                $("sidebar")
+                    .classList.toggle("open");
+
+            }
+        );
+
+
+    /* ------------------------------
+       INITIALIZE
+    ------------------------------ */
+
+    loadPayments();
+
+</script>
+
+</body>
+</html>

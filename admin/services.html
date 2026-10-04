@@ -1,0 +1,2256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Services | SG MAKEOVERS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --pink:#df358b;
+    --purple:#8d4de8;
+    --dark:#241b27;
+    --text:#382d39;
+    --muted:#938693;
+    --border:#eadfea;
+    --soft:#fff8fc;
+    --green:#22a06b;
+    --red:#c9324c;
+}
+
+body{
+    font-family:"DM Sans",sans-serif;
+    background:#fffafe;
+    color:var(--text);
+}
+
+button,
+input,
+textarea{
+    font-family:inherit;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    min-height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    z-index:100;
+    padding:25px 20px;
+    background:linear-gradient(180deg,#281c2b,#211923);
+    color:white;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 10px;
+    margin-bottom:38px;
+}
+
+.logo-icon{
+    width:43px;
+    height:43px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#df358b,#914de8);
+}
+
+.logo-text strong{
+    display:block;
+    font-family:"Playfair Display",serif;
+    font-size:17px;
+}
+
+.logo-text span{
+    display:block;
+    margin-top:2px;
+    font-size:7px;
+    letter-spacing:2px;
+    color:#d8cbd8;
+}
+
+.menu-title{
+    padding:0 14px;
+    margin-bottom:10px;
+    color:#8e7d91;
+    font-size:9px;
+    letter-spacing:2px;
+    font-weight:700;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.nav a{
+    min-height:46px;
+    padding:0 14px;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+    color:#c8bac9;
+    font-size:13px;
+    font-weight:600;
+}
+
+.nav a i{
+    width:17px;
+    text-align:center;
+}
+
+.nav a:hover,
+.nav a.active{
+    color:white;
+    background:linear-gradient(
+        90deg,
+        rgba(223,53,139,.32),
+        rgba(141,77,232,.20)
+    );
+}
+
+.nav a.active{
+    border-left:3px solid #ef65a8;
+}
+
+.admin-box{
+    position:absolute;
+    left:20px;
+    right:20px;
+    bottom:22px;
+    padding:12px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:15px;
+    background:rgba(255,255,255,.05);
+}
+
+.admin-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.admin-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#df358b,#914de8);
+    font-weight:700;
+}
+
+.admin-info strong{
+    display:block;
+    font-size:12px;
+}
+
+.admin-info span{
+    display:block;
+    margin-top:3px;
+    font-size:9px;
+    color:#9d8e9e;
+}
+
+.logout-btn{
+    margin-top:12px;
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#b7a8b8;
+    padding:7px 0;
+    cursor:pointer;
+    text-align:left;
+    font-size:11px;
+}
+
+/* MAIN */
+
+.main{
+    width:calc(100% - 260px);
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:78px;
+    background:white;
+    border-bottom:1px solid #f0e8f0;
+    padding:0 34px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.page-heading h1{
+    font-family:"Playfair Display",serif;
+    font-size:28px;
+}
+
+.page-heading p{
+    margin-top:3px;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.website-btn,
+.notification-btn{
+    border:1px solid var(--border);
+    background:white;
+    color:#5e4d60;
+    cursor:pointer;
+}
+
+.website-btn{
+    height:38px;
+    padding:0 15px;
+    border-radius:11px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.notification-btn{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+}
+
+.content{
+    padding:32px 34px 45px;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:19px;
+    padding:22px;
+}
+
+.stat-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+}
+
+.stat-number{
+    font-size:29px;
+    font-weight:700;
+}
+
+.stat-label{
+    margin-top:4px;
+    font-size:11px;
+    color:var(--muted);
+}
+
+.stat-icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    color:var(--pink);
+    background:#fff0f7;
+}
+
+.stat-icon.purple{
+    color:var(--purple);
+    background:#f2edff;
+}
+
+.stat-icon.green{
+    color:var(--green);
+    background:#eaf8f1;
+}
+
+/* TOOLBAR */
+
+.toolbar{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.search-box{
+    flex:1;
+    max-width:450px;
+    position:relative;
+}
+
+.search-box i{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#aa9baa;
+}
+
+.search-box input{
+    width:100%;
+    height:45px;
+    border:1px solid var(--border);
+    border-radius:13px;
+    outline:none;
+    padding:0 15px 0 43px;
+}
+
+.search-box input:focus{
+    border-color:var(--pink);
+    box-shadow:0 0 0 4px rgba(223,53,139,.07);
+}
+
+.add-btn{
+    height:45px;
+    padding:0 18px;
+    border:0;
+    border-radius:13px;
+    color:white;
+    background:linear-gradient(
+        135deg,
+        var(--pink),
+        var(--purple)
+    );
+    cursor:pointer;
+    font-size:11px;
+    font-weight:700;
+    box-shadow:0 8px 18px rgba(223,53,139,.18);
+}
+
+.add-btn:hover{
+    transform:translateY(-1px);
+}
+
+/* SERVICES */
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.service-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:20px;
+    overflow:hidden;
+    transition:.2s;
+}
+
+.service-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 14px 35px rgba(72,37,65,.08);
+}
+
+.service-image{
+    height:165px;
+    background:#f8edf5;
+    position:relative;
+    overflow:hidden;
+}
+
+.service-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.service-placeholder{
+    width:100%;
+    height:100%;
+    display:grid;
+    place-items:center;
+    color:#d2b8cb;
+    font-size:38px;
+}
+
+.service-status{
+    position:absolute;
+    top:12px;
+    right:12px;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:8px;
+    font-weight:700;
+    background:white;
+}
+
+.service-status.active{
+    color:#18794e;
+}
+
+.service-status.inactive{
+    color:#c9324c;
+}
+
+.service-body{
+    padding:18px;
+}
+
+.service-name{
+    font-family:"Playfair Display",serif;
+    font-size:20px;
+    font-weight:600;
+}
+
+.service-description{
+    min-height:38px;
+    margin-top:7px;
+    color:#938693;
+    font-size:10px;
+    line-height:1.6;
+}
+
+.service-meta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:17px;
+    padding-top:14px;
+    border-top:1px solid #f2eaf1;
+}
+
+.duration{
+    color:#776978;
+    font-size:10px;
+}
+
+.duration i{
+    color:var(--pink);
+    margin-right:5px;
+}
+
+.price{
+    font-size:18px;
+    font-weight:700;
+    color:var(--pink);
+}
+
+.service-actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.action-btn{
+    flex:1;
+    height:36px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:white;
+    cursor:pointer;
+    font-size:9px;
+    font-weight:600;
+}
+
+.action-btn.edit{
+    color:var(--purple);
+}
+
+.action-btn.toggle{
+    color:#18794e;
+}
+
+.action-btn.delete{
+    color:var(--red);
+}
+
+.action-btn:hover{
+    background:#fff8fc;
+}
+
+/* EMPTY */
+
+.empty{
+    grid-column:1/-1;
+    padding:70px 20px;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:20px;
+    text-align:center;
+    color:#998b98;
+}
+
+.empty i{
+    font-size:35px;
+    color:#d8c6d4;
+    margin-bottom:14px;
+}
+
+.empty p{
+    font-size:12px;
+}
+
+.loading{
+    grid-column:1/-1;
+    padding:70px 20px;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:20px;
+    text-align:center;
+    color:#998b98;
+}
+
+.loading i{
+    color:var(--pink);
+    font-size:25px;
+    margin-bottom:12px;
+}
+
+/* MODAL */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(28,18,30,.55);
+    backdrop-filter:blur(5px);
+}
+
+.modal-overlay.show{
+    display:flex;
+}
+
+.modal{
+    width:100%;
+    max-width:550px;
+    max-height:90vh;
+    overflow:auto;
+    background:white;
+    border-radius:22px;
+    box-shadow:0 25px 70px rgba(0,0,0,.22);
+}
+
+.modal-header{
+    padding:22px 24px;
+    border-bottom:1px solid #f0e8f0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.modal-header h2{
+    font-family:"Playfair Display",serif;
+    font-size:22px;
+}
+
+.close-btn{
+    width:35px;
+    height:35px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:white;
+    cursor:pointer;
+    color:#766577;
+}
+
+.modal-body{
+    padding:24px;
+}
+
+.form-group{
+    margin-bottom:17px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    font-size:10px;
+    font-weight:700;
+    color:#5e4e60;
+}
+
+.form-group input,
+.form-group textarea{
+    width:100%;
+    border:1px solid var(--border);
+    border-radius:11px;
+    outline:none;
+    padding:12px 13px;
+    color:var(--text);
+    font-size:11px;
+}
+
+.form-group textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+    border-color:var(--pink);
+    box-shadow:0 0 0 4px rgba(223,53,139,.06);
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.checkbox-row{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-top:5px;
+}
+
+.checkbox-row input{
+    width:16px;
+    height:16px;
+    accent-color:var(--pink);
+}
+
+.checkbox-row label{
+    margin:0;
+    font-size:10px;
+    font-weight:600;
+}
+
+.modal-footer{
+    padding:18px 24px;
+    border-top:1px solid #f0e8f0;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+.cancel-btn,
+.save-btn{
+    height:40px;
+    padding:0 18px;
+    border-radius:11px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:700;
+}
+
+.cancel-btn{
+    border:1px solid var(--border);
+    background:white;
+    color:#6c5d6d;
+}
+
+.save-btn{
+    border:0;
+    color:white;
+    background:linear-gradient(
+        135deg,
+        var(--pink),
+        var(--purple)
+    );
+}
+
+.mobile-menu{
+    display:none;
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    background:white;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    z-index:1000;
+    min-width:270px;
+    padding:15px 18px;
+    border-radius:13px;
+    color:white;
+    background:#281c2b;
+    box-shadow:0 15px 35px rgba(0,0,0,.2);
+    font-size:11px;
+    transform:translateY(120px);
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+.toast.success{
+    border-left:4px solid #32bd7c;
+}
+
+.toast.error{
+    border-left:4px solid #e5576e;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1050px){
+
+    .services-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stats{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        width:100%;
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 18px;
+        gap:12px;
+    }
+
+    .page-heading{
+        flex:1;
+    }
+
+    .website-btn{
+        display:none;
+    }
+
+    .content{
+        padding:22px 16px 35px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .toolbar{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .search-box{
+        max-width:none;
+    }
+
+    .services-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            <i class="fa-solid fa-spa"></i>
+        </div>
+
+        <div class="logo-text">
+            <strong>SG MAKEOVERS</strong>
+            <span>ONLINE BEAUTY SERVICES</span>
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        MAIN MENU
+    </div>
+
+    <nav class="nav">
+
+        <a href="dashboard.html">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+
+        <a href="customers.html">
+            <i class="fa-solid fa-users"></i>
+            Customers
+        </a>
+
+        <a href="services.html" class="active">
+            <i class="fa-solid fa-scissors"></i>
+            Services
+        </a>
+
+        <a href="staff.html">
+            <i class="fa-solid fa-user-tie"></i>
+            Staff
+        </a>
+
+        <a href="appointments.html">
+            <i class="fa-regular fa-calendar-check"></i>
+            Appointments
+        </a>
+
+        <a href="payments.html">
+            <i class="fa-solid fa-wallet"></i>
+            Payments
+        </a>
+
+        <a href="reports.html">
+            <i class="fa-solid fa-chart-column"></i>
+            Reports
+        </a>
+
+    </nav>
+
+    <div class="admin-box">
+
+        <div class="admin-info">
+
+            <div class="admin-avatar">
+                A
+            </div>
+
+            <div>
+                <strong id="adminName">
+                    Administrator
+                </strong>
+
+                <span id="adminEmail">
+                    admin@sgmakeovers.com
+                </span>
+            </div>
+
+        </div>
+
+        <button class="logout-btn" id="logoutBtn">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            &nbsp; Logout
+        </button>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+    <button class="mobile-menu" id="mobileMenu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="page-heading">
+
+        <h1>
+            Services
+        </h1>
+
+        <p>
+            Manage your beauty services and pricing.
+        </p>
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="website-btn"
+            onclick="window.location.href='../index.html'"
+        >
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            View Website
+        </button>
+
+        <button class="notification-btn">
+            <i class="fa-regular fa-bell"></i>
+        </button>
+
+    </div>
+
+</header>
+
+
+<section class="content">
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+                    <div
+                        class="stat-number"
+                        id="totalServices"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Total Services
+                    </div>
+                </div>
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-scissors"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+                    <div
+                        class="stat-number"
+                        id="activeServices"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Active Services
+                    </div>
+                </div>
+
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+                    <div
+                        class="stat-number"
+                        id="averagePrice"
+                    >
+                        ₹0
+                    </div>
+
+                    <div class="stat-label">
+                        Average Price
+                    </div>
+                </div>
+
+                <div class="stat-icon purple">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search services..."
+            >
+
+        </div>
+
+        <button
+            class="add-btn"
+            id="addServiceBtn"
+        >
+            <i class="fa-solid fa-plus"></i>
+            &nbsp; Add Service
+        </button>
+
+    </div>
+
+
+    <div
+        class="services-grid"
+        id="servicesGrid"
+    >
+
+        <div class="loading">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            <p>
+                Loading services...
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- MODAL -->
+
+<div
+    class="modal-overlay"
+    id="modalOverlay"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Add Service
+            </h2>
+
+            <button
+                class="close-btn"
+                id="closeModalBtn"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <form id="serviceForm">
+
+            <div class="modal-body">
+
+                <div class="form-group">
+
+                    <label>
+                        Service Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="serviceName"
+                        placeholder="e.g. Hair Styling"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Description
+                    </label>
+
+                    <textarea
+                        id="serviceDescription"
+                        placeholder="Describe the service..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Duration (minutes)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="serviceDuration"
+                            min="1"
+                            placeholder="60"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Price (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="servicePrice"
+                            min="0"
+                            step="0.01"
+                            placeholder="799"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Image URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="serviceImage"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+                <div class="checkbox-row">
+
+                    <input
+                        type="checkbox"
+                        id="serviceActive"
+                        checked
+                    >
+
+                    <label for="serviceActive">
+                        Service is active
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelModalBtn"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                    id="saveServiceBtn"
+                >
+                    Save Service
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* ================= VARIABLES ================= */
+
+let services = [];
+let editingServiceId = null;
+
+const servicesGrid =
+    document.getElementById("servicesGrid");
+
+const modalOverlay =
+    document.getElementById("modalOverlay");
+
+const serviceForm =
+    document.getElementById("serviceForm");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+
+/* ================= HELPERS ================= */
+
+function escapeHTML(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+        return "";
+    }
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+function formatPrice(price){
+
+    return Number(price || 0)
+        .toLocaleString("en-IN",{
+            maximumFractionDigits:2
+        });
+}
+
+
+function showToast(message,type="success"){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.className =
+        `toast show ${type}`;
+
+    setTimeout(() => {
+
+        toast.className =
+            "toast";
+
+    },3000);
+}
+
+
+/* ================= AUTH ================= */
+
+async function checkAdmin(){
+
+    const {
+        data:{
+            user
+        }
+    } =
+        await supabaseClient.auth.getUser();
+
+    if(!user){
+
+        window.location.href =
+            "admin-login.html";
+
+        return null;
+    }
+
+
+    const {
+        data:isAdmin,
+        error
+    } =
+        await supabaseClient.rpc("is_admin");
+
+
+    if(
+        error ||
+        isAdmin !== true
+    ){
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href =
+            "admin-login.html";
+
+        return null;
+    }
+
+
+    return user;
+}
+
+
+/* ================= ADMIN INFO ================= */
+
+async function loadAdminInfo(user){
+
+    document.getElementById("adminEmail")
+        .textContent =
+        user.email ||
+        "admin@sgmakeovers.com";
+
+
+    try{
+
+        const {
+            data:admin
+        } =
+            await supabaseClient
+                .from("admins")
+                .select("full_name")
+                .eq("user_id",user.id)
+                .maybeSingle();
+
+
+        if(admin?.full_name){
+
+            document.getElementById("adminName")
+                .textContent =
+                admin.full_name;
+
+        }
+
+    }catch(error){
+
+        console.warn(
+            "Admin info unavailable:",
+            error
+        );
+
+    }
+}
+
+
+/* ================= LOAD SERVICES ================= */
+
+async function loadServices(){
+
+    servicesGrid.innerHTML = `
+        <div class="loading">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Loading services...</p>
+        </div>
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("services")
+            .select("*")
+            .order("created_at",{
+                ascending:false
+            });
+
+
+    if(error){
+
+        console.error(
+            "Services error:",
+            error
+        );
+
+        servicesGrid.innerHTML = `
+            <div class="empty">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <p>
+                    Unable to load services.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    services =
+        data || [];
+
+
+    updateStats();
+
+    renderServices(services);
+}
+
+
+/* ================= STATS ================= */
+
+function updateStats(){
+
+    const total =
+        services.length;
+
+    const active =
+        services.filter(
+            service =>
+                service.is_active !== false
+        ).length;
+
+
+    const prices =
+        services
+            .map(
+                service =>
+                    Number(service.price || 0)
+            )
+            .filter(
+                price =>
+                    price > 0
+            );
+
+
+    const average =
+        prices.length
+            ? prices.reduce(
+                (sum,price) =>
+                    sum + price,
+                0
+              ) / prices.length
+            : 0;
+
+
+    document.getElementById(
+        "totalServices"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "activeServices"
+    ).textContent =
+        active;
+
+
+    document.getElementById(
+        "averagePrice"
+    ).textContent =
+        "₹" +
+        Math.round(average)
+            .toLocaleString("en-IN");
+}
+
+
+/* ================= RENDER ================= */
+
+function renderServices(list){
+
+    if(!list.length){
+
+        servicesGrid.innerHTML = `
+            <div class="empty">
+
+                <i class="fa-solid fa-scissors"></i>
+
+                <p>
+                    No services found.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    servicesGrid.innerHTML =
+        list.map(service => {
+
+            const active =
+                service.is_active !== false;
+
+
+            const image =
+                service.image_url;
+
+
+            const imageHTML =
+                image
+                ? `
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt="${escapeHTML(service.name)}"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
+                    >
+
+                    <div
+                        class="service-placeholder"
+                        style="display:none;"
+                    >
+                        <i class="fa-solid fa-spa"></i>
+                    </div>
+                  `
+                : `
+                    <div class="service-placeholder">
+                        <i class="fa-solid fa-spa"></i>
+                    </div>
+                  `;
+
+
+            return `
+                <div class="service-card">
+
+                    <div class="service-image">
+
+                        ${imageHTML}
+
+                        <span
+                            class="service-status ${
+                                active
+                                ? "active"
+                                : "inactive"
+                            }"
+                        >
+                            ${
+                                active
+                                ? "Active"
+                                : "Inactive"
+                            }
+                        </span>
+
+                    </div>
+
+
+                    <div class="service-body">
+
+                        <div class="service-name">
+                            ${escapeHTML(
+                                service.name
+                            )}
+                        </div>
+
+
+                        <div class="service-description">
+
+                            ${
+                                escapeHTML(
+                                    service.description ||
+                                    "Professional beauty service by SG MAKEOVERS."
+                                )
+                            }
+
+                        </div>
+
+
+                        <div class="service-meta">
+
+                            <div class="duration">
+
+                                <i class="fa-regular fa-clock"></i>
+
+                                ${
+                                    service.duration_minutes ||
+                                    0
+                                } min
+
+                            </div>
+
+
+                            <div class="price">
+
+                                ₹${
+                                    formatPrice(
+                                        service.price
+                                    )
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="service-actions">
+
+                            <button
+                                class="action-btn edit"
+                                onclick="editService('${service.id}')"
+                            >
+                                <i class="fa-solid fa-pen"></i>
+                                Edit
+                            </button>
+
+
+                            <button
+                                class="action-btn toggle"
+                                onclick="toggleService('${service.id}')"
+                            >
+                                <i class="fa-solid ${
+                                    active
+                                    ? "fa-eye-slash"
+                                    : "fa-eye"
+                                }"></i>
+
+                                ${
+                                    active
+                                    ? "Hide"
+                                    : "Activate"
+                                }
+                            </button>
+
+
+                            <button
+                                class="action-btn delete"
+                                onclick="deleteService('${service.id}')"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
+
+
+/* ================= SEARCH ================= */
+
+searchInput.addEventListener(
+    "input",
+    function(){
+
+        const query =
+            this.value
+                .trim()
+                .toLowerCase();
+
+
+        if(!query){
+
+            renderServices(services);
+
+            return;
+        }
+
+
+        const filtered =
+            services.filter(service => {
+
+                const name =
+                    String(
+                        service.name || ""
+                    ).toLowerCase();
+
+
+                const description =
+                    String(
+                        service.description || ""
+                    ).toLowerCase();
+
+
+                return (
+                    name.includes(query) ||
+                    description.includes(query)
+                );
+
+            });
+
+
+        renderServices(filtered);
+
+    }
+);
+
+
+/* ================= MODAL ================= */
+
+function openAddModal(){
+
+    editingServiceId =
+        null;
+
+    modalTitle.textContent =
+        "Add Service";
+
+    serviceForm.reset();
+
+    document.getElementById(
+        "serviceActive"
+    ).checked = true;
+
+    modalOverlay.classList.add(
+        "show"
+    );
+}
+
+
+function closeModal(){
+
+    modalOverlay.classList.remove(
+        "show"
+    );
+
+    editingServiceId =
+        null;
+
+    serviceForm.reset();
+}
+
+
+document
+    .getElementById("addServiceBtn")
+    .addEventListener(
+        "click",
+        openAddModal
+    );
+
+
+document
+    .getElementById("closeModalBtn")
+    .addEventListener(
+        "click",
+        closeModal
+    );
+
+
+document
+    .getElementById("cancelModalBtn")
+    .addEventListener(
+        "click",
+        closeModal
+    );
+
+
+modalOverlay.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            modalOverlay
+        ){
+            closeModal();
+        }
+
+    }
+);
+
+
+/* ================= EDIT ================= */
+
+window.editService =
+    function(id){
+
+        const service =
+            services.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
+            );
+
+
+        if(!service){
+            return;
+        }
+
+
+        editingServiceId =
+            service.id;
+
+
+        modalTitle.textContent =
+            "Edit Service";
+
+
+        document.getElementById(
+            "serviceName"
+        ).value =
+            service.name || "";
+
+
+        document.getElementById(
+            "serviceDescription"
+        ).value =
+            service.description || "";
+
+
+        document.getElementById(
+            "serviceDuration"
+        ).value =
+            service.duration_minutes || "";
+
+
+        document.getElementById(
+            "servicePrice"
+        ).value =
+            service.price || "";
+
+
+        document.getElementById(
+            "serviceImage"
+        ).value =
+            service.image_url || "";
+
+
+        document.getElementById(
+            "serviceActive"
+        ).checked =
+            service.is_active !== false;
+
+
+        modalOverlay.classList.add(
+            "show"
+        );
+
+    };
+
+
+/* ================= SAVE ================= */
+
+serviceForm.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+
+        const saveButton =
+            document.getElementById(
+                "saveServiceBtn"
+            );
+
+
+        const name =
+            document.getElementById(
+                "serviceName"
+            ).value.trim();
+
+
+        const description =
+            document.getElementById(
+                "serviceDescription"
+            ).value.trim();
+
+
+        const duration =
+            Number(
+                document.getElementById(
+                    "serviceDuration"
+                ).value
+            );
+
+
+        const price =
+            Number(
+                document.getElementById(
+                    "servicePrice"
+                ).value
+            );
+
+
+        const image =
+            document.getElementById(
+                "serviceImage"
+            ).value.trim();
+
+
+        const isActive =
+            document.getElementById(
+                "serviceActive"
+            ).checked;
+
+
+        if(!name){
+
+            showToast(
+                "Please enter service name.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if(!duration || duration <= 0){
+
+            showToast(
+                "Please enter a valid duration.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if(price < 0){
+
+            showToast(
+                "Please enter a valid price.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        saveButton.disabled =
+            true;
+
+        saveButton.textContent =
+            "Saving...";
+
+
+        const payload = {
+
+            name:name,
+
+            description:
+                description || null,
+
+            duration_minutes:
+                duration,
+
+            price:
+                price,
+
+            image_url:
+                image || null,
+
+            is_active:
+                isActive
+
+        };
+
+
+        let error;
+
+
+        if(editingServiceId){
+
+            const result =
+                await supabaseClient
+                    .from("services")
+                    .update(payload)
+                    .eq(
+                        "id",
+                        editingServiceId
+                    );
+
+            error =
+                result.error;
+
+        }else{
+
+            const result =
+                await supabaseClient
+                    .from("services")
+                    .insert(payload);
+
+            error =
+                result.error;
+
+        }
+
+
+        saveButton.disabled =
+            false;
+
+        saveButton.textContent =
+            "Save Service";
+
+
+        if(error){
+
+            console.error(
+                "Save service error:",
+                error
+            );
+
+            showToast(
+                error.message ||
+                "Unable to save service.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        showToast(
+            editingServiceId
+                ? "Service updated successfully."
+                : "Service added successfully."
+        );
+
+
+        closeModal();
+
+        await loadServices();
+
+    }
+);
+
+
+/* ================= TOGGLE ================= */
+
+window.toggleService =
+    async function(id){
+
+        const service =
+            services.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
+            );
+
+
+        if(!service){
+            return;
+        }
+
+
+        const newStatus =
+            service.is_active === false;
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("services")
+                .update({
+                    is_active:newStatus
+                })
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if(error){
+
+            console.error(error);
+
+            showToast(
+                "Unable to update service.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        showToast(
+            newStatus
+                ? "Service activated."
+                : "Service hidden."
+        );
+
+
+        await loadServices();
+
+    };
+
+
+/* ================= DELETE ================= */
+
+window.deleteService =
+    async function(id){
+
+        const service =
+            services.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
+            );
+
+
+        if(!service){
+            return;
+        }
+
+
+        const confirmed =
+            confirm(
+                `Delete "${service.name}" permanently?`
+            );
+
+
+        if(!confirmed){
+            return;
+        }
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("services")
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if(error){
+
+            console.error(
+                "Delete service error:",
+                error
+            );
+
+
+            showToast(
+                "Unable to delete service. It may already be used in appointments.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        showToast(
+            "Service deleted successfully."
+        );
+
+
+        await loadServices();
+
+    };
+
+
+/* ================= LOGOUT ================= */
+
+document
+    .getElementById("logoutBtn")
+    .addEventListener(
+        "click",
+        async function(){
+
+            await supabaseClient.auth.signOut();
+
+            localStorage.removeItem(
+                "sgMakeoversAdminLoggedIn"
+            );
+
+            localStorage.removeItem(
+                "sgMakeoversAdminEmail"
+            );
+
+            localStorage.removeItem(
+                "sgMakeoversAdminUserId"
+            );
+
+            window.location.href =
+                "admin-login.html";
+
+        }
+    );
+
+
+/* ================= MOBILE ================= */
+
+document
+    .getElementById("mobileMenu")
+    .addEventListener(
+        "click",
+        function(){
+
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
+
+        }
+    );
+
+
+/* ================= START ================= */
+
+(async function(){
+
+    const user =
+        await checkAdmin();
+
+    if(!user){
+        return;
+    }
+
+    await loadAdminInfo(user);
+
+    await loadServices();
+
+})();
+
+</script>
+
+</body>
+</html>

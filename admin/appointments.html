@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments | SG MAKEOVERS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --pink: #e52b8b;
+            --pink-dark: #c71f77;
+            --purple: #9843d5;
+            --deep: #211524;
+            --deep-2: #291b2c;
+            --cream: #fffafd;
+            --border: #eadce8;
+            --text: #26152b;
+            --muted: #8b718d;
+            --green: #20a56a;
+            --orange: #ed9b38;
+            --red: #e24d6c;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #fffafd;
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 265px;
+            background: linear-gradient(180deg, #251727, #1c131f);
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+            padding: 25px 18px;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 0 15px 35px;
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #ec3b9b, #9a3ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            color: white;
+            box-shadow: 0 8px 25px rgba(222, 41, 139, .25);
+        }
+
+        .brand-text h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 17px;
+            letter-spacing: .2px;
+        }
+
+        .brand-text span {
+            display: block;
+            font-size: 7px;
+            letter-spacing: 2px;
+            margin-top: 3px;
+            color: #dcbdd9;
+        }
+
+        .menu-title {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: #a889a9;
+            margin: 4px 18px 15px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .nav a {
+            color: #d7c5d8;
+            text-decoration: none;
+            padding: 13px 16px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .nav a i {
+            width: 17px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .nav a:hover {
+            background: rgba(190, 54, 190, .14);
+            color: white;
+        }
+
+        .nav a.active {
+            background: linear-gradient(90deg, #dc298d, #7130a0);
+            color: white;
+            box-shadow: 0 8px 25px rgba(151, 46, 169, .25);
+            border-left: 3px solid #ff65b2;
+        }
+
+        .admin-card {
+            position: absolute;
+            left: 24px;
+            right: 24px;
+            bottom: 24px;
+            border: 1px solid rgba(255,255,255,.13);
+            border-radius: 15px;
+            padding: 14px;
+            background: rgba(255,255,255,.045);
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #df3198, #9841d5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .admin-info small {
+            color: #c6aeca;
+            font-size: 9px;
+        }
+
+        .logout-btn {
+            margin-top: 15px;
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: #e3cce4;
+            text-align: left;
+            padding: 5px 0;
+            font-size: 12px;
+        }
+
+        .logout-btn:hover {
+            color: #ff6db8;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 265px;
+            width: calc(100% - 265px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 78px;
+            background: white;
+            border-bottom: 1px solid #eee2ec;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 0 32px;
+        }
+
+        .website-btn,
+        .notification-btn {
+            height: 40px;
+            border: 1px solid var(--border);
+            background: white;
+            color: #5e4163;
+            border-radius: 12px;
+            padding: 0 16px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .notification-btn {
+            width: 40px;
+            padding: 0;
+        }
+
+        .website-btn:hover,
+        .notification-btn:hover {
+            border-color: #d7b9d5;
+            background: #fff7fc;
+        }
+
+        .content {
+            padding: 34px;
+        }
+
+        .page-heading {
+            margin-bottom: 27px;
+        }
+
+        .page-heading h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 37px;
+            line-height: 1.1;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 27px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            min-height: 102px;
+            padding: 20px 23px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #201329;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .stat-icon.pink {
+            color: #e82d8b;
+            background: #fff0f7;
+        }
+
+        .stat-icon.orange {
+            color: #e89b36;
+            background: #fff6e9;
+        }
+
+        .stat-icon.green {
+            color: #20a66d;
+            background: #ebf9f3;
+        }
+
+        .stat-icon.purple {
+            color: #9343d5;
+            background: #f2ebff;
+        }
+
+        /* ================= TOOLBAR ================= */
+
+        .toolbar {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            height: 44px;
+            border: 1px solid #e5d7e3;
+            border-radius: 12px;
+            flex: 1;
+            min-width: 220px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            gap: 10px;
+        }
+
+        .search-box i {
+            color: #9d86a0;
+        }
+
+        .search-box input {
+            border: 0;
+            outline: 0;
+            width: 100%;
+            color: var(--text);
+            font-size: 13px;
+            background: transparent;
+        }
+
+        .filter-select,
+        .filter-date {
+            height: 44px;
+            border: 1px solid #e5d7e3;
+            border-radius: 12px;
+            background: white;
+            padding: 0 13px;
+            color: #4f3854;
+            outline: none;
+            font-size: 12px;
+        }
+
+        .filter-select {
+            min-width: 145px;
+        }
+
+        .filter-date {
+            width: 175px;
+        }
+
+        .primary-btn {
+            height: 44px;
+            border: 0;
+            border-radius: 12px;
+            color: white;
+            background: linear-gradient(135deg, #e32b8d, #9840d5);
+            padding: 0 19px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            box-shadow: 0 8px 20px rgba(207, 42, 143, .17);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 11px 24px rgba(207, 42, 143, .25);
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        thead {
+            background: #fffafd;
+        }
+
+        th {
+            text-align: left;
+            padding: 16px 18px;
+            font-size: 9px;
+            color: #987e99;
+            letter-spacing: 1.2px;
+            border-bottom: 1px solid #eee2ec;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #f2e9f1;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #fffafd;
+        }
+
+        .customer-name {
+            font-weight: 700;
+            color: #321c38;
+        }
+
+        .customer-phone {
+            display: block;
+            color: #9b839d;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .service-name {
+            font-weight: 600;
+        }
+
+        .date-main {
+            font-weight: 600;
+        }
+
+        .time-small {
+            color: #99829b;
+            display: block;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .amount {
+            font-weight: 700;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .status.pending {
+            background: #fff5e6;
+            color: #d78b1f;
+        }
+
+        .status.confirmed {
+            background: #ebf9f2;
+            color: #15945d;
+        }
+
+        .status.completed {
+            background: #f0eaff;
+            color: #8041cb;
+        }
+
+        .status.cancelled {
+            background: #fff0f3;
+            color: #d44362;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #eadce8;
+            background: white;
+            border-radius: 9px;
+            color: #795b7e;
+            font-size: 11px;
+        }
+
+        .action-btn:hover {
+            background: #fff3fa;
+            color: var(--pink);
+            border-color: #e6c8df;
+        }
+
+        .action-btn.delete:hover {
+            color: var(--red);
+            background: #fff0f3;
+        }
+
+        .empty-state,
+        .error-state,
+        .loading-state {
+            min-height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+            padding: 35px;
+        }
+
+        .empty-icon,
+        .error-icon,
+        .loading-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff0f7;
+            color: var(--pink);
+            font-size: 19px;
+            margin-bottom: 5px;
+        }
+
+        .error-icon {
+            background: #fff0f3;
+            color: var(--red);
+        }
+
+        .loading-icon {
+            background: #f2ebff;
+            color: var(--purple);
+        }
+
+        .empty-state h3,
+        .error-state h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+        }
+
+        .empty-state p,
+        .error-state p {
+            color: #a188a2;
+            font-size: 11px;
+        }
+
+        .retry-btn {
+            border: 1px solid #e5d1e2;
+            background: white;
+            border-radius: 9px;
+            padding: 9px 15px;
+            color: #704d74;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        /* ================= MODAL ================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(27, 15, 29, .58);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 570px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(37, 15, 41, .25);
+            overflow: hidden;
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 21px 24px;
+            border-bottom: 1px solid #eee2ec;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 23px;
+        }
+
+        .close-btn {
+            width: 34px;
+            height: 34px;
+            border: 0;
+            border-radius: 9px;
+            background: #fff2f8;
+            color: #9d547f;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #65496a;
+            margin-bottom: 7px;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 43px;
+            border: 1px solid #e4d6e2;
+            border-radius: 10px;
+            outline: none;
+            padding: 0 12px;
+            font-size: 12px;
+            color: #39223e;
+            background: white;
+        }
+
+        textarea.form-control {
+            height: 80px;
+            padding-top: 11px;
+            resize: vertical;
+        }
+
+        .form-control:focus {
+            border-color: #cf56a2;
+            box-shadow: 0 0 0 3px rgba(207, 86, 162, .08);
+        }
+
+        .amount-preview {
+            background: #fff7fc;
+            border: 1px solid #efddea;
+            border-radius: 11px;
+            padding: 12px 14px;
+            margin-top: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .amount-preview span:first-child {
+            color: #927995;
+            font-size: 11px;
+        }
+
+        .amount-preview strong {
+            color: #d82984;
+            font-size: 17px;
+        }
+
+        .modal-footer {
+            padding: 17px 24px;
+            border-top: 1px solid #eee2ec;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .secondary-btn {
+            height: 42px;
+            border: 1px solid #e4d6e2;
+            background: white;
+            color: #704e75;
+            border-radius: 10px;
+            padding: 0 17px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .save-btn {
+            height: 42px;
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #e32b8d, #9840d5);
+            color: white;
+            padding: 0 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* ================= TOAST ================= */
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            min-width: 280px;
+            max-width: 390px;
+            padding: 14px 17px;
+            border-radius: 13px;
+            background: #251727;
+            color: white;
+            box-shadow: 0 15px 40px rgba(25, 12, 28, .25);
+            transform: translateY(120px);
+            opacity: 0;
+            transition: .3s;
+            z-index: 5000;
+            font-size: 12px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid #22a96e;
+        }
+
+        .toast.error {
+            border-left: 4px solid #e24d6c;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 1100px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .toolbar {
+                flex-wrap: wrap;
+            }
+
+            .search-box {
+                flex-basis: 100%;
+            }
+        }
+
+        @media(max-width: 850px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+
+            .content {
+                padding: 24px;
+            }
+        }
+
+        @media(max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .admin-card {
+                position: static;
+                margin-top: 25px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 18px;
+            }
+
+            .page-heading h1 {
+                font-size: 30px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">
+                <i class="fa-solid fa-spa"></i>
+            </div>
+
+            <div class="brand-text">
+                <h2>SG MAKEOVERS</h2>
+                <span>ONLINE BEAUTY SERVICES</span>
+            </div>
+        </div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <nav class="nav">
+
+            <a href="dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </a>
+
+            <a href="customers.html">
+                <i class="fa-solid fa-users"></i>
+                Customers
+            </a>
+
+            <a href="services.html">
+                <i class="fa-solid fa-scissors"></i>
+                Services
+            </a>
+
+            <a href="staff.html">
+                <i class="fa-solid fa-user-tie"></i>
+                Staff
+            </a>
+
+            <a href="appointments.html" class="active">
+                <i class="fa-regular fa-calendar-check"></i>
+                Appointments
+            </a>
+
+            <a href="payments.html">
+                <i class="fa-solid fa-wallet"></i>
+                Payments
+            </a>
+
+            <a href="reports.html">
+                <i class="fa-solid fa-chart-column"></i>
+                Reports
+            </a>
+
+        </nav>
+
+        <div class="admin-card">
+
+            <div class="admin-user">
+
+                <div class="admin-avatar" id="adminAvatar">
+                    A
+                </div>
+
+                <div class="admin-info">
+                    <strong id="adminName">Administrator</strong>
+                    <small id="adminEmail">admin@sgmakeovers.com</small>
+                </div>
+
+            </div>
+
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                &nbsp; Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <button class="website-btn" onclick="window.open('../index.html','_blank')">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                View Website
+            </button>
+
+            <button class="notification-btn">
+                <i class="fa-regular fa-bell"></i>
+            </button>
+
+        </header>
+
+        <section class="content">
+
+            <div class="page-heading">
+                <h1>Appointments</h1>
+                <p>Manage customer bookings, schedules and appointment status.</p>
+            </div>
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-number" id="totalCount">0</div>
+                        <div class="stat-label">Total Appointments</div>
+                    </div>
+
+                    <div class="stat-icon pink">
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-number" id="pendingCount">0</div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+
+                    <div class="stat-icon orange">
+                        <i class="fa-regular fa-clock"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-number" id="confirmedCount">0</div>
+                        <div class="stat-label">Confirmed</div>
+                    </div>
+
+                    <div class="stat-icon green">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-number" id="completedCount">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+
+                    <div class="stat-icon purple">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TOOLBAR -->
+
+            <div class="toolbar">
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search customer or service..."
+                    >
+                </div>
+
+                <select id="statusFilter" class="filter-select">
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+
+                <input
+                    type="date"
+                    id="dateFilter"
+                    class="filter-date"
+                >
+
+                <button class="primary-btn" id="addAppointmentBtn">
+                    <i class="fa-solid fa-plus"></i>
+                    &nbsp; Add Appointment
+                </button>
+
+            </div>
+
+            <!-- TABLE -->
+
+            <div class="table-card">
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>CUSTOMER</th>
+                                <th>SERVICE</th>
+                                <th>DATE & TIME</th>
+                                <th>STAFF</th>
+                                <th>AMOUNT</th>
+                                <th>STATUS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="appointmentsBody"></tbody>
+
+                    </table>
+
+                </div>
+
+                <div id="loadingState" class="loading-state">
+                    <div class="loading-icon">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                    </div>
+                    <p>Loading appointments...</p>
+                </div>
+
+                <div id="emptyState" class="empty-state" style="display:none;">
+                    <div class="empty-icon">
+                        <i class="fa-regular fa-calendar-xmark"></i>
+                    </div>
+                    <h3>No appointments found</h3>
+                    <p>There are no appointments matching your filters.</p>
+                </div>
+
+                <div id="errorState" class="error-state" style="display:none;">
+                    <div class="error-icon">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <h3>Unable to load appointments.</h3>
+
+                    <p id="errorMessage">
+                        Please refresh the page and try again.
+                    </p>
+
+                    <button class="retry-btn" id="retryBtn">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        Retry
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================= ADD APPOINTMENT MODAL ================= -->
+
+<div class="modal-overlay" id="appointmentModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>New Appointment</h2>
+
+            <button class="close-btn" id="closeModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <form id="appointmentForm">
+
+            <div class="modal-body">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label>Customer</label>
+
+                        <select
+                            id="customerId"
+                            class="form-control"
+                            required
+                        >
+                            <option value="">Select customer</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Service</label>
+
+                        <select
+                            id="serviceId"
+                            class="form-control"
+                            required
+                        >
+                            <option value="">Select service</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Staff</label>
+
+                        <select
+                            id="staffId"
+                            class="form-control"
+                        >
+                            <option value="">Any staff</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Appointment Date</label>
+
+                        <input
+                            type="date"
+                            id="appointmentDate"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Appointment Time</label>
+
+                        <input
+                            type="time"
+                            id="appointmentTime"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>Notes</label>
+
+                        <textarea
+                            id="appointmentNotes"
+                            class="form-control"
+                            placeholder="Optional notes..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="amount-preview">
+
+                    <span>Total Amount</span>
+
+                    <strong id="amountPreview">₹0</strong>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    id="cancelModal"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                    id="saveAppointmentBtn"
+                >
+                    <i class="fa-solid fa-check"></i>
+                    &nbsp; Create Appointment
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+    let appointments = [];
+    let services = [];
+    let staff = [];
+    let customers = [];
+
+    /* ================= ELEMENTS ================= */
+
+    const appointmentsBody = document.getElementById("appointmentsBody");
+    const loadingState = document.getElementById("loadingState");
+    const emptyState = document.getElementById("emptyState");
+    const errorState = document.getElementById("errorState");
+    const errorMessage = document.getElementById("errorMessage");
+
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const dateFilter = document.getElementById("dateFilter");
+
+    const modal = document.getElementById("appointmentModal");
+    const appointmentForm = document.getElementById("appointmentForm");
+
+    const customerSelect = document.getElementById("customerId");
+    const serviceSelect = document.getElementById("serviceId");
+    const staffSelect = document.getElementById("staffId");
+
+    const appointmentDate = document.getElementById("appointmentDate");
+    const appointmentTime = document.getElementById("appointmentTime");
+    const appointmentNotes = document.getElementById("appointmentNotes");
+
+    const amountPreview = document.getElementById("amountPreview");
+
+    /* ================= HELPERS ================= */
+
+    function escapeHtml(value) {
+
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+
+    function formatCurrency(value) {
+
+        const amount = Number(value || 0);
+
+        return new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+            maximumFractionDigits: 0
+        }).format(amount);
+    }
+
+
+    function formatDate(dateValue) {
+
+        if (!dateValue) {
+            return "-";
+        }
+
+        const date = new Date(dateValue + "T00:00:00");
+
+        return date.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
+
+    function formatTime(timeValue) {
+
+        if (!timeValue) {
+            return "-";
+        }
+
+        const parts = timeValue.split(":");
+
+        let hours = Number(parts[0]);
+        const minutes = parts[1] || "00";
+
+        const suffix = hours >= 12 ? "PM" : "AM";
+
+        hours = hours % 12;
+
+        if (hours === 0) {
+            hours = 12;
+        }
+
+        return `${hours}:${minutes} ${suffix}`;
+    }
+
+
+    function showToast(message, type = "success") {
+
+        const toast = document.getElementById("toast");
+
+        toast.textContent = message;
+        toast.className = `toast ${type} show`;
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
+    }
+
+
+    function hideStates() {
+
+        loadingState.style.display = "none";
+        emptyState.style.display = "none";
+        errorState.style.display = "none";
+    }
+
+
+    function showError(message) {
+
+        hideStates();
+
+        errorMessage.textContent = message || "Please try again.";
+
+        errorState.style.display = "flex";
+    }
+
+
+    /* ================= ADMIN AUTH ================= */
+
+    async function checkAdmin() {
+
+        try {
+
+            const {
+                data: userData,
+                error: userError
+            } = await supabaseClient.auth.getUser();
+
+            if (userError || !userData?.user) {
+                window.location.href = "admin-login.html";
+                return false;
+            }
+
+            const {
+                data: isAdmin,
+                error: adminError
+            } = await supabaseClient.rpc("is_admin");
+
+            if (adminError || !isAdmin) {
+                window.location.href = "admin-login.html";
+                return false;
+            }
+
+            const user = userData.user;
+
+            document.getElementById("adminEmail").textContent =
+                user.email || "admin@sgmakeovers.com";
+
+            const firstLetter =
+                (user.email || "A").charAt(0).toUpperCase();
+
+            document.getElementById("adminAvatar").textContent =
+                firstLetter;
+
+            return true;
+
+        } catch (error) {
+
+            console.error("Admin verification error:", error);
+
+            window.location.href = "admin-login.html";
+
+            return false;
+        }
+    }
+
+
+    /* ================= LOAD LOOKUP DATA ================= */
+
+    async function loadServices() {
+
+        const { data, error } = await supabaseClient
+            .from("services")
+            .select("id,name,price,is_active")
+            .order("name", { ascending: true });
+
+        if (error) {
+            console.error("Services error:", error);
+            throw error;
+        }
+
+        services = data || [];
+    }
+
+
+    async function loadStaff() {
+
+        const { data, error } = await supabaseClient
+            .from("staff")
+            .select("id,full_name,phone,specialization,is_active")
+            .order("full_name", { ascending: true });
+
+        if (error) {
+
+            console.warn("Staff could not be loaded:", error);
+
+            staff = [];
+
+            return;
+        }
+
+        staff = data || [];
+    }
+
+
+    async function loadCustomers() {
+
+        const { data, error } = await supabaseClient
+            .from("profiles")
+            .select("id,full_name,phone")
+            .order("full_name", { ascending: true });
+
+        if (error) {
+
+            console.warn("Profiles could not be loaded:", error);
+
+            customers = [];
+
+            return;
+        }
+
+        customers = data || [];
+    }
+
+
+    /* ================= LOAD APPOINTMENTS ================= */
+
+    async function loadAppointments() {
+
+        hideStates();
+
+        loadingState.style.display = "flex";
+
+        try {
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("appointments")
+                .select("*")
+                .order("appointment_date", {
+                    ascending: false
+                })
+                .order("appointment_time", {
+                    ascending: false
+                });
+
+            if (error) {
+
+                console.error("Appointments Supabase error:", {
+                    message: error.message,
+                    details: error.details,
+                    hint: error.hint,
+                    code: error.code
+                });
+
+                throw error;
+            }
+
+            appointments = data || [];
+
+            await loadRelatedData();
+
+            updateStats();
+
+            renderAppointments();
+
+        } catch (error) {
+
+            console.error("Unable to load appointments:", error);
+
+            showError(
+                error?.message ||
+                "Supabase could not load the appointments."
+            );
+        }
+    }
+
+
+    async function loadRelatedData() {
+
+        const serviceIds = [
+            ...new Set(
+                appointments
+                    .map(item => item.service_id)
+                    .filter(Boolean)
+            )
+        ];
+
+        const staffIds = [
+            ...new Set(
+                appointments
+                    .map(item => item.staff_id)
+                    .filter(Boolean)
+            )
+        ];
+
+        const customerIds = [
+            ...new Set(
+                appointments
+                    .map(item => item.customer_id)
+                    .filter(Boolean)
+            )
+        ];
+
+
+        /* SERVICES */
+
+        if (serviceIds.length > 0) {
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("services")
+                .select("id,name,price")
+                .in("id", serviceIds);
+
+            if (!error) {
+                services = data || [];
+            }
+        }
+
+
+        /* STAFF */
+
+        if (staffIds.length > 0) {
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("staff")
+                .select("id,full_name,phone,specialization")
+                .in("id", staffIds);
+
+            if (!error) {
+                staff = data || [];
+            }
+        }
+
+
+        /* CUSTOMERS */
+
+        if (customerIds.length > 0) {
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("profiles")
+                .select("id,full_name,phone")
+                .in("id", customerIds);
+
+            if (!error) {
+                customers = data || [];
+            }
+        }
+    }
+
+
+    /* ================= FIND RELATED ================= */
+
+    function getService(id) {
+
+        return services.find(
+            item => String(item.id) === String(id)
+        );
+    }
+
+
+    function getStaff(id) {
+
+        return staff.find(
+            item => String(item.id) === String(id)
+        );
+    }
+
+
+    function getCustomer(id) {
+
+        return customers.find(
+            item => String(item.id) === String(id)
+        );
+    }
+
+
+    /* ================= STATS ================= */
+
+    function updateStats() {
+
+        const total = appointments.length;
+
+        const pending = appointments.filter(
+            item => String(item.status).toLowerCase() === "pending"
+        ).length;
+
+        const confirmed = appointments.filter(
+            item => String(item.status).toLowerCase() === "confirmed"
+        ).length;
+
+        const completed = appointments.filter(
+            item => String(item.status).toLowerCase() === "completed"
+        ).length;
+
+        document.getElementById("totalCount").textContent = total;
+        document.getElementById("pendingCount").textContent = pending;
+        document.getElementById("confirmedCount").textContent = confirmed;
+        document.getElementById("completedCount").textContent = completed;
+    }
+
+
+    /* ================= FILTER ================= */
+
+    function getFilteredAppointments() {
+
+        const search = searchInput.value
+            .trim()
+            .toLowerCase();
+
+        const status = statusFilter.value;
+
+        const selectedDate = dateFilter.value;
+
+        return appointments.filter(item => {
+
+            const customer = getCustomer(item.customer_id);
+            const service = getService(item.service_id);
+
+            const customerName =
+                customer?.full_name || "";
+
+            const customerPhone =
+                customer?.phone || "";
+
+            const serviceName =
+                service?.name || "";
+
+            const searchMatch =
+                !search ||
+                customerName.toLowerCase().includes(search) ||
+                customerPhone.toLowerCase().includes(search) ||
+                serviceName.toLowerCase().includes(search);
+
+            const statusMatch =
+                status === "all" ||
+                String(item.status).toLowerCase() === status;
+
+            const dateMatch =
+                !selectedDate ||
+                item.appointment_date === selectedDate;
+
+            return searchMatch && statusMatch && dateMatch;
+        });
+    }
+
+
+    /* ================= RENDER ================= */
+
+    function renderAppointments() {
+
+        hideStates();
+
+        const filtered = getFilteredAppointments();
+
+        if (filtered.length === 0) {
+
+            appointmentsBody.innerHTML = "";
+
+            emptyState.style.display = "flex";
+
+            return;
+        }
+
+
+        appointmentsBody.innerHTML = filtered.map(item => {
+
+            const customer = getCustomer(item.customer_id);
+            const service = getService(item.service_id);
+            const staffMember = getStaff(item.staff_id);
+
+            const customerName =
+                customer?.full_name || "Customer";
+
+            const phone =
+                customer?.phone || "";
+
+            const serviceName =
+                service?.name || "Service";
+
+            const staffName =
+                staffMember?.full_name || "Not assigned";
+
+            const amount =
+                item.total_amount ??
+                service?.price ??
+                0;
+
+            const status =
+                String(item.status || "pending").toLowerCase();
+
+            return `
+                <tr>
+
+                    <td>
+                        <div class="customer-name">
+                            ${escapeHtml(customerName)}
+                        </div>
+
+                        ${
+                            phone
+                                ? `<span class="customer-phone">
+                                    ${escapeHtml(phone)}
+                                   </span>`
+                                : ""
+                        }
+                    </td>
+
+                    <td>
+                        <div class="service-name">
+                            ${escapeHtml(serviceName)}
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="date-main">
+                            ${formatDate(item.appointment_date)}
+                        </div>
+
+                        <span class="time-small">
+                            ${formatTime(item.appointment_time)}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(staffName)}
+                    </td>
+
+                    <td>
+                        <span class="amount">
+                            ${formatCurrency(amount)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="status ${status}">
+                            ${escapeHtml(status)}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn"
+                                title="Change Status"
+                                onclick="changeStatus(${item.id}, '${status}')"
+                            >
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+
+                            <button
+                                class="action-btn delete"
+                                title="Delete"
+                                onclick="deleteAppointment(${item.id})"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+            `;
+
+        }).join("");
+    }
+
+
+    /* ================= CHANGE STATUS ================= */
+
+    async function changeStatus(id, currentStatus) {
+
+        const order = [
+            "pending",
+            "confirmed",
+            "completed",
+            "cancelled"
+        ];
+
+        const currentIndex =
+            order.indexOf(currentStatus);
+
+        const nextStatus =
+            order[
+                currentIndex >= 0
+                    ? (currentIndex + 1) % order.length
+                    : 0
+            ];
+
+        const confirmed =
+            confirm(
+                `Change appointment status from "${currentStatus}" to "${nextStatus}"?`
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("appointments")
+                .update({
+                    status: nextStatus,
+                    updated_at: new Date().toISOString()
+                })
+                .eq("id", id);
+
+            if (error) {
+                throw error;
+            }
+
+            showToast(
+                `Appointment marked as ${nextStatus}.`,
+                "success"
+            );
+
+            await loadAppointments();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showToast(
+                error?.message || "Could not update appointment.",
+                "error"
+            );
+        }
+    }
+
+
+    /* ================= DELETE ================= */
+
+    async function deleteAppointment(id) {
+
+        const confirmed = confirm(
+            "Are you sure you want to delete this appointment?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("appointments")
+                .delete()
+                .eq("id", id);
+
+            if (error) {
+                throw error;
+            }
+
+            showToast(
+                "Appointment deleted successfully.",
+                "success"
+            );
+
+            await loadAppointments();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showToast(
+                error?.message || "Could not delete appointment.",
+                "error"
+            );
+        }
+    }
+
+
+    /* ================= MODAL DATA ================= */
+
+    function populateModalData() {
+
+        customerSelect.innerHTML = `
+            <option value="">Select customer</option>
+            ${
+                customers.length
+                    ? customers.map(customer => `
+                        <option value="${customer.id}">
+                            ${escapeHtml(
+                                customer.full_name || "Customer"
+                            )}
+                            ${
+                                customer.phone
+                                    ? ` - ${escapeHtml(customer.phone)}`
+                                    : ""
+                            }
+                        </option>
+                    `).join("")
+                    : ""
+            }
+        `;
+
+
+        serviceSelect.innerHTML = `
+            <option value="">Select service</option>
+            ${
+                services
+                    .filter(service => service.is_active !== false)
+                    .map(service => `
+                        <option
+                            value="${service.id}"
+                            data-price="${service.price || 0}"
+                        >
+                            ${escapeHtml(service.name)}
+                            - ${formatCurrency(service.price)}
+                        </option>
+                    `)
+                    .join("")
+            }
+        `;
+
+
+        staffSelect.innerHTML = `
+            <option value="">Any staff</option>
+            ${
+                staff
+                    .filter(member => member.is_active !== false)
+                    .map(member => `
+                        <option value="${member.id}">
+                            ${escapeHtml(
+                                member.full_name || "Staff"
+                            )}
+                        </option>
+                    `)
+                    .join("")
+            }
+        `;
+    }
+
+
+    function updateAmountPreview() {
+
+        const selected =
+            serviceSelect.options[
+                serviceSelect.selectedIndex
+            ];
+
+        if (!selected) {
+
+            amountPreview.textContent = "₹0";
+
+            return;
+        }
+
+        const price =
+            Number(selected.dataset.price || 0);
+
+        amountPreview.textContent =
+            formatCurrency(price);
+    }
+
+
+    /* ================= OPEN MODAL ================= */
+
+    async function openModal() {
+
+        populateModalData();
+
+        appointmentForm.reset();
+
+        updateAmountPreview();
+
+        const today =
+            new Date().toISOString().split("T")[0];
+
+        appointmentDate.min = today;
+        appointmentDate.value = today;
+
+        modal.classList.add("show");
+    }
+
+
+    function closeModal() {
+
+        modal.classList.remove("show");
+
+        appointmentForm.reset();
+
+        updateAmountPreview();
+    }
+
+
+    /* ================= CREATE APPOINTMENT ================= */
+
+    appointmentForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            const customerId =
+                customerSelect.value;
+
+            const serviceId =
+                serviceSelect.value;
+
+            const staffId =
+                staffSelect.value || null;
+
+            const date =
+                appointmentDate.value;
+
+            const time =
+                appointmentTime.value;
+
+            const notes =
+                appointmentNotes.value.trim();
+
+
+            if (!customerId) {
+
+                showToast(
+                    "Please select a customer.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!serviceId) {
+
+                showToast(
+                    "Please select a service.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!date || !time) {
+
+                showToast(
+                    "Please select date and time.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            const selectedService =
+                getService(serviceId);
+
+
+            const totalAmount =
+                Number(
+                    selectedService?.price || 0
+                );
+
+
+            const saveButton =
+                document.getElementById(
+                    "saveAppointmentBtn"
+                );
+
+
+            saveButton.disabled = true;
+
+            saveButton.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                &nbsp; Creating...
+            `;
+
+
+            try {
+
+                const {
+                    data: userData
+                } = await supabaseClient.auth.getUser();
+
+                if (!userData?.user) {
+
+                    window.location.href =
+                        "admin-login.html";
+
+                    return;
+                }
+
+
+                const insertData = {
+                    customer_id: customerId,
+                    service_id: Number(serviceId),
+                    staff_id: staffId
+                        ? Number(staffId)
+                        : null,
+                    appointment_date: date,
+                    appointment_time: time,
+                    status: "pending",
+                    notes: notes || null,
+                    total_amount: totalAmount
+                };
+
+
+                const {
+                    data,
+                    error
+                } = await supabaseClient
+                    .from("appointments")
+                    .insert(insertData)
+                    .select()
+                    .single();
+
+
+                if (error) {
+
+                    console.error(
+                        "Create appointment error:",
+                        error
+                    );
+
+                    throw error;
+                }
+
+
+                closeModal();
+
+                showToast(
+                    "Appointment created successfully.",
+                    "success"
+                );
+
+                await loadAppointments();
+
+            } catch (error) {
+
+                console.error(error);
+
+                showToast(
+                    error?.message ||
+                    "Could not create appointment.",
+                    "error"
+                );
+
+            } finally {
+
+                saveButton.disabled = false;
+
+                saveButton.innerHTML = `
+                    <i class="fa-solid fa-check"></i>
+                    &nbsp; Create Appointment
+                `;
+            }
+        }
+    );
+
+
+    /* ================= EVENTS ================= */
+
+    searchInput.addEventListener(
+        "input",
+        renderAppointments
+    );
+
+    statusFilter.addEventListener(
+        "change",
+        renderAppointments
+    );
+
+    dateFilter.addEventListener(
+        "change",
+        renderAppointments
+    );
+
+
+    serviceSelect.addEventListener(
+        "change",
+        updateAmountPreview
+    );
+
+
+    document
+        .getElementById("addAppointmentBtn")
+        .addEventListener("click", openModal);
+
+
+    document
+        .getElementById("closeModal")
+        .addEventListener("click", closeModal);
+
+
+    document
+        .getElementById("cancelModal")
+        .addEventListener("click", closeModal);
+
+
+    modal.addEventListener(
+        "click",
+        function(event) {
+
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    );
+
+
+    document
+        .getElementById("retryBtn")
+        .addEventListener(
+            "click",
+            loadAppointments
+        );
+
+
+    /* ================= LOGOUT ================= */
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            async function() {
+
+                await supabaseClient.auth.signOut();
+
+                window.location.href =
+                    "admin-login.html";
+            }
+        );
+
+
+    /* ================= INITIALIZE ================= */
+
+    async function init() {
+
+        const isAdmin = await checkAdmin();
+
+        if (!isAdmin) {
+            return;
+        }
+
+
+        try {
+
+            await Promise.all([
+                loadServices(),
+                loadStaff(),
+                loadCustomers()
+            ]);
+
+        } catch (error) {
+
+            console.error(
+                "Lookup data error:",
+                error
+            );
+        }
+
+
+        await loadAppointments();
+    }
+
+
+    init();
+
+</script>
+
+</body>
+</html>
