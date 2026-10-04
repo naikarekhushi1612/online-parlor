@@ -1,35 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>SG MAKEOVERS | Online Beauty Services</title>
 
-    <meta
-        name="description"
-        content="SG MAKEOVERS - Premium online beauty services, salon appointments, bridal makeup, hair styling, skincare and more."
-    >
-
-    <meta
-        name="keywords"
-        content="SG Makeovers, beauty salon, makeup, hair styling, facial, bridal makeup, online beauty services"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
@@ -42,11 +20,24 @@
     >
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #d91c82;
+            --pink-dark: #a91462;
+            --purple: #8239bd;
+            --purple-dark: #4f235d;
+            --cream: #fff9fc;
+            --text: #24172a;
+            --muted: #887488;
+            --border: #ecdce8;
+            --white: #ffffff;
+            --dark: #211426;
+            --gradient: linear-gradient(135deg, #df187f, #853bc0);
         }
 
         html {
@@ -55,132 +46,34 @@
 
         body {
             font-family: "DM Sans", sans-serif;
-            background: #fffafc;
-            color: #241d22;
+            background: var(--cream);
+            color: var(--text);
             overflow-x: hidden;
         }
 
         a {
-            text-decoration: none;
             color: inherit;
+            text-decoration: none;
         }
 
-        button,
-        input,
-        textarea,
-        select {
+        button {
             font-family: inherit;
         }
 
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-        :root {
-            --pink: #e94f87;
-            --pink-dark: #c92f68;
-            --pink-light: #fff0f6;
-            --purple: #7d4ac7;
-            --purple-dark: #59318e;
-            --cream: #fffafc;
-            --white: #ffffff;
-            --dark: #241d22;
-            --muted: #766c73;
-            --border: #eadfe5;
-            --shadow: 0 20px 60px rgba(71, 30, 55, 0.10);
-            --shadow-small: 0 10px 30px rgba(71, 30, 55, 0.08);
-            --gradient: linear-gradient(135deg, #e94f87, #8d4ac8);
-        }
-
         .container {
-            width: min(1180px, 92%);
-            margin: 0 auto;
+            width: min(1180px, calc(100% - 40px));
+            margin: auto;
         }
 
-        .section {
-            padding: 100px 0;
-        }
-
-        .section-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-            background: var(--pink-light);
-            color: var(--pink-dark);
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .section-title {
-            font-family: "Playfair Display", serif;
-            font-size: clamp(35px, 5vw, 58px);
-            line-height: 1.1;
-            margin-top: 18px;
-            color: var(--dark);
-        }
-
-        .section-text {
-            color: var(--muted);
-            line-height: 1.8;
-            font-size: 16px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            min-height: 50px;
-            padding: 0 24px;
-            border-radius: 50px;
-            border: 1px solid transparent;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
-
-        .btn-primary {
-            background: var(--gradient);
-            color: white;
-            box-shadow: 0 12px 28px rgba(201, 47, 104, 0.24);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 16px 34px rgba(201, 47, 104, 0.30);
-        }
-
-        .btn-outline {
-            border-color: var(--border);
-            background: white;
-            color: var(--dark);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--pink);
-            color: var(--pink-dark);
-            transform: translateY(-2px);
-        }
-
-        /* =========================================================
-           NAVBAR
-           ========================================================= */
+        /* ================= NAVBAR ================= */
 
         .navbar {
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
             z-index: 1000;
-            background: rgba(255, 250, 252, 0.90);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(234, 223, 229, 0.8);
+            background: rgba(255, 250, 252, 0.96);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(236, 220, 232, .8);
         }
 
         .nav-inner {
@@ -189,6 +82,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 25px;
+            position: relative;
         }
 
         .brand {
@@ -198,26 +92,27 @@
         }
 
         .brand-logo {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 14px;
             display: grid;
             place-items: center;
             color: white;
             background: var(--gradient);
-            box-shadow: 0 8px 22px rgba(201, 47, 104, 0.24);
+            box-shadow: 0 8px 22px rgba(201, 47, 104, .24);
+            font-size: 19px;
         }
 
         .brand-text strong {
             display: block;
             font-family: "Playfair Display", serif;
             font-size: 20px;
-            letter-spacing: 0.5px;
+            letter-spacing: .5px;
         }
 
         .brand-text span {
             display: block;
-            margin-top: 1px;
+            margin-top: 2px;
             color: var(--muted);
             font-size: 9px;
             font-weight: 700;
@@ -246,7 +141,7 @@
             height: 2px;
             border-radius: 5px;
             background: var(--gradient);
-            transition: 0.3s ease;
+            transition: .3s;
         }
 
         .nav-links a:hover::after,
@@ -273,741 +168,527 @@
             color: var(--pink-dark);
         }
 
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 12px 19px;
+            border-radius: 50px;
+            background: var(--gradient);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(201, 31, 126, .18);
+        }
+
         .mobile-menu {
             display: none;
-            width: 42px;
-            height: 42px;
+            width: 43px;
+            height: 43px;
             border: 1px solid var(--border);
             border-radius: 12px;
             background: white;
+            color: var(--purple-dark);
+            font-size: 18px;
             cursor: pointer;
         }
 
-        /* =========================================================
-           HERO
-           ========================================================= */
+        /* ================= MOBILE NAV ================= */
 
-        .hero {
-            min-height: 790px;
-            padding-top: 82px;
-            position: relative;
-            overflow: hidden;
-            background:
-                radial-gradient(circle at 15% 20%, rgba(233, 79, 135, 0.13), transparent 28%),
-                radial-gradient(circle at 90% 20%, rgba(125, 74, 199, 0.12), transparent 28%),
-                #fffafc;
+        .mobile-panel {
+            display: none;
         }
 
-        .hero::before {
-            content: "";
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            right: -180px;
-            top: 120px;
-            border-radius: 50%;
-            background: rgba(233, 79, 135, 0.06);
-            filter: blur(5px);
+        /* ================= HERO ================= */
+
+        .hero {
+            padding: 82px 0 90px;
+            background:
+                radial-gradient(circle at 90% 10%, rgba(215, 62, 159, .12), transparent 28%),
+                radial-gradient(circle at 5% 75%, rgba(131, 57, 189, .08), transparent 28%),
+                var(--cream);
         }
 
         .hero-inner {
-            min-height: 708px;
             display: grid;
-            grid-template-columns: 1.02fr 0.98fr;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
             align-items: center;
-            gap: 60px;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 9px;
-            padding: 9px 15px;
+            padding: 11px 17px;
             border-radius: 50px;
-            background: white;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-small);
+            background: #fff;
             color: var(--pink-dark);
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.7px;
+            border: 1px solid #f0dce8;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
-        .hero h1 {
-            margin-top: 24px;
+        .hero-title {
+            margin-top: 25px;
             font-family: "Playfair Display", serif;
-            font-size: clamp(50px, 6.2vw, 84px);
-            line-height: 0.99;
+            font-size: clamp(48px, 6vw, 78px);
+            line-height: .98;
             letter-spacing: -2px;
         }
 
-        .hero h1 span {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .hero-title span {
+            color: var(--pink);
         }
 
         .hero-description {
-            max-width: 600px;
             margin-top: 25px;
+            max-width: 570px;
             color: var(--muted);
-            font-size: 17px;
+            font-size: 16px;
             line-height: 1.8;
         }
 
         .hero-buttons {
-            margin-top: 34px;
             display: flex;
-            flex-wrap: wrap;
             gap: 12px;
+            margin-top: 30px;
+            flex-wrap: wrap;
         }
 
-        .hero-trust {
-            margin-top: 36px;
+        .primary-btn,
+        .secondary-btn {
+            padding: 15px 22px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .primary-btn {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 12px 28px rgba(203, 30, 129, .2);
+        }
+
+        .secondary-btn {
+            background: white;
+            border: 1px solid var(--border);
+        }
+
+        .hero-stats {
+            margin-top: 35px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 18px;
         }
 
         .avatar-stack {
             display: flex;
         }
 
-        .avatar-stack span {
-            width: 36px;
-            height: 36px;
-            margin-left: -8px;
-            border: 3px solid #fffafc;
+        .avatar-stack img {
+            width: 39px;
+            height: 39px;
+            object-fit: cover;
             border-radius: 50%;
-            background-size: cover;
-            background-position: center;
+            border: 3px solid var(--cream);
+            margin-left: -9px;
         }
 
-        .avatar-stack span:first-child {
+        .avatar-stack img:first-child {
             margin-left: 0;
         }
 
-        .avatar-1 {
-            background-image: url("https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80");
-        }
-
-        .avatar-2 {
-            background-image: url("https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=100&q=80");
-        }
-
-        .avatar-3 {
-            background-image: url("https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=100&q=80");
-        }
-
-        .trust-text strong {
+        .happy-clients strong {
             display: block;
-            font-size: 14px;
+            font-size: 15px;
         }
 
-        .trust-text span {
-            display: block;
-            margin-top: 2px;
+        .happy-clients span {
             color: var(--muted);
             font-size: 12px;
         }
 
         .hero-visual {
             position: relative;
-            min-height: 600px;
+        }
+
+        .hero-image-wrap {
+            height: 510px;
+            border-radius: 35px;
+            overflow: hidden;
+            box-shadow: 0 30px 70px rgba(76, 25, 69, .16);
         }
 
         .hero-image {
-            position: absolute;
-            right: 0;
-            top: 25px;
-            width: 84%;
-            height: 560px;
-            overflow: hidden;
-            border-radius: 210px 210px 25px 25px;
-            box-shadow: 0 35px 80px rgba(64, 31, 49, 0.22);
-        }
-
-        .hero-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .hero-image::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                180deg,
-                transparent 50%,
-                rgba(35, 17, 28, 0.28)
-            );
-        }
-
         .floating-card {
             position: absolute;
-            z-index: 5;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255,255,255,0.8);
-            border-radius: 20px;
-        }
-
-        .rating-card {
-            left: 0;
-            top: 105px;
-            padding: 17px 20px;
-        }
-
-        .rating-card .stars {
-            color: #f5b529;
-            font-size: 14px;
-            letter-spacing: 2px;
-        }
-
-        .rating-card strong {
-            display: block;
-            margin-top: 5px;
-            font-size: 18px;
-        }
-
-        .rating-card span {
-            color: var(--muted);
-            font-size: 11px;
-        }
-
-        .offer-card {
-            right: -15px;
-            bottom: 50px;
-            padding: 19px 22px;
+            left: -30px;
+            bottom: 35px;
             display: flex;
             align-items: center;
             gap: 13px;
+            background: rgba(255,255,255,.95);
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            padding: 15px 18px;
+            box-shadow: 0 18px 45px rgba(64, 20, 57, .14);
         }
 
-        .offer-icon {
-            width: 42px;
-            height: 42px;
+        .floating-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
             display: grid;
             place-items: center;
-            border-radius: 13px;
-            background: var(--pink-light);
-            color: var(--pink-dark);
+            background: #fbe5f2;
+            color: var(--pink);
         }
 
-        .offer-card strong {
+        .floating-card strong {
             display: block;
-            font-size: 14px;
+            font-size: 13px;
         }
 
-        .offer-card span {
+        .floating-card span {
             display: block;
-            color: var(--muted);
-            font-size: 11px;
             margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
         }
 
-        /* =========================================================
-           WHY US
-           ========================================================= */
+        /* ================= SECTION COMMON ================= */
 
-        .why {
+        .section {
+            padding: 95px 0;
+        }
+
+        .section.white {
             background: white;
         }
 
-        .why-head {
-            max-width: 720px;
+        .section-heading {
+            max-width: 680px;
+            margin: auto;
             text-align: center;
-            margin: 0 auto 55px;
         }
 
-        .why-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+        .eyebrow {
+            color: var(--pink);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
-        .why-card {
-            padding: 34px;
-            border-radius: 24px;
-            border: 1px solid var(--border);
-            background: #fff;
-            transition: 0.3s ease;
-        }
-
-        .why-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow);
-            border-color: rgba(233, 79, 135, 0.25);
-        }
-
-        .why-icon {
-            width: 55px;
-            height: 55px;
-            display: grid;
-            place-items: center;
-            border-radius: 17px;
-            background: var(--pink-light);
-            color: var(--pink-dark);
-            font-size: 20px;
-        }
-
-        .why-card h3 {
-            margin-top: 23px;
+        .section-title {
+            margin-top: 12px;
             font-family: "Playfair Display", serif;
-            font-size: 24px;
+            font-size: clamp(35px, 4vw, 50px);
+            line-height: 1.1;
         }
 
-        .why-card p {
-            margin-top: 11px;
+        .section-title span {
+            color: var(--purple);
+        }
+
+        .section-description {
+            margin-top: 15px;
             color: var(--muted);
             line-height: 1.75;
             font-size: 14px;
         }
 
-        /* =========================================================
-           SERVICES
-           ========================================================= */
+        /* ================= WHY ================= */
 
-        .services {
-            background: #fff7fa;
+        .why-grid {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
         }
 
-        .services-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: end;
-            gap: 30px;
-            margin-bottom: 45px;
+        .why-card {
+            padding: 30px 25px;
+            border: 1px solid var(--border);
+            border-radius: 23px;
+            background: white;
+            text-align: center;
+            transition: .3s;
         }
 
-        .services-head-copy {
-            max-width: 650px;
+        .why-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 45px rgba(71, 25, 67, .08);
         }
 
-        .services-grid {
+        .why-icon {
+            width: 55px;
+            height: 55px;
+            margin: auto;
+            display: grid;
+            place-items: center;
+            border-radius: 17px;
+            color: var(--pink);
+            background: #fbe8f3;
+            font-size: 20px;
+        }
+
+        .why-card h3 {
+            margin-top: 18px;
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+        }
+
+        .why-card p {
+            margin-top: 9px;
+            color: var(--muted);
+            line-height: 1.65;
+            font-size: 13px;
+        }
+
+        /* ================= SERVICES ================= */
+
+        .service-grid {
+            margin-top: 50px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
         }
 
         .service-card {
-            overflow: hidden;
-            background: white;
             border: 1px solid var(--border);
             border-radius: 25px;
-            transition: 0.35s ease;
+            overflow: hidden;
+            background: white;
+            transition: .3s;
         }
 
         .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow);
+            transform: translateY(-6px);
+            box-shadow: 0 22px 50px rgba(68, 22, 62, .1);
         }
 
         .service-image {
-            height: 250px;
+            height: 215px;
             overflow: hidden;
-            position: relative;
         }
 
         .service-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: 0.5s ease;
+            transition: .4s;
         }
 
         .service-card:hover .service-image img {
-            transform: scale(1.06);
-        }
-
-        .service-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            padding: 7px 11px;
-            background: rgba(255,255,255,0.92);
-            border-radius: 50px;
-            font-size: 10px;
-            font-weight: 800;
-            color: var(--pink-dark);
+            transform: scale(1.05);
         }
 
         .service-content {
-            padding: 24px;
+            padding: 21px;
         }
 
         .service-content h3 {
             font-family: "Playfair Display", serif;
-            font-size: 24px;
+            font-size: 22px;
         }
 
         .service-content p {
-            margin-top: 8px;
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.7;
-        }
-
-        .service-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            padding-top: 17px;
-            border-top: 1px solid var(--border);
-        }
-
-        .service-price {
-            font-size: 19px;
-            font-weight: 800;
-            color: var(--pink-dark);
-        }
-
-        .service-duration {
+            margin-top: 7px;
             color: var(--muted);
             font-size: 12px;
+            line-height: 1.6;
         }
 
-        /* =========================================================
-           ABOUT
-           ========================================================= */
-
-        .about {
-            background: white;
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            color: var(--pink);
+            font-size: 12px;
+            font-weight: 800;
         }
+
+        .center-button {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        /* ================= ABOUT ================= */
 
         .about-grid {
             display: grid;
-            grid-template-columns: 0.95fr 1.05fr;
+            grid-template-columns: .9fr 1.1fr;
+            gap: 75px;
             align-items: center;
-            gap: 80px;
         }
 
-        .about-images {
-            position: relative;
-            min-height: 550px;
-        }
-
-        .about-main-image {
-            width: 78%;
+        .about-image {
             height: 500px;
-            border-radius: 180px 25px 25px 25px;
+            border-radius: 32px;
             overflow: hidden;
-            box-shadow: var(--shadow);
+            box-shadow: 0 25px 60px rgba(73, 24, 66, .13);
         }
 
-        .about-main-image img {
+        .about-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .about-small-image {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 47%;
-            height: 260px;
-            overflow: hidden;
-            border: 8px solid white;
-            border-radius: 25px;
-            box-shadow: var(--shadow);
+        .about-content .section-title {
+            margin-top: 12px;
         }
 
-        .about-small-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .experience-card {
-            position: absolute;
-            left: -20px;
-            bottom: 60px;
-            padding: 18px 20px;
-            border-radius: 18px;
-            background: var(--gradient);
-            color: white;
-            box-shadow: var(--shadow);
-        }
-
-        .experience-card strong {
-            display: block;
-            font-family: "Playfair Display", serif;
-            font-size: 30px;
-        }
-
-        .experience-card span {
-            display: block;
-            font-size: 11px;
-            opacity: 0.9;
-        }
-
-        .about-content {
-            max-width: 590px;
-        }
-
-        .about-content .section-text {
-            margin-top: 22px;
-        }
-
-        .about-list {
-            margin-top: 30px;
-            display: grid;
-            gap: 16px;
-        }
-
-        .about-list-item {
-            display: flex;
-            gap: 13px;
-            align-items: flex-start;
-        }
-
-        .about-check {
-            width: 25px;
-            height: 25px;
-            flex: 0 0 25px;
-            display: grid;
-            place-items: center;
-            border-radius: 50%;
-            background: var(--pink-light);
-            color: var(--pink-dark);
-            font-size: 11px;
-        }
-
-        .about-list-item strong {
-            display: block;
+        .about-content p {
+            margin-top: 18px;
+            color: var(--muted);
+            line-height: 1.8;
             font-size: 14px;
         }
 
-        .about-list-item span {
-            display: block;
-            color: var(--muted);
-            font-size: 12px;
-            margin-top: 3px;
+        .about-points {
+            margin-top: 25px;
+            display: grid;
+            gap: 13px;
         }
 
-        .about-button {
-            margin-top: 32px;
+        .about-point {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        /* =========================================================
-           CTA
-           ========================================================= */
+        .about-point i {
+            color: var(--pink);
+        }
+
+        /* ================= CTA ================= */
 
         .cta {
-            padding: 95px 0;
-            background: linear-gradient(135deg, #2d1727, #4a2341);
+            padding: 0 0 95px;
+            background: white;
+        }
+
+        .cta-box {
+            border-radius: 32px;
+            padding: 60px;
             color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta::before {
-            content: "";
-            position: absolute;
-            width: 430px;
-            height: 430px;
-            right: -160px;
-            top: -180px;
-            border-radius: 50%;
-            border: 70px solid rgba(255,255,255,0.04);
-        }
-
-        .cta::after {
-            content: "";
-            position: absolute;
-            width: 350px;
-            height: 350px;
-            left: -180px;
-            bottom: -170px;
-            border-radius: 50%;
-            border: 55px solid rgba(255,255,255,0.04);
-        }
-
-        .cta-inner {
-            position: relative;
-            z-index: 2;
+            background: linear-gradient(
+                135deg,
+                #4c2058,
+                #832b89 55%,
+                #db1d82
+            );
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 40px;
+            gap: 30px;
         }
 
-        .cta-copy {
-            max-width: 680px;
-        }
-
-        .cta-copy .section-tag {
-            background: rgba(255,255,255,0.1);
-            color: #ffd4e4;
-        }
-
-        .cta h2 {
-            margin-top: 18px;
+        .cta-box h2 {
             font-family: "Playfair Display", serif;
-            font-size: clamp(38px, 5vw, 60px);
-            line-height: 1.08;
+            font-size: 40px;
         }
 
-        .cta p {
-            margin-top: 16px;
-            color: rgba(255,255,255,0.72);
-            line-height: 1.8;
-            max-width: 600px;
+        .cta-box p {
+            margin-top: 10px;
+            color: rgba(255,255,255,.78);
+            font-size: 14px;
         }
 
-        .cta .btn-outline {
-            border-color: rgba(255,255,255,0.25);
-            background: rgba(255,255,255,0.06);
+        .cta-button {
+            flex-shrink: 0;
+            padding: 15px 22px;
+            border-radius: 14px;
+            background: white;
+            color: var(--purple-dark);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: var(--dark);
             color: white;
-        }
-
-        .cta .btn-outline:hover {
-            border-color: white;
-        }
-
-        /* =========================================================
-           FOOTER
-           ========================================================= */
-
-        .footer {
-            background: #1c1219;
-            color: white;
-            padding: 70px 0 25px;
+            padding: 58px 0 25px;
         }
 
         .footer-grid {
             display: grid;
             grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 45px;
+            gap: 40px;
+        }
+
+        .footer-brand h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
         }
 
         .footer-brand p {
-            max-width: 340px;
-            color: rgba(255,255,255,0.58);
-            line-height: 1.8;
+            margin-top: 12px;
+            color: #bcaabd;
             font-size: 13px;
-            margin-top: 18px;
+            line-height: 1.7;
+            max-width: 290px;
         }
 
         .footer-title {
+            margin-bottom: 17px;
             font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
-        .footer-links {
-            display: grid;
-            gap: 12px;
-            margin-top: 18px;
+            font-weight: 700;
         }
 
         .footer-links a {
-            color: rgba(255,255,255,0.58);
-            font-size: 13px;
-            transition: 0.25s ease;
+            display: block;
+            margin-bottom: 11px;
+            color: #bcaabd;
+            font-size: 12px;
         }
 
         .footer-links a:hover {
-            color: #ff9fc2;
-        }
-
-        .footer-contact {
-            margin-top: 18px;
-            display: grid;
-            gap: 13px;
+            color: white;
         }
 
         .footer-contact div {
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            color: rgba(255,255,255,0.58);
-            font-size: 13px;
-            line-height: 1.6;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 12px;
+            color: #bcaabd;
+            font-size: 12px;
         }
 
         .footer-contact i {
-            width: 17px;
-            margin-top: 2px;
-            color: #ff7eac;
+            width: 15px;
+            color: var(--pink);
         }
 
         .footer-bottom {
-            margin-top: 55px;
-            padding-top: 22px;
-            border-top: 1px solid rgba(255,255,255,0.08);
+            border-top: 1px solid rgba(255,255,255,.1);
+            margin-top: 40px;
+            padding-top: 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 20px;
-            color: rgba(255,255,255,0.42);
+            color: #927e92;
             font-size: 11px;
         }
 
-        .socials {
-            display: flex;
-            gap: 8px;
-        }
+        /* ================= MOBILE ================= */
 
-        .socials a {
-            width: 34px;
-            height: 34px;
-            display: grid;
-            place-items: center;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.12);
-            color: rgba(255,255,255,0.65);
-            transition: 0.25s ease;
-        }
-
-        .socials a:hover {
-            background: var(--pink-dark);
-            border-color: var(--pink-dark);
-            color: white;
-        }
-
-        /* =========================================================
-           RESPONSIVE
-           ========================================================= */
-
-        @media (max-width: 1050px) {
-
-            .nav-links {
-                gap: 17px;
-            }
-
-            .hero-inner {
-                gap: 30px;
-            }
-
-            .hero h1 {
-                font-size: 60px;
-            }
-
-            .about-grid {
-                gap: 45px;
-            }
-
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-        }
-
-        @media (max-width: 850px) {
-
+        @media (max-width: 900px) {
             .nav-links,
             .nav-actions {
                 display: none;
@@ -1018,172 +699,182 @@
                 place-items: center;
             }
 
-            .hero {
-                min-height: auto;
+            .mobile-panel {
+                position: absolute;
+                top: 82px;
+                left: 0;
+                right: 0;
+                background: rgba(255,250,252,.99);
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 18px 35px rgba(55,20,50,.12);
+                padding: 18px 20px 22px;
+            }
+
+            .mobile-panel.open {
+                display: block;
+            }
+
+            .mobile-links {
+                display: grid;
+                gap: 3px;
+            }
+
+            .mobile-links a {
+                display: block;
+                padding: 14px 10px;
+                border-radius: 12px;
+                color: #4d3b50;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .mobile-links a:hover {
+                background: #fbeaf3;
+                color: var(--pink);
+            }
+
+            .mobile-actions {
+                display: grid;
+                gap: 10px;
+                margin-top: 10px;
+                padding-top: 15px;
+                border-top: 1px solid var(--border);
+            }
+
+            .mobile-login,
+            .mobile-book {
+                text-align: center;
+                padding: 13px;
+                border-radius: 13px;
+                font-size: 13px;
+                font-weight: 800;
+            }
+
+            .mobile-login {
+                border: 1px solid var(--border);
+                background: white;
+            }
+
+            .mobile-book {
+                background: var(--gradient);
+                color: white;
             }
 
             .hero-inner {
                 grid-template-columns: 1fr;
-                padding: 80px 0;
             }
 
-            .hero-content {
-                text-align: center;
+            .hero-image-wrap {
+                height: 430px;
             }
 
-            .hero-description {
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-buttons {
-                justify-content: center;
-            }
-
-            .hero-trust {
-                justify-content: center;
-            }
-
-            .hero-visual {
-                min-height: 550px;
-                max-width: 650px;
-                width: 100%;
-                margin: 0 auto;
-            }
-
-            .why-grid,
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .floating-card {
+                left: 18px;
             }
 
             .about-grid {
                 grid-template-columns: 1fr;
             }
 
-            .about-content {
-                max-width: 100%;
+            .why-grid,
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .cta-inner {
-                flex-direction: column;
-                align-items: flex-start;
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
             }
-
         }
 
         @media (max-width: 600px) {
-
-            .section {
-                padding: 75px 0;
+            .container {
+                width: min(100% - 30px, 1180px);
             }
 
             .nav-inner {
-                min-height: 70px;
+                min-height: 72px;
             }
 
-            .brand-logo {
-                width: 40px;
-                height: 40px;
+            .mobile-panel {
+                top: 72px;
             }
 
             .brand-text strong {
-                font-size: 18px;
+                font-size: 17px;
             }
 
-            .hero-inner {
-                padding: 60px 0 75px;
+            .brand-text span {
+                font-size: 7px;
             }
 
-            .hero h1 {
-                font-size: 47px;
+            .brand-logo {
+                width: 42px;
+                height: 42px;
+            }
+
+            .hero {
+                padding: 55px 0 65px;
+            }
+
+            .hero-title {
+                font-size: 45px;
                 letter-spacing: -1px;
             }
 
             .hero-description {
-                font-size: 15px;
+                font-size: 14px;
             }
 
-            .hero-buttons .btn {
-                width: 100%;
+            .hero-image-wrap {
+                height: 340px;
+                border-radius: 25px;
             }
 
-            .hero-visual {
-                min-height: 470px;
+            .floating-card {
+                left: 12px;
+                bottom: 18px;
+                padding: 12px;
             }
 
-            .hero-image {
-                width: 88%;
-                height: 430px;
-                border-radius: 170px 170px 20px 20px;
-            }
-
-            .rating-card {
-                top: 70px;
-                left: -4px;
-                padding: 13px 15px;
-            }
-
-            .offer-card {
-                right: -4px;
-                bottom: 25px;
-                padding: 13px 15px;
+            .section {
+                padding: 70px 0;
             }
 
             .why-grid,
-            .services-grid {
+            .service-grid {
                 grid-template-columns: 1fr;
             }
 
-            .services-head {
-                display: block;
+            .about-image {
+                height: 350px;
             }
 
-            .services-head .btn {
-                margin-top: 20px;
-            }
-
-            .service-image {
-                height: 230px;
-            }
-
-            .about-images {
-                min-height: 450px;
-            }
-
-            .about-main-image {
-                height: 400px;
-                width: 83%;
-            }
-
-            .about-small-image {
-                height: 200px;
-            }
-
-            .experience-card {
-                left: -5px;
-                bottom: 35px;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-bottom {
+            .cta-box {
+                padding: 40px 25px;
                 flex-direction: column;
                 align-items: flex-start;
             }
 
+            .cta-box h2 {
+                font-size: 31px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 8px;
+            }
         }
-
     </style>
-
 </head>
 
 <body>
 
-    <!-- =========================================================
-         NAVBAR
-         ========================================================= -->
+    <!-- ================= NAVBAR ================= -->
 
     <header class="navbar">
 
@@ -1212,33 +903,23 @@
                     Services
                 </a>
 
-                <a href="service-details.html">
-                    Details
+                <a href="index.html#about">
+                    About
                 </a>
 
-                <a href="book-appointment.html">
-                    Book Appointment
-                </a>
-
-                <a href="customer-dashboard.html">
-                    Dashboard
+                <a href="index.html#contact">
+                    Contact
                 </a>
 
             </nav>
 
             <div class="nav-actions">
 
-                <a
-                    href="login.html"
-                    class="nav-login"
-                >
+                <a href="login.html" class="nav-login">
                     Login
                 </a>
 
-                <a
-                    href="register.html"
-                    class="btn btn-primary"
-                >
+                <a href="register.html" class="btn-primary">
                     Get Started
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
@@ -1248,93 +929,148 @@
             <button
                 class="mobile-menu"
                 id="mobileMenu"
-                aria-label="Open menu"
+                type="button"
+                aria-label="Open mobile menu"
+                aria-expanded="false"
             >
                 <i class="fa-solid fa-bars"></i>
             </button>
 
         </div>
 
+        <!-- REAL MOBILE MENU -->
+
+        <div class="mobile-panel" id="mobilePanel">
+
+            <div class="mobile-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="services.html">
+                    Services
+                </a>
+
+                <a href="index.html#about">
+                    About
+                </a>
+
+                <a href="index.html#contact">
+                    Contact
+                </a>
+
+            </div>
+
+            <div class="mobile-actions">
+
+                <a href="login.html" class="mobile-login">
+                    Login
+                </a>
+
+                <a href="register.html" class="mobile-book">
+                    Get Started
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
     </header>
 
+    <main>
 
-    <!-- =========================================================
-         HERO
-         ========================================================= -->
+        <!-- ================= HERO ================= -->
 
-    <section class="hero">
+        <section class="hero">
 
-        <div class="container hero-inner">
+            <div class="container hero-inner">
 
-            <div class="hero-content">
+                <div class="hero-content">
 
-                <div class="hero-badge">
+                    <div class="hero-badge">
+                        <i class="fa-solid fa-sparkles"></i>
+                        Premium Beauty Experience
+                    </div>
 
-                    <i class="fa-solid fa-sparkles"></i>
+                    <h1 class="hero-title">
+                        Your Beauty.
+                        <br>
+                        <span>Your Moment.</span>
+                    </h1>
 
-                    Premium Beauty Experience
+                    <p class="hero-description">
+                        Discover premium beauty services with easy online
+                        appointment booking. SG Makeovers brings your salon
+                        experience closer to you.
+                    </p>
 
-                </div>
+                    <div class="hero-buttons">
 
-                <h1>
+                        <a href="services.html" class="primary-btn">
+                            Explore Services
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
 
-                    Your Beauty.
-
-                    <br>
-
-                    Your <span>Moment.</span>
-
-                </h1>
-
-                <p class="hero-description">
-
-                    Discover premium beauty services designed to make
-                    you feel confident, refreshed and beautifully you.
-                    Book your favourite service online in just a few clicks.
-
-                </p>
-
-                <div class="hero-buttons">
-
-                    <a
-                        href="services.html"
-                        class="btn btn-primary"
-                    >
-
-                        Explore Services
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </a>
-
-                    <a
-                        href="book-appointment.html"
-                        class="btn btn-outline"
-                    >
-
-                        Book Appointment
-
-                    </a>
-
-                </div>
-
-                <div class="hero-trust">
-
-                    <div class="avatar-stack">
-
-                        <span class="avatar-1"></span>
-
-                        <span class="avatar-2"></span>
-
-                        <span class="avatar-3"></span>
+                        <a href="book-appointment.html" class="secondary-btn">
+                            Book Appointment
+                        </a>
 
                     </div>
 
-                    <div class="trust-text">
+                    <div class="hero-stats">
 
-                        <strong>500+ Happy Clients</strong>
+                        <div class="avatar-stack">
 
-                        <span>Loved by our beauty community</span>
+                            <img
+                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"
+                                alt="Client"
+                            >
+
+                            <img
+                                src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=100&q=80"
+                                alt="Client"
+                            >
+
+                            <img
+                                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80"
+                                alt="Client"
+                            >
+
+                        </div>
+
+                        <div class="happy-clients">
+                            <strong>500+ Happy Clients</strong>
+                            <span>Loved by our beauty community</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="hero-visual">
+
+                    <div class="hero-image-wrap">
+
+                        <img
+                            class="hero-image"
+                            src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=85"
+                            alt="Beauty salon"
+                        >
+
+                    </div>
+
+                    <div class="floating-card">
+
+                        <div class="floating-icon">
+                            <i class="fa-solid fa-gem"></i>
+                        </div>
+
+                        <div>
+                            <strong>Premium Care</strong>
+                            <span>Beauty services made simple</span>
+                        </div>
 
                     </div>
 
@@ -1342,685 +1078,319 @@
 
             </div>
 
+        </section>
 
-            <div class="hero-visual">
+        <!-- ================= WHY US ================= -->
 
-                <div class="hero-image">
+        <section class="section white">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <div class="eyebrow">
+                        WHY SG MAKEOVERS
+                    </div>
+
+                    <h2 class="section-title">
+                        Beauty care that
+                        <span>feels personal.</span>
+                    </h2>
+
+                    <p class="section-description">
+                        Everything is designed to make your beauty experience
+                        comfortable, convenient and stress-free.
+                    </p>
+
+                </div>
+
+                <div class="why-grid">
+
+                    <div class="why-card">
+
+                        <div class="why-icon">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+
+                        <h3>Easy Booking</h3>
+
+                        <p>
+                            Book your favourite beauty service online
+                            whenever it is convenient for you.
+                        </p>
+
+                    </div>
+
+                    <div class="why-card">
+
+                        <div class="why-icon">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+
+                        <h3>Professional Care</h3>
+
+                        <p>
+                            Enjoy quality beauty services with a premium
+                            salon experience.
+                        </p>
+
+                    </div>
+
+                    <div class="why-card">
+
+                        <div class="why-icon">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+
+                        <h3>Made For You</h3>
+
+                        <p>
+                            Choose services that match your beauty,
+                            self-care and confidence needs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= SERVICES ================= -->
+
+        <section class="section">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <div class="eyebrow">
+                        OUR SERVICES
+                    </div>
+
+                    <h2 class="section-title">
+                        Your favourite
+                        <span>beauty rituals.</span>
+                    </h2>
+
+                    <p class="section-description">
+                        Explore our professional beauty services and choose
+                        the perfect treatment for your next appointment.
+                    </p>
+
+                </div>
+
+                <div class="service-grid">
+
+                    <article class="service-card">
+
+                        <div class="service-image">
+                            <img
+                                src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=85"
+                                alt="Hair Styling"
+                                loading="lazy"
+                            >
+                        </div>
+
+                        <div class="service-content">
+
+                            <h3>Hair Styling</h3>
+
+                            <p>
+                                Beautiful styling and professional hair care
+                                for your special look.
+                            </p>
+
+                            <a href="services.html" class="service-link">
+                                Explore Service
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    <article class="service-card">
+
+                        <div class="service-image">
+                            <img
+                                src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=85"
+                                alt="Makeup"
+                                loading="lazy"
+                            >
+                        </div>
+
+                        <div class="service-content">
+
+                            <h3>Makeup</h3>
+
+                            <p>
+                                Glamorous makeup services for parties,
+                                events and memorable moments.
+                            </p>
+
+                            <a href="services.html" class="service-link">
+                                Explore Service
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    <article class="service-card">
+
+                        <div class="service-image">
+                            <img
+                                src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=85"
+                                alt="Facial"
+                                loading="lazy"
+                            >
+                        </div>
+
+                        <div class="service-content">
+
+                            <h3>Facial & Glow</h3>
+
+                            <p>
+                                Relaxing facial treatments designed to leave
+                                your skin feeling refreshed.
+                            </p>
+
+                            <a href="services.html" class="service-link">
+                                Explore Service
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <div class="center-button">
+
+                    <a href="services.html" class="primary-btn">
+                        View All Services
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= ABOUT ================= -->
+
+        <section class="section white" id="about">
+
+            <div class="container about-grid">
+
+                <div class="about-image">
 
                     <img
-                        src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1000&q=85"
-                        alt="Beauty woman"
+                        src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=900&q=85"
+                        alt="SG Makeovers beauty experience"
+                        loading="lazy"
                     >
 
                 </div>
 
-                <div class="floating-card rating-card">
+                <div class="about-content">
 
-                    <div class="stars">
-                        ★★★★★
+                    <div class="eyebrow">
+                        ABOUT SG MAKEOVERS
                     </div>
 
-                    <strong>4.9 / 5</strong>
+                    <h2 class="section-title">
+                        More than beauty.
+                        <span>It's your moment.</span>
+                    </h2>
 
-                    <span>Client rating</span>
+                    <p>
+                        SG Makeovers is an online beauty service platform
+                        created to make salon appointment booking simple,
+                        modern and convenient.
+                    </p>
+
+                    <p>
+                        Browse services, choose your preferred appointment
+                        and manage your bookings from one place.
+                    </p>
+
+                    <div class="about-points">
+
+                        <div class="about-point">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Easy online appointment booking
+                        </div>
+
+                        <div class="about-point">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Professional beauty services
+                        </div>
+
+                        <div class="about-point">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Simple customer dashboard
+                        </div>
+
+                        <div class="about-point">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Secure account management
+                        </div>
+
+                    </div>
 
                 </div>
 
-                <div class="floating-card offer-card">
+            </div>
 
-                    <div class="offer-icon">
+        </section>
 
-                        <i class="fa-solid fa-gift"></i>
+        <!-- ================= CTA ================= -->
 
-                    </div>
+        <section class="cta" id="contact">
+
+            <div class="container">
+
+                <div class="cta-box">
 
                     <div>
 
-                        <strong>Beauty Treat</strong>
-
-                        <span>Special offers for members</span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         WHY US
-         ========================================================= -->
-
-    <section class="section why">
-
-        <div class="container">
-
-            <div class="why-head">
-
-                <span class="section-tag">
-
-                    <i class="fa-solid fa-heart"></i>
-
-                    Why SG Makeovers
-
-                </span>
-
-                <h2 class="section-title">
-                    Beauty made simple,
-                    <br>
-                    personal & effortless.
-                </h2>
-
-                <p
-                    class="section-text"
-                    style="margin-top:20px;"
-                >
-
-                    From choosing your service to managing your appointment,
-                    SG MAKEOVERS brings your complete beauty experience online.
-
-                </p>
-
-            </div>
-
-
-            <div class="why-grid">
-
-                <div class="why-card">
-
-                    <div class="why-icon">
-
-                        <i class="fa-solid fa-calendar-check"></i>
-
-                    </div>
-
-                    <h3>
-                        Easy Booking
-                    </h3>
-
-                    <p>
-
-                        Choose your preferred beauty service, date and time
-                        without waiting for calls or messages.
-
-                    </p>
-
-                </div>
-
-
-                <div class="why-card">
-
-                    <div class="why-icon">
-
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-
-                    </div>
-
-                    <h3>
-                        Premium Services
-                    </h3>
-
-                    <p>
-
-                        Enjoy carefully curated beauty services for hair,
-                        makeup, skincare, nails and special occasions.
-
-                    </p>
-
-                </div>
-
-
-                <div class="why-card">
-
-                    <div class="why-icon">
-
-                        <i class="fa-solid fa-shield-heart"></i>
-
-                    </div>
-
-                    <h3>
-                        Personal Experience
-                    </h3>
-
-                    <p>
-
-                        Keep your appointments, profile, services and billing
-                        information organized in one beautiful dashboard.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         SERVICES
-         ========================================================= -->
-
-    <section class="section services">
-
-        <div class="container">
-
-            <div class="services-head">
-
-                <div class="services-head-copy">
-
-                    <span class="section-tag">
-
-                        <i class="fa-solid fa-scissors"></i>
-
-                        Our Services
-
-                    </span>
-
-                    <h2 class="section-title">
-                        Something beautiful
-                        <br>
-                        for every you.
-                    </h2>
-
-                </div>
-
-                <a
-                    href="services.html"
-                    class="btn btn-outline"
-                >
-
-                    View All Services
-
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                </a>
-
-            </div>
-
-
-            <div class="services-grid">
-
-                <article class="service-card">
-
-                    <div class="service-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=85"
-                            alt="Hair styling"
-                        >
-
-                        <span class="service-badge">
-                            POPULAR
-                        </span>
-
-                    </div>
-
-                    <div class="service-content">
-
-                        <h3>
-                            Hair Styling
-                        </h3>
+                        <h2>
+                            Ready for your
+                            beauty moment?
+                        </h2>
 
                         <p>
-                            Professional styling for everyday elegance
-                            and special occasions.
+                            Choose your favourite service and book your
+                            appointment today.
                         </p>
 
-                        <div class="service-meta">
-
-                            <span class="service-price">
-                                ₹799
-                            </span>
-
-                            <span class="service-duration">
-                                <i class="fa-regular fa-clock"></i>
-                                60 min
-                            </span>
-
-                        </div>
-
                     </div>
 
-                </article>
-
-
-                <article class="service-card">
-
-                    <div class="service-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=900&q=85"
-                            alt="Bridal makeup"
-                        >
-
-                        <span class="service-badge">
-                            SIGNATURE
-                        </span>
-
-                    </div>
-
-                    <div class="service-content">
-
-                        <h3>
-                            Bridal Makeup
-                        </h3>
-
-                        <p>
-                            A sophisticated bridal look designed around
-                            your special day.
-                        </p>
-
-                        <div class="service-meta">
-
-                            <span class="service-price">
-                                ₹4,999
-                            </span>
-
-                            <span class="service-duration">
-                                <i class="fa-regular fa-clock"></i>
-                                120 min
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <article class="service-card">
-
-                    <div class="service-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=85"
-                            alt="Facial and glow"
-                        >
-
-                        <span class="service-badge">
-                            GLOW
-                        </span>
-
-                    </div>
-
-                    <div class="service-content">
-
-                        <h3>
-                            Facial & Glow
-                        </h3>
-
-                        <p>
-                            Relaxing skincare treatment for a fresh,
-                            radiant finish.
-                        </p>
-
-                        <div class="service-meta">
-
-                            <span class="service-price">
-                                ₹999
-                            </span>
-
-                            <span class="service-duration">
-                                <i class="fa-regular fa-clock"></i>
-                                60 min
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <article class="service-card">
-
-                    <div class="service-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=85"
-                            alt="Manicure and pedicure"
-                        >
-
-                    </div>
-
-                    <div class="service-content">
-
-                        <h3>
-                            Manicure & Pedicure
-                        </h3>
-
-                        <p>
-                            A relaxing nail care experience with polished
-                            finishing touches.
-                        </p>
-
-                        <div class="service-meta">
-
-                            <span class="service-price">
-                                ₹899
-                            </span>
-
-                            <span class="service-duration">
-                                <i class="fa-regular fa-clock"></i>
-                                75 min
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <article class="service-card">
-
-                    <div class="service-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1487412912498-0447578fcca8?auto=format&fit=crop&w=900&q=85"
-                            alt="Party makeup"
-                        >
-
-                    </div>
-
-                    <div class="service-content">
-
-                        <h3>
-                            Party Makeup
-                        </h3>
-
-                        <p>
-                            Glamorous makeup looks created for celebrations
-                            and memorable evenings.
-                        </p>
-
-                        <div class="service-meta">
-
-                            <span class="service-price">
-                                ₹1,799
-                            </span>
-
-                            <span class="service-duration">
-                                <i class="fa-regular fa-clock"></i>
-                                90 min
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <article class="service-card">
-
-                    <div class="service-image">
-
-                        <img
-                            src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=900&q=85"
-                            alt="Hair spa"
-                        >
-
-                    </div>
-
-                    <div class="service-content">
-
-                        <h3>
-                            Hair Spa
-                        </h3>
-
-                        <p>
-                            Nourishing care that leaves your hair feeling
-                            refreshed and beautifully conditioned.
-                        </p>
-
-                        <div class="service-meta">
-
-                            <span class="service-price">
-                                ₹1,299
-                            </span>
-
-                            <span class="service-duration">
-                                <i class="fa-regular fa-clock"></i>
-                                75 min
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         ABOUT
-         ========================================================= -->
-
-    <section class="section about">
-
-        <div class="container about-grid">
-
-            <div class="about-images">
-
-                <div class="about-main-image">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=85"
-                        alt="Beauty salon"
+                    <a
+                        href="book-appointment.html"
+                        class="cta-button"
                     >
-
-                </div>
-
-                <div class="about-small-image">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=85"
-                        alt="Beauty service"
-                    >
-
-                </div>
-
-                <div class="experience-card">
-
-                    <strong>
-                        5+
-                    </strong>
-
-                    <span>
-                        Years of beauty experience
-                    </span>
+                        Book Appointment
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
 
                 </div>
 
             </div>
 
+        </section>
 
-            <div class="about-content">
+    </main>
 
-                <span class="section-tag">
+    <!-- ================= FOOTER ================= -->
 
-                    <i class="fa-solid fa-star"></i>
-
-                    About SG Makeovers
-
-                </span>
-
-                <h2 class="section-title">
-
-                    More than beauty.
-                    <br>
-                    It's your moment.
-
-                </h2>
-
-                <p class="section-text">
-
-                    SG MAKEOVERS is designed around one simple idea:
-                    your beauty experience should feel effortless from
-                    the moment you discover a service until the moment
-                    you walk away feeling amazing.
-
-                </p>
-
-
-                <div class="about-list">
-
-                    <div class="about-list-item">
-
-                        <div class="about-check">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Professional Beauty Services
-                            </strong>
-
-                            <span>
-                                Carefully curated services for your beauty needs.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="about-list-item">
-
-                        <div class="about-check">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Simple Online Management
-                            </strong>
-
-                            <span>
-                                Manage appointments and personal information
-                                from your account.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="about-list-item">
-
-                        <div class="about-check">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Designed Around You
-                            </strong>
-
-                            <span>
-                                A personalized digital beauty experience
-                                from booking to billing.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <a
-                    href="services.html"
-                    class="btn btn-primary about-button"
-                >
-
-                    Discover Our Services
-
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         CTA
-         ========================================================= -->
-
-    <section class="cta">
-
-        <div class="container cta-inner">
-
-            <div class="cta-copy">
-
-                <span class="section-tag">
-
-                    <i class="fa-solid fa-calendar-heart"></i>
-
-                    Your next beauty moment
-
-                </span>
-
-                <h2>
-                    Ready to make time
-                    for yourself?
-                </h2>
-
-                <p>
-
-                    Explore our services and choose the beauty experience
-                    that feels right for you. Your next appointment is
-                    just a few clicks away.
-
-                </p>
-
-            </div>
-
-
-            <div>
-
-                <a
-                    href="book-appointment.html"
-                    class="btn btn-primary"
-                >
-
-                    Book Your Appointment
-
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         FOOTER
-         ========================================================= -->
-
-    <footer class="footer">
+    <footer>
 
         <div class="container">
 
@@ -2028,66 +1398,22 @@
 
                 <div class="footer-brand">
 
-                    <a href="index.html" class="brand">
-
-                        <div class="brand-logo">
-
-                            <i class="fa-solid fa-spa"></i>
-
-                        </div>
-
-                        <div class="brand-text">
-
-                            <strong style="color:white;">
-                                SG MAKEOVERS
-                            </strong>
-
-                            <span style="color:rgba(255,255,255,.45);">
-                                ONLINE BEAUTY SERVICES
-                            </span>
-
-                        </div>
-
-                    </a>
+                    <h3>SG MAKEOVERS</h3>
 
                     <p>
-
-                        A premium online beauty service platform designed
-                        to make your appointments, services and beauty
-                        experience simple and effortless.
-
+                        Premium online beauty services designed around
+                        your comfort, confidence and beauty.
                     </p>
 
-                    <div class="socials">
-
-                        <a href="#">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-
-                        <a href="#">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-
-                        <a href="#">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </a>
-
-                    </div>
-
                 </div>
-
 
                 <div>
 
                     <div class="footer-title">
-                        Quick Links
+                        Explore
                     </div>
 
                     <div class="footer-links">
-
-                        <a href="index.html">
-                            Home
-                        </a>
 
                         <a href="services.html">
                             Services
@@ -2101,10 +1427,13 @@
                             Login
                         </a>
 
+                        <a href="register.html">
+                            Register
+                        </a>
+
                     </div>
 
                 </div>
-
 
                 <div>
 
@@ -2134,7 +1463,6 @@
 
                 </div>
 
-
                 <div>
 
                     <div class="footer-title">
@@ -2144,33 +1472,18 @@
                     <div class="footer-contact">
 
                         <div>
-
                             <i class="fa-solid fa-phone"></i>
-
-                            <span>
-                                9004262111
-                            </span>
-
+                            <span>9004262111</span>
                         </div>
 
                         <div>
-
                             <i class="fa-solid fa-envelope"></i>
-
-                            <span>
-                                your-email@example.com
-                            </span>
-
+                            <span>your-email@example.com</span>
                         </div>
 
                         <div>
-
                             <i class="fa-solid fa-location-dot"></i>
-
-                            <span>
-                                Mumbai, Maharashtra, India
-                            </span>
-
+                            <span>Mumbai, Maharashtra, India</span>
                         </div>
 
                     </div>
@@ -2178,7 +1491,6 @@
                 </div>
 
             </div>
-
 
             <div class="footer-bottom">
 
@@ -2196,34 +1508,81 @@
 
     </footer>
 
-
-    <!-- =========================================================
-         SUPABASE
-         ========================================================= -->
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <script src="supabase-config.js"></script>
-
-
-    <!-- =========================================================
-         MOBILE MENU
-         ========================================================= -->
+    <!-- ================= REAL MOBILE MENU JS ================= -->
 
     <script>
 
-        const mobileMenu = document.getElementById("mobileMenu");
+        const mobileMenu =
+            document.getElementById("mobileMenu");
+
+        const mobilePanel =
+            document.getElementById("mobilePanel");
+
+        const mobileIcon =
+            mobileMenu.querySelector("i");
+
+        function closeMobileMenu() {
+
+            mobilePanel.classList.remove("open");
+
+            mobileMenu.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            mobileIcon.className =
+                "fa-solid fa-bars";
+        }
 
         mobileMenu.addEventListener("click", function () {
 
-            alert(
-                "Mobile navigation is available through the main menu pages."
+            const isOpen =
+                mobilePanel.classList.toggle("open");
+
+            mobileMenu.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
             );
+
+            mobileIcon.className = isOpen
+                ? "fa-solid fa-xmark"
+                : "fa-solid fa-bars";
+
+        });
+
+        document
+            .querySelectorAll(".mobile-panel a")
+            .forEach(link => {
+
+                link.addEventListener(
+                    "click",
+                    closeMobileMenu
+                );
+
+            });
+
+        window.addEventListener("resize", function () {
+
+            if (window.innerWidth > 900) {
+                closeMobileMenu();
+            }
+
+        });
+
+        document.addEventListener("click", function (event) {
+
+            if (
+                window.innerWidth <= 900 &&
+                mobilePanel.classList.contains("open") &&
+                !mobilePanel.contains(event.target) &&
+                !mobileMenu.contains(event.target)
+            ) {
+                closeMobileMenu();
+            }
 
         });
 
     </script>
 
 </body>
-
 </html>
