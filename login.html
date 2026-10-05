@@ -2,16 +2,30 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Login | SG MAKEOVERS</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta
+        name="description"
+        content="Login to SG MAKEOVERS Online Beauty Services"
+    >
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
@@ -32,17 +46,17 @@
         }
 
         :root {
-            --pink: #e95aa8;
-            --pink-dark: #c93d83;
-            --pink-soft: #fff0f8;
-            --purple: #7b4bb7;
-            --dark: #261d2e;
-            --text: #403545;
-            --muted: #766b7d;
-            --border: #eadff0;
+            --pink: #e83e8c;
+            --pink-dark: #c92f76;
+            --purple: #7b3fe4;
+            --purple-dark: #5d2bb5;
+            --cream: #fff9f5;
             --white: #ffffff;
-            --cream: #fffafd;
-            --gradient: linear-gradient(135deg, #e95aa8, #7b4bb7);
+            --text: #27212b;
+            --muted: #807783;
+            --border: #eadfe8;
+            --success: #18865b;
+            --danger: #d6455d;
         }
 
         html {
@@ -56,15 +70,20 @@
             background:
                 radial-gradient(
                     circle at 10% 10%,
-                    rgba(233, 90, 168, 0.12),
-                    transparent 30%
+                    rgba(232, 62, 140, 0.12),
+                    transparent 32%
                 ),
                 radial-gradient(
-                    circle at 90% 90%,
-                    rgba(123, 75, 183, 0.12),
+                    circle at 90% 15%,
+                    rgba(123, 63, 228, 0.14),
                     transparent 30%
                 ),
-                var(--cream);
+                linear-gradient(
+                    135deg,
+                    #fff9f5 0%,
+                    #fff4fa 48%,
+                    #f8f3ff 100%
+                );
         }
 
         a {
@@ -77,210 +96,369 @@
             font: inherit;
         }
 
-        .page {
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .container {
+            width: min(1180px, calc(100% - 40px));
+            margin: 0 auto;
         }
 
-        /* =====================================================
-           LEFT VISUAL PANEL
-           ===================================================== */
+        /* ==============================
+           NAVBAR
+        ============================== */
 
-        .visual-panel {
-            position: relative;
-            min-height: 100vh;
-            overflow: hidden;
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(232, 62, 140, 0.10);
         }
 
-        .visual-panel img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .visual-overlay {
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(37, 19, 37, 0.10),
-                    rgba(37, 19, 37, 0.78)
-                );
-        }
-
-        .visual-content {
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-            padding: 45px;
+        .nav-inner {
+            min-height: 82px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: space-between;
-            color: white;
+            gap: 30px;
         }
 
         .brand {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 12px;
-            width: fit-content;
+            flex-shrink: 0;
         }
 
-        .brand-icon {
+        .brand-logo {
             width: 46px;
             height: 46px;
+            border-radius: 15px;
             display: grid;
             place-items: center;
-            border-radius: 15px;
-            background: rgba(255,255,255,0.16);
-            border: 1px solid rgba(255,255,255,0.25);
-            backdrop-filter: blur(10px);
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            box-shadow:
+                0 10px 25px rgba(123, 63, 228, 0.20);
+        }
+
+        .brand-logo i {
+            font-size: 21px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.05;
         }
 
         .brand-text strong {
-            display: block;
             font-family: "Playfair Display", serif;
-            font-size: 21px;
-            letter-spacing: 0.4px;
+            font-size: 19px;
+            letter-spacing: 0.5px;
         }
 
         .brand-text span {
-            display: block;
-            margin-top: 1px;
-            color: rgba(255,255,255,0.72);
+            margin-top: 5px;
+            color: var(--muted);
             font-size: 9px;
             letter-spacing: 2px;
             font-weight: 700;
         }
 
-        .visual-bottom {
-            max-width: 560px;
-        }
-
-        .visual-label {
-            display: inline-flex;
-            padding: 8px 13px;
-            border-radius: 50px;
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.18);
-            backdrop-filter: blur(12px);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-        }
-
-        .visual-bottom h1 {
-            margin-top: 20px;
-            font-family: "Playfair Display", serif;
-            font-size: clamp(42px, 5vw, 70px);
-            line-height: 1.03;
-        }
-
-        .visual-bottom p {
-            margin-top: 18px;
-            max-width: 480px;
-            color: rgba(255,255,255,0.76);
-            font-size: 15px;
-            line-height: 1.8;
-        }
-
-        .visual-features {
-            margin-top: 28px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .visual-feature {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 9px 13px;
-            border-radius: 50px;
-            background: rgba(255,255,255,0.10);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: rgba(255,255,255,0.82);
-            font-size: 11px;
-        }
-
-        .visual-feature i {
-            color: #ffacd0;
-        }
-
-        /* =====================================================
-           RIGHT LOGIN PANEL
-           ===================================================== */
-
-        .form-panel {
-            min-height: 100vh;
+        .nav-links {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 45px;
-            background: rgba(255,255,255,0.74);
+            gap: 28px;
         }
 
-        .form-wrapper {
-            width: min(450px, 100%);
-        }
-
-        .top-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            color: var(--muted);
-            font-size: 13px;
+        .nav-links a {
+            color: #615765;
+            font-size: 14px;
             font-weight: 600;
             transition: 0.25s ease;
         }
 
-        .top-link:hover {
-            color: var(--pink-dark);
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--pink);
         }
 
-        .form-heading {
-            margin-top: 35px;
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .eyebrow {
-            color: var(--pink-dark);
+        .nav-login {
+            color: var(--pink);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .btn {
+            border: 0;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            border-radius: 13px;
+            padding: 13px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.25s ease;
+        }
+
+        .btn-primary {
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            box-shadow:
+                0 10px 24px rgba(123, 63, 228, 0.18);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 14px 30px rgba(123, 63, 228, 0.25);
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 45px;
+            height: 45px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* ==============================
+           LOGIN SECTION
+        ============================== */
+
+        .login-section {
+            min-height: calc(100vh - 82px);
+            display: flex;
+            align-items: center;
+            padding: 70px 0 80px;
+        }
+
+        .login-layout {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            min-height: 610px;
+            border-radius: 32px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.90);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow:
+                0 35px 90px rgba(71, 35, 77, 0.12);
+        }
+
+        /* ==============================
+           LEFT SIDE
+        ============================== */
+
+        .login-showcase {
+            position: relative;
+            overflow: hidden;
+            padding: 65px;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(232, 62, 140, 0.95),
+                    rgba(123, 63, 228, 0.96)
+                );
+        }
+
+        .showcase-glow {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(3px);
+        }
+
+        .glow-one {
+            width: 260px;
+            height: 260px;
+            top: -100px;
+            right: -70px;
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .glow-two {
+            width: 220px;
+            height: 220px;
+            bottom: -90px;
+            left: -80px;
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+        .showcase-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .showcase-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .showcase-title {
+            margin-top: 30px;
+            max-width: 500px;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(42px, 4.5vw, 64px);
+            line-height: 1.05;
+            font-weight: 600;
+        }
+
+        .showcase-title span {
+            color: #ffe2f0;
+        }
+
+        .showcase-text {
+            max-width: 480px;
+            margin-top: 24px;
+            color: rgba(255, 255, 255, 0.86);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .showcase-points {
+            margin-top: 38px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .showcase-point {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .showcase-point i {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ==============================
+           RIGHT SIDE
+        ============================== */
+
+        .login-card {
+            padding: 60px 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.96);
+        }
+
+        .login-heading {
+            margin-bottom: 30px;
+        }
+
+        .login-heading .small-title {
+            color: var(--pink);
+            text-transform: uppercase;
+            letter-spacing: 2px;
             font-size: 11px;
             font-weight: 800;
-            letter-spacing: 2px;
         }
 
-        .form-heading h2 {
+        .login-heading h2 {
             margin-top: 10px;
             font-family: "Playfair Display", serif;
-            font-size: clamp(38px, 4vw, 54px);
-            line-height: 1.08;
-            color: var(--dark);
+            font-size: 39px;
+            line-height: 1.15;
         }
 
-        .form-heading p {
-            margin-top: 12px;
+        .login-heading p {
+            margin-top: 10px;
             color: var(--muted);
             font-size: 14px;
             line-height: 1.7;
         }
 
-        .login-form {
-            margin-top: 30px;
+        /* ==============================
+           MESSAGE
+        ============================== */
+
+        .message {
+            display: none;
+            margin-bottom: 20px;
+            padding: 13px 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            font-weight: 600;
         }
 
-        .field {
-            margin-bottom: 18px;
+        .message.show {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
         }
 
-        .field label {
+        .message.error {
+            color: #9f2740;
+            background: #fff0f3;
+            border: 1px solid #ffd0d9;
+        }
+
+        .message.success {
+            color: #126b49;
+            background: #edfff7;
+            border: 1px solid #bdebd7;
+        }
+
+        .message.info {
+            color: #5d3a9b;
+            background: #f4efff;
+            border: 1px solid #ddd0ff;
+        }
+
+        /* ==============================
+           FORM
+        ============================== */
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        .form-label {
             display: block;
-            margin-bottom: 7px;
-            color: var(--dark);
-            font-size: 12px;
+            margin-bottom: 8px;
+            color: #433b46;
+            font-size: 13px;
             font-weight: 700;
         }
 
@@ -290,225 +468,260 @@
 
         .input-icon {
             position: absolute;
-            left: 15px;
             top: 50%;
+            left: 15px;
             transform: translateY(-50%);
-            color: #a89baa;
-            font-size: 13px;
+            color: #aa9da9;
             pointer-events: none;
         }
 
-        .input-wrap input {
+        .form-input {
             width: 100%;
             height: 53px;
-            padding: 0 44px 0 43px;
+            padding: 0 48px;
             border: 1px solid var(--border);
             border-radius: 13px;
             outline: none;
-            background: white;
-            color: var(--dark);
-            font-size: 13px;
+            color: var(--text);
+            background: #fffdfd;
             transition: 0.25s ease;
+            font-size: 14px;
         }
 
-        .input-wrap input:focus {
-            border-color: var(--pink);
-            box-shadow: 0 0 0 4px rgba(233,90,168,0.09);
-        }
-
-        .input-wrap input::placeholder {
-            color: #b1a8b4;
+        .form-input:focus {
+            border-color: rgba(232, 62, 140, 0.65);
+            box-shadow:
+                0 0 0 4px rgba(232, 62, 140, 0.08);
         }
 
         .password-toggle {
             position: absolute;
-            right: 14px;
             top: 50%;
+            right: 14px;
             transform: translateY(-50%);
             border: 0;
             background: transparent;
-            color: #9d919f;
+            color: #9b8d9a;
             cursor: pointer;
-            padding: 5px;
+            width: 32px;
+            height: 32px;
         }
 
         .password-toggle:hover {
-            color: var(--pink-dark);
+            color: var(--pink);
         }
 
         .form-options {
-            margin-top: -2px;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
+            justify-content: flex-end;
+            margin: 2px 0 24px;
         }
 
-        .remember {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            color: var(--muted);
-            font-size: 11px;
-        }
-
-        .remember input {
-            width: 14px;
-            height: 14px;
-            accent-color: var(--pink-dark);
-        }
-
-        .forgot-btn {
+        .forgot-password {
             border: 0;
             background: transparent;
-            color: var(--pink-dark);
-            font-size: 11px;
-            font-weight: 700;
+            color: var(--purple);
             cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
         }
 
-        .forgot-btn:hover {
+        .forgot-password:hover {
+            color: var(--pink);
             text-decoration: underline;
         }
 
-        .submit-btn {
+        .login-submit {
             width: 100%;
-            height: 53px;
-            margin-top: 22px;
+            height: 54px;
             border: 0;
             border-radius: 14px;
-            background: var(--gradient);
-            color: white;
-            font-size: 13px;
-            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 13px 28px rgba(201,61,131,0.23);
-            transition: 0.3s ease;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--pink),
+                    var(--purple)
+                );
+            box-shadow:
+                0 13px 28px rgba(123, 63, 228, 0.22);
+            font-weight: 800;
+            transition: 0.25s ease;
         }
 
-        .submit-btn:hover {
+        .login-submit:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 17px 34px rgba(201,61,131,0.30);
+            box-shadow:
+                0 17px 34px rgba(123, 63, 228, 0.28);
         }
 
-        .submit-btn:disabled {
+        .login-submit:disabled {
             opacity: 0.65;
             cursor: not-allowed;
-            transform: none;
         }
 
-        .submit-btn i {
-            margin-left: 7px;
-        }
-
-        .message {
-            display: none;
-            margin-top: 15px;
-            padding: 12px 14px;
-            border-radius: 12px;
-            font-size: 12px;
-            line-height: 1.55;
-        }
-
-        .message.error {
-            display: block;
-            color: #a52f48;
-            background: #fff0f2;
-            border: 1px solid #f3c8d1;
-        }
-
-        .message.success {
-            display: block;
-            color: #23714b;
-            background: #edf9f2;
-            border: 1px solid #c4e8d2;
+        .login-submit-inner {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .register-link {
             margin-top: 25px;
             text-align: center;
             color: var(--muted);
-            font-size: 12px;
+            font-size: 13px;
         }
 
         .register-link a {
-            color: var(--pink-dark);
+            color: var(--pink);
             font-weight: 800;
         }
 
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
         .secure-note {
-            margin-top: 28px;
+            margin-top: 25px;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             gap: 7px;
-            color: #9a909d;
-            font-size: 10px;
+            color: #9a8e99;
+            font-size: 11px;
         }
 
         .secure-note i {
-            color: var(--purple);
+            color: var(--success);
         }
 
-        /* =====================================================
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        .mini-footer {
+            padding: 22px 0;
+            border-top: 1px solid rgba(232, 62, 140, 0.08);
+            background: rgba(255, 255, 255, 0.70);
+        }
+
+        .mini-footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            color: #9a8e99;
+            font-size: 11px;
+        }
+
+        .mini-footer-links {
+            display: flex;
+            gap: 18px;
+        }
+
+        .mini-footer-links a:hover {
+            color: var(--pink);
+        }
+
+        /* ==============================
            RESPONSIVE
-           ===================================================== */
+        ============================== */
 
-        @media (max-width: 900px) {
+        @media (max-width: 980px) {
 
-            .page {
-                grid-template-columns: 1fr;
-            }
-
-            .visual-panel {
-                min-height: 420px;
-            }
-
-            .visual-content {
-                min-height: 420px;
-                padding: 30px;
-            }
-
-            .visual-bottom h1 {
-                font-size: 48px;
-            }
-
-            .form-panel {
-                min-height: auto;
-                padding: 50px 25px;
-            }
-
-        }
-
-        @media (max-width: 550px) {
-
-            .visual-panel {
-                min-height: 360px;
-            }
-
-            .visual-content {
-                min-height: 360px;
-                padding: 25px 20px;
-            }
-
-            .visual-bottom h1 {
-                font-size: 39px;
-            }
-
-            .visual-bottom p {
-                font-size: 13px;
-            }
-
-            .visual-features {
+            .nav-links,
+            .nav-actions {
                 display: none;
             }
 
-            .form-panel {
-                padding: 40px 20px;
+            .mobile-menu {
+                display: grid;
+                place-items: center;
             }
 
-            .form-heading {
-                margin-top: 28px;
+            .login-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .login-showcase {
+                padding: 50px;
+                min-height: 430px;
+            }
+
+            .login-card {
+                padding: 50px;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .container {
+                width: min(100% - 28px, 1180px);
+            }
+
+            .nav-inner {
+                min-height: 72px;
+            }
+
+            .brand-logo {
+                width: 42px;
+                height: 42px;
+            }
+
+            .brand-text strong {
+                font-size: 17px;
+            }
+
+            .brand-text span {
+                font-size: 8px;
+                letter-spacing: 1.5px;
+            }
+
+            .login-section {
+                padding: 25px 0 35px;
+            }
+
+            .login-layout {
+                border-radius: 23px;
+            }
+
+            .login-showcase {
+                padding: 38px 27px;
+                min-height: auto;
+            }
+
+            .showcase-title {
+                font-size: 42px;
+            }
+
+            .showcase-text {
+                font-size: 13px;
+            }
+
+            .showcase-points {
+                margin-top: 25px;
+            }
+
+            .login-card {
+                padding: 38px 25px;
+            }
+
+            .login-heading h2 {
+                font-size: 32px;
+            }
+
+            .mini-footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .mini-footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
         }
@@ -519,277 +732,404 @@
 
 <body>
 
-    <main class="page">
+    <!-- ==============================
+         NAVBAR
+    ============================== -->
 
-        <!-- =====================================================
-             BEAUTY VISUAL
-             ===================================================== -->
+    <header class="navbar">
 
-        <section class="visual-panel">
+        <div class="container nav-inner">
 
-            <img
-                src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=85"
-                alt="SG Makeovers beauty"
+            <a
+                href="index.html"
+                class="brand"
             >
 
-            <div class="visual-overlay"></div>
+                <div class="brand-logo">
 
-            <div class="visual-content">
-
-                <a href="index.html" class="brand">
-
-                    <div class="brand-icon">
-                        <i class="fa-solid fa-spa"></i>
-                    </div>
-
-                    <div class="brand-text">
-
-                        <strong>
-                            SG MAKEOVERS
-                        </strong>
-
-                        <span>
-                            ONLINE BEAUTY SERVICES
-                        </span>
-
-                    </div>
-
-                </a>
-
-
-                <div class="visual-bottom">
-
-                    <span class="visual-label">
-                        WELCOME BACK
-                    </span>
-
-                    <h1>
-                        Beauty begins
-                        <br>
-                        with you.
-                    </h1>
-
-                    <p>
-                        Sign in to manage your appointments,
-                        discover beauty services and continue
-                        your SG MAKEOVERS journey.
-                    </p>
-
-                    <div class="visual-features">
-
-                        <span class="visual-feature">
-                            <i class="fa-solid fa-calendar-check"></i>
-                            Easy Booking
-                        </span>
-
-                        <span class="visual-feature">
-                            <i class="fa-solid fa-heart"></i>
-                            Beauty Care
-                        </span>
-
-                        <span class="visual-feature">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            Secure Login
-                        </span>
-
-                    </div>
+                    <i class="fa-solid fa-spa"></i>
 
                 </div>
+
+                <div class="brand-text">
+
+                    <strong>
+                        SG MAKEOVERS
+                    </strong>
+
+                    <span>
+                        ONLINE BEAUTY SERVICES
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="services.html">
+                    Services
+                </a>
+
+                <a href="book-appointment.html">
+                    Book Appointment
+                </a>
+
+                <a
+                    href="login.html"
+                    class="active"
+                >
+                    Login
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <a
+                    href="register.html"
+                    class="btn btn-primary"
+                >
+
+                    Create Account
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
 
             </div>
 
-        </section>
+
+            <button
+                class="mobile-menu"
+                id="mobileMenu"
+                type="button"
+                aria-label="Open menu"
+            >
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
+        </div>
+
+    </header>
 
 
-        <!-- =====================================================
-             LOGIN FORM
-             ===================================================== -->
+    <!-- ==============================
+         LOGIN SECTION
+    ============================== -->
 
-        <section class="form-panel">
+    <main class="login-section">
 
-            <div class="form-wrapper">
+        <div class="container">
 
-                <a href="index.html" class="top-link">
+            <div class="login-layout">
 
-                    <i class="fa-solid fa-arrow-left"></i>
+                <!-- LEFT -->
 
-                    Back to home
+                <section class="login-showcase">
 
-                </a>
+                    <div class="showcase-glow glow-one"></div>
 
+                    <div class="showcase-glow glow-two"></div>
 
-                <div class="form-heading">
+                    <div class="showcase-content">
 
-                    <div class="eyebrow">
-                        SG MAKEOVERS
-                    </div>
+                        <div class="showcase-badge">
 
-                    <h2>
-                        Welcome back.
-                    </h2>
+                            <i class="fa-solid fa-sparkles"></i>
 
-                    <p>
-                        Login to your account and continue
-                        managing your beauty appointments.
-                    </p>
+                            Premium Beauty Experience
 
-                </div>
+                        </div>
 
 
-                <form
-                    class="login-form"
-                    id="loginForm"
-                    novalidate
-                >
+                        <h1 class="showcase-title">
 
-                    <div class="field">
+                            Welcome
 
-                        <label for="email">
-                            Email Address
-                        </label>
+                            <span>Back.</span>
 
-                        <div class="input-wrap">
+                        </h1>
 
-                            <i class="fa-regular fa-envelope input-icon"></i>
 
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="you@example.com"
-                                autocomplete="email"
-                                required
-                            >
+                        <p class="showcase-text">
+
+                            Login to your SG MAKEOVERS account
+                            and manage your beauty appointments,
+                            services, profile and bills from one
+                            beautiful place.
+
+                        </p>
+
+
+                        <div class="showcase-points">
+
+                            <div class="showcase-point">
+
+                                <i class="fa-solid fa-calendar-check"></i>
+
+                                <span>
+                                    Manage your appointments
+                                </span>
+
+                            </div>
+
+
+                            <div class="showcase-point">
+
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                                <span>
+                                    Explore premium beauty services
+                                </span>
+
+                            </div>
+
+
+                            <div class="showcase-point">
+
+                                <i class="fa-solid fa-shield-halved"></i>
+
+                                <span>
+                                    Secure Supabase authentication
+                                </span>
+
+                            </div>
 
                         </div>
 
                     </div>
 
+                </section>
 
-                    <div class="field">
 
-                        <label for="password">
-                            Password
-                        </label>
+                <!-- RIGHT -->
 
-                        <div class="input-wrap">
+                <section class="login-card">
 
-                            <i class="fa-solid fa-lock input-icon"></i>
+                    <div class="login-heading">
 
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder="Enter your password"
-                                autocomplete="current-password"
-                                required
-                            >
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                id="passwordToggle"
-                                aria-label="Show password"
-                            >
-                                <i class="fa-regular fa-eye"></i>
-                            </button>
-
+                        <div class="small-title">
+                            Account Access
                         </div>
 
-                    </div>
+                        <h2>
+                            Sign In
+                        </h2>
 
-
-                    <div class="form-options">
-
-                        <label class="remember">
-
-                            <input
-                                type="checkbox"
-                                id="remember"
-                            >
-
-                            <span>
-                                Remember me
-                            </span>
-
-                        </label>
-
-
-                        <button
-                            type="button"
-                            class="forgot-btn"
-                            id="forgotPassword"
-                        >
-                            Forgot password?
-                        </button>
+                        <p>
+                            Enter your account details to continue.
+                        </p>
 
                     </div>
 
 
                     <div
-                        class="message"
                         id="message"
+                        class="message"
                     ></div>
 
 
-                    <button
-                        type="submit"
-                        class="submit-btn"
-                        id="submitBtn"
+                    <form
+                        id="loginForm"
+                        novalidate
                     >
 
-                        <span id="submitText">
-                            Login to Account
-                        </span>
+                        <!-- EMAIL -->
 
-                        <i
-                            class="fa-solid fa-arrow-right"
-                            id="submitIcon"
-                        ></i>
+                        <div class="form-group">
 
-                    </button>
+                            <label
+                                class="form-label"
+                                for="email"
+                            >
+                                Email Address
+                            </label>
 
-                </form>
+                            <div class="input-wrap">
+
+                                <i
+                                    class="fa-regular fa-envelope input-icon"
+                                ></i>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    class="form-input"
+                                    placeholder="Enter your email"
+                                    autocomplete="email"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
 
 
-                <div class="register-link">
+                        <!-- PASSWORD -->
 
-                    Don't have an account?
+                        <div class="form-group">
 
-                    <a href="register.html">
-                        Create one
-                    </a>
+                            <label
+                                class="form-label"
+                                for="password"
+                            >
+                                Password
+                            </label>
 
-                </div>
+                            <div class="input-wrap">
+
+                                <i
+                                    class="fa-solid fa-lock input-icon"
+                                ></i>
+
+                                <input
+                                    type="password"
+                                    id="password"
+                                    class="form-input"
+                                    placeholder="Enter your password"
+                                    autocomplete="current-password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    id="passwordToggle"
+                                    aria-label="Show password"
+                                >
+
+                                    <i class="fa-solid fa-eye"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
 
 
-                <div class="secure-note">
+                        <!-- FORGOT -->
 
-                    <i class="fa-solid fa-shield-halved"></i>
+                        <div class="form-options">
 
-                    Secure authentication powered by Supabase.
+                            <button
+                                type="button"
+                                id="forgotPassword"
+                                class="forgot-password"
+                            >
+                                Forgot password?
+                            </button>
 
-                </div>
+                        </div>
+
+
+                        <!-- LOGIN -->
+
+                        <button
+                            type="submit"
+                            class="login-submit"
+                            id="submitBtn"
+                        >
+
+                            <span class="login-submit-inner">
+
+                                <i
+                                    class="fa-solid fa-arrow-right"
+                                    id="submitIcon"
+                                ></i>
+
+                                <span id="submitText">
+                                    Login to Account
+                                </span>
+
+                            </span>
+
+                        </button>
+
+                    </form>
+
+
+                    <div class="register-link">
+
+                        Don't have an account?
+
+                        <a href="register.html">
+                            Create one
+                        </a>
+
+                    </div>
+
+
+                    <div class="secure-note">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        Secure authentication powered by Supabase.
+
+                    </div>
+
+                </section>
 
             </div>
 
-        </section>
+        </div>
 
     </main>
 
 
-    <!-- =====================================================
+    <!-- ==============================
+         FOOTER
+    ============================== -->
+
+    <footer class="mini-footer">
+
+        <div class="container mini-footer-inner">
+
+            <span>
+                © 2026 SG MAKEOVERS. All rights reserved.
+            </span>
+
+            <div class="mini-footer-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="services.html">
+                    Services
+                </a>
+
+                <a href="register.html">
+                    Register
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ==============================
          SUPABASE
-         ===================================================== -->
+    ============================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="supabase-config.js"></script>
 
 
-    <!-- =====================================================
+    <!-- ==============================
          LOGIN LOGIC
-         ===================================================== -->
+    ============================== -->
 
     <script>
 
@@ -805,8 +1145,8 @@
         const passwordToggle =
             document.getElementById("passwordToggle");
 
-        const messageBox =
-            document.getElementById("message");
+        const forgotPassword =
+            document.getElementById("forgotPassword");
 
         const submitBtn =
             document.getElementById("submitBtn");
@@ -817,36 +1157,53 @@
         const submitIcon =
             document.getElementById("submitIcon");
 
-        const forgotPassword =
-            document.getElementById("forgotPassword");
+        const messageBox =
+            document.getElementById("message");
+
+        const mobileMenu =
+            document.getElementById("mobileMenu");
 
 
-        /* =====================================================
+        /* =========================================
            MESSAGE
-           ===================================================== */
+        ========================================= */
 
-        function showMessage(message, type) {
-
-            messageBox.textContent = message;
+        function showMessage(text, type = "error") {
 
             messageBox.className =
-                "message " + type;
+                "message show " + type;
 
+            let icon =
+                "fa-circle-exclamation";
+
+            if (type === "success") {
+                icon = "fa-circle-check";
+            }
+
+            if (type === "info") {
+                icon = "fa-circle-info";
+            }
+
+            messageBox.innerHTML = `
+                <i class="fa-solid ${icon}"></i>
+                <span>${text}</span>
+            `;
         }
 
 
         function clearMessage() {
 
-            messageBox.textContent = "";
+            messageBox.className =
+                "message";
 
-            messageBox.className = "message";
+            messageBox.innerHTML = "";
 
         }
 
 
-        /* =====================================================
+        /* =========================================
            PASSWORD TOGGLE
-           ===================================================== */
+        ========================================= */
 
         passwordToggle.addEventListener(
             "click",
@@ -860,53 +1217,170 @@
                         ? "text"
                         : "password";
 
-                const icon =
-                    passwordToggle.querySelector("i");
-
-                icon.className =
+                passwordToggle.innerHTML =
                     isPassword
-                        ? "fa-regular fa-eye-slash"
-                        : "fa-regular fa-eye";
+                        ? '<i class="fa-solid fa-eye-slash"></i>'
+                        : '<i class="fa-solid fa-eye"></i>';
+
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    isPassword
+                        ? "Hide password"
+                        : "Show password"
+                );
 
             }
         );
 
 
-        /* =====================================================
-           CHECK EXISTING SESSION
-           ===================================================== */
+        /* =========================================
+           EXISTING SESSION
+        ========================================= */
 
         async function checkExistingSession() {
 
-            if (
-                typeof supabaseClient === "undefined"
-            ) {
-                return;
-            }
+            try {
 
-            const {
-                data
-            } = await supabaseClient.auth.getSession();
+                if (
+                    typeof supabaseClient === "undefined"
+                ) {
+                    return;
+                }
 
-            if (
-                data &&
-                data.session
-            ) {
+                const {
+                    data
+                } =
+                    await supabaseClient.auth.getSession();
 
-                window.location.href =
-                    "customer-dashboard.html";
+
+                if (
+                    data &&
+                    data.session &&
+                    data.session.user
+                ) {
+
+                    const isAdmin =
+                        await checkAdmin(
+                            data.session.user.id
+                        );
+
+                    if (isAdmin) {
+
+                        window.location.href =
+                            "admin/dashboard.html";
+
+                    } else {
+
+                        window.location.href =
+                            "customer-dashboard.html";
+
+                    }
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Session check error:",
+                    error
+                );
 
             }
 
         }
 
 
-        checkExistingSession();
+        /* =========================================
+           ADMIN CHECK
+        ========================================= */
+
+        async function checkAdmin(userId) {
+
+            try {
+
+                /*
+                 * PRIMARY CHECK
+                 * Uses the is_admin() function
+                 * already created in Supabase.
+                 */
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.rpc(
+                        "is_admin"
+                    );
 
 
-        /* =====================================================
+                if (
+                    !error &&
+                    data === true
+                ) {
+
+                    return true;
+
+                }
+
+
+                /*
+                 * FALLBACK CHECK
+                 * If RPC has an issue, check the
+                 * admins table directly.
+                 */
+
+                const {
+                    data: adminRow,
+                    error: adminError
+                } =
+                    await supabaseClient
+                        .from("admins")
+                        .select(
+                            "id, user_id, role, is_active"
+                        )
+                        .eq(
+                            "user_id",
+                            userId
+                        )
+                        .eq(
+                            "is_active",
+                            true
+                        )
+                        .eq(
+                            "role",
+                            "admin"
+                        )
+                        .maybeSingle();
+
+
+                if (
+                    !adminError &&
+                    adminRow
+                ) {
+
+                    return true;
+
+                }
+
+                return false;
+
+            } catch (error) {
+
+                console.error(
+                    "Admin verification error:",
+                    error
+                );
+
+                return false;
+
+            }
+
+        }
+
+
+        /* =========================================
            LOGIN
-           ===================================================== */
+        ========================================= */
 
         loginForm.addEventListener(
             "submit",
@@ -924,9 +1398,7 @@
                     passwordInput.value;
 
 
-                /* ---------------------------------------------
-                   VALIDATION
-                   --------------------------------------------- */
+                /* VALIDATION */
 
                 if (!email) {
 
@@ -970,9 +1442,7 @@
                 }
 
 
-                /* ---------------------------------------------
-                   LOADING
-                   --------------------------------------------- */
+                /* LOADING */
 
                 submitBtn.disabled = true;
 
@@ -985,20 +1455,22 @@
 
                 try {
 
-                    /* -----------------------------------------
-                       REAL SUPABASE LOGIN
-                       ----------------------------------------- */
+                    /* ==========================
+                       SUPABASE LOGIN
+                    ========================== */
 
                     const {
                         data,
                         error
-                    } = await supabaseClient.auth.signInWithPassword({
+                    } =
+                        await supabaseClient.auth
+                            .signInWithPassword({
 
-                        email: email,
+                                email: email,
 
-                        password: password
+                                password: password
 
-                    });
+                            });
 
 
                     if (error) {
@@ -1009,33 +1481,10 @@
 
 
                     if (
-                        data &&
-                        data.session
+                        !data ||
+                        !data.session ||
+                        !data.user
                     ) {
-
-                        showMessage(
-                            "Login successful. Welcome back!",
-                            "success"
-                        );
-
-
-                        submitText.textContent =
-                            "Login Successful";
-
-                        submitIcon.className =
-                            "fa-solid fa-check";
-
-
-                        setTimeout(function () {
-
-                            window.location.href =
-                                "customer-dashboard.html";
-
-                        }, 900);
-
-                    }
-
-                    else {
 
                         throw new Error(
                             "Login session could not be created."
@@ -1043,9 +1492,73 @@
 
                     }
 
-                }
 
-                catch (error) {
+                    /* ==========================
+                       CHECK USER ROLE
+                    ========================== */
+
+                    showMessage(
+                        "Login successful. Checking your account...",
+                        "info"
+                    );
+
+
+                    const isAdmin =
+                        await checkAdmin(
+                            data.user.id
+                        );
+
+
+                    /* ==========================
+                       REDIRECT
+                    ========================== */
+
+                    submitText.textContent =
+                        "Login Successful";
+
+                    submitIcon.className =
+                        "fa-solid fa-check";
+
+
+                    if (isAdmin) {
+
+                        showMessage(
+                            "Admin account verified. Opening admin dashboard...",
+                            "success"
+                        );
+
+
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "admin/dashboard.html";
+
+                            },
+                            700
+                        );
+
+                    } else {
+
+                        showMessage(
+                            "Welcome back! Opening your dashboard...",
+                            "success"
+                        );
+
+
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "customer-dashboard.html";
+
+                            },
+                            700
+                        );
+
+                    }
+
+                } catch (error) {
 
                     console.error(
                         "Supabase login error:",
@@ -1062,10 +1575,14 @@
                         error.message
                     ) {
 
+                        const errorText =
+                            error.message.toLowerCase();
+
+
                         if (
-                            error.message
-                                .toLowerCase()
-                                .includes("email not confirmed")
+                            errorText.includes(
+                                "email not confirmed"
+                            )
                         ) {
 
                             errorMessage =
@@ -1074,13 +1591,24 @@
                         }
 
                         else if (
-                            error.message
-                                .toLowerCase()
-                                .includes("invalid login credentials")
+                            errorText.includes(
+                                "invalid login credentials"
+                            )
                         ) {
 
                             errorMessage =
                                 "Invalid email or password.";
+
+                        }
+
+                        else if (
+                            errorText.includes(
+                                "too many requests"
+                            )
+                        ) {
+
+                            errorMessage =
+                                "Too many login attempts. Please wait a moment and try again.";
 
                         }
 
@@ -1114,9 +1642,9 @@
         );
 
 
-        /* =====================================================
+        /* =========================================
            FORGOT PASSWORD
-           ===================================================== */
+        ========================================= */
 
         forgotPassword.addEventListener(
             "click",
@@ -1157,18 +1685,30 @@
                 }
 
 
+                forgotPassword.disabled = true;
+
+                forgotPassword.textContent =
+                    "Sending reset link...";
+
+
                 try {
+
+                    const redirectUrl =
+                        window.location.origin +
+                        window.location.pathname;
+
 
                     const {
                         error
-                    } = await supabaseClient.auth.resetPasswordForEmail(
-                        email,
-                        {
-                            redirectTo:
-                                window.location.origin +
-                                "/profile.html"
-                        }
-                    );
+                    } =
+                        await supabaseClient.auth
+                            .resetPasswordForEmail(
+                                email,
+                                {
+                                    redirectTo:
+                                        redirectUrl
+                                }
+                            );
 
 
                     if (error) {
@@ -1179,13 +1719,12 @@
 
 
                     showMessage(
-                        "Password reset email sent. Please check your inbox.",
+                        "Password reset link sent. Please check your email.",
                         "success"
                     );
 
-                }
 
-                catch (error) {
+                } catch (error) {
 
                     console.error(
                         "Password reset error:",
@@ -1201,8 +1740,153 @@
 
                 }
 
+
+                forgotPassword.disabled = false;
+
+                forgotPassword.textContent =
+                    "Forgot password?";
+
             }
         );
+
+
+        /* =========================================
+           MOBILE MENU
+        ========================================= */
+
+        mobileMenu.addEventListener(
+            "click",
+            function () {
+
+                const menu =
+                    document.getElementById(
+                        "mobileLoginMenu"
+                    );
+
+
+                if (menu) {
+
+                    menu.remove();
+
+                    return;
+
+                }
+
+
+                const mobilePanel =
+                    document.createElement("div");
+
+                mobilePanel.id =
+                    "mobileLoginMenu";
+
+                mobilePanel.style.position =
+                    "fixed";
+
+                mobilePanel.style.top =
+                    "72px";
+
+                mobilePanel.style.left =
+                    "14px";
+
+                mobilePanel.style.right =
+                    "14px";
+
+                mobilePanel.style.zIndex =
+                    "9999";
+
+                mobilePanel.style.padding =
+                    "15px";
+
+                mobilePanel.style.borderRadius =
+                    "18px";
+
+                mobilePanel.style.background =
+                    "rgba(255,255,255,0.98)";
+
+                mobilePanel.style.boxShadow =
+                    "0 20px 45px rgba(50,30,60,0.18)";
+
+                mobilePanel.style.border =
+                    "1px solid #eadfe8";
+
+                mobilePanel.innerHTML = `
+
+                    <a
+                        href="index.html"
+                        style="
+                            display:block;
+                            padding:13px 12px;
+                            font-weight:700;
+                            color:#433b46;
+                        "
+                    >
+                        Home
+                    </a>
+
+                    <a
+                        href="services.html"
+                        style="
+                            display:block;
+                            padding:13px 12px;
+                            font-weight:700;
+                            color:#433b46;
+                        "
+                    >
+                        Services
+                    </a>
+
+                    <a
+                        href="book-appointment.html"
+                        style="
+                            display:block;
+                            padding:13px 12px;
+                            font-weight:700;
+                            color:#433b46;
+                        "
+                    >
+                        Book Appointment
+                    </a>
+
+                    <a
+                        href="register.html"
+                        style="
+                            display:block;
+                            margin-top:7px;
+                            padding:13px 15px;
+                            text-align:center;
+                            border-radius:12px;
+                            color:white;
+                            font-weight:800;
+                            background:linear-gradient(
+                                135deg,
+                                #e83e8c,
+                                #7b3fe4
+                            );
+                        "
+                    >
+                        Create Account
+                    </a>
+
+                `;
+
+
+                document.body.appendChild(
+                    mobilePanel
+                );
+
+
+                mobileMenu.innerHTML =
+                    '<i class="fa-solid fa-xmark"></i>';
+
+            }
+        );
+
+
+        /* =========================================
+           START
+        ========================================= */
+
+        checkExistingSession();
 
     </script>
 
